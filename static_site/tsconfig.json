@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "types": ["unplugin-icons/types/react"],
+    "jsx": "react-jsx",
+    "esModuleInterop": true
+  }
+}
