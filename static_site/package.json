@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "vite serve"
+    "dev": "vite serve",
+    "build": "vite build --emptyOutDir",
+    "preview_build": "vite preview"
   },
   "author": "",
   "license": "ISC",
