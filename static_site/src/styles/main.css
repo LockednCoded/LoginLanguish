@@ -22,11 +22,21 @@
 }
 
 .height-hidden {
-		grid-template-rows: 0fr;
-		opacity: 0;
-		margin-top: 0;
-		margin-bottom: 0;
-		padding-top: 0;
-		padding-bottom: 0;
-		border-width: 0;
+	grid-template-rows: 0fr;
+	opacity: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+	border-width: 0;
 }
+
+#img-captcha {
+	width: 40%;
+    height: 70%;
+    margin: auto;
+}
+
+.ReactModal__Overlay {
+	background-color: rgba(255, 0, 0, 0);
+  }

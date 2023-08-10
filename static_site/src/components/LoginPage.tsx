@@ -1,10 +1,22 @@
 import TextField from "./TextField";
 import { useLoginFlow } from "../scripts/login-flow";
 import { ValidationBox } from "./ValidationBox";
+import Modal from 'react-modal';
+import { useState } from "react";
 
 export default function LoginPage() {
   const loginFlow = useLoginFlow();
   const fieldStates = loginFlow.fieldStates;
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <main className="flex flex-col justify-center items-center w-[64rem] h-[42rem] bg-white border-2 rounded-sm border-gray-400">
@@ -20,6 +32,21 @@ export default function LoginPage() {
             loginFlow.stage !== "name" ? "grid-cols-2" : ""
           }`}
         >
+          <div id='pop-up'>
+            <button onClick={openModal} type="button">Open Popup</button>
+            <Modal
+              id='img-captcha'
+              isOpen={isModalOpen}
+              //onRequestClose={closeModal}
+              contentLabel="Captcha Popup"
+              appElement={document.getElementById('pop-up')}
+            >
+              <h1>Captcha</h1>
+              <p>Prove you are who you say you are, {fieldStates.firstName.value}.</p>
+              <p>Select five Channing Tatums.</p>
+              <button onClick={closeModal} className="absolute top-5 right-5">Close</button>
+            </Modal>
+          </div>
           <TextField
             type="text"
             name="First Name"
