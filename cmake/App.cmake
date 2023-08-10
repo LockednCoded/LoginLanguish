@@ -95,6 +95,13 @@ MACRO(ADD_APP source_list)
   # Copy resources to assets directory
   add_custom_command(TARGET ${APP_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${ULTRALIGHT_RESOURCES_DIR}" "${ASSETS_PATH}/resources")
+
+    # Copy static site files to assets directory
+    add_custom_command(TARGET ${APP_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/static_site/dist" "${ASSETS_PATH}")
     
   add_dependencies(${APP_NAME} UltralightSDK)
+  add_dependencies(${APP_NAME} npm-target)
+
+
 ENDMACRO()
