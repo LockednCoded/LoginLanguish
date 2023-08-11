@@ -490,3 +490,5 @@ FodyWeavers.xsd
 
 out/
 build/
+
+**/.DS_Store
