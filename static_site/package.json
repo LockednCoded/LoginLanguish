@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite serve",
     "build": "vite build --emptyOutDir",
-    "preview_build": "vite preview"
+    "preview_build": "vite preview",
+    "install_and_build": "npm install && npm run build"
   },
   "author": "",
   "license": "ISC",
