@@ -18,6 +18,16 @@ export default function LoginPage() {
     setIsModalOpen(false);
   };
 
+  const CaptchaImg = ({ source, onClick }) => {
+    return (
+      <img src={source} alt="Image" onClick={onClick} className="w-50 h-50 aspect-square" />
+    );
+  };
+
+  const CaptchaSelect = () => {
+    console.log("captcha image clicked!")
+  };
+
   return (
     <main className="flex flex-col justify-center items-center w-[64rem] h-[42rem] bg-white border-2 rounded-sm border-gray-400">
       <h1 className="text-2xl m-0">Please register an account to continue</h1>
@@ -41,10 +51,30 @@ export default function LoginPage() {
               contentLabel="Captcha Popup"
               appElement={document.getElementById('pop-up')}
             >
+              <button onClick={closeModal} className="absolute top-5 right-5">Close</button>
               <h1>Captcha</h1>
               <p>Prove you are who you say you are, {fieldStates.firstName.value}.</p>
               <p>Select five Channing Tatums.</p>
-              <button onClick={closeModal} className="absolute top-5 right-5">Close</button>
+              <CaptchaImg 
+                source="channing/channing_tatum_1.jpg"
+                onClick={CaptchaSelect}
+              />
+              <CaptchaImg 
+                source="channing/channing_tatum_2.jpg"
+                onClick={CaptchaSelect}
+              />
+              <CaptchaImg 
+                source="channing/channing_tatum_3.jpg"
+                onClick={CaptchaSelect}
+              />
+              <CaptchaImg 
+                source="channing/channing_tatum_4.jpg"
+                onClick={CaptchaSelect}
+              />
+              <CaptchaImg 
+                source="channing/channing_tatum_5.jpg"
+                onClick={CaptchaSelect}
+              />
             </Modal>
           </div>
           <TextField
