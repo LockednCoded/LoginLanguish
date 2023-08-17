@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export function useLoginFlow() {
   const [stage, setStage] = useState(
-    "name" as "name" | "credentials" | "details"
+    "name" as "name" | "credentials" | "details" | "txtcaptcha"
   );
 
   const [firstName, setFirstName] = useState("");
@@ -10,10 +10,12 @@ export function useLoginFlow() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [dob, setDob] = useState("");
+  const [txtcaptcha, setCaptcha] = useState("");
 
   const nextCallback = () => {
     if (stage === "name") setStage("credentials");
     if (stage === "credentials") setStage("details");
+    if (stage === "details") setStage("txtcaptcha");
   };
 
   return {
@@ -59,6 +61,15 @@ export function useLoginFlow() {
         visible: stage === "details",
         validationIssue: "",
       },
+      txtcaptcha: {
+        value: txtcaptcha,
+        onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+          console.log(e.target.value);
+          setCaptcha(e.target.value);
+        },
+        visible: stage === "txtcaptcha",
+        validationIssue: "",
+      }
     },
   };
 }

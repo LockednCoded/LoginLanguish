@@ -20,18 +20,22 @@ export default function LoginPage() {
 
   const CaptchaImg = ({ source, onClick }) => {
     return (
-      <img src={source} alt="Image" onClick={onClick} className="w-50 h-50 aspect-square" />
+      <div className="relative w-full h-full" onClick={onClick}>
+        <img src={source} alt="Image" className="w-full h-full aspect-square" />
+        <div className="absolute inset-0 bg-white opacity-0 transition-opacity duration-100 hover:opacity-50" />
+      </div>
     );
   };
 
-  const CaptchaSelect = () => {
-    console.log("captcha image clicked!")
+  const CaptchaSelect = (celeb) => {
+    console.log(celeb + ' clicked!')
   };
 
   return (
     <main className="flex flex-col justify-center items-center w-[64rem] h-[42rem] bg-white border-2 rounded-sm border-gray-400">
       <h1 className="text-2xl m-0">Please register an account to continue</h1>
       <form
+        id="form"
         className={`mt-12 ${
           loginFlow.stage == "name" ? "w-[20rem]" : "w-[30rem]"
         } transition-all duration-300
@@ -42,41 +46,59 @@ export default function LoginPage() {
             loginFlow.stage !== "name" ? "grid-cols-2" : ""
           }`}
         >
-          <div id='pop-up'>
-            <button onClick={openModal} type="button">Open Popup</button>
-            <Modal
-              id='img-captcha'
-              isOpen={isModalOpen}
-              //onRequestClose={closeModal}
-              contentLabel="Captcha Popup"
-              appElement={document.getElementById('pop-up')}
-            >
-              <button onClick={closeModal} className="absolute top-5 right-5">Close</button>
+
+          <Modal
+            id='img-captcha'
+            isOpen={isModalOpen}
+            contentLabel="Captcha Popup"
+            appElement={document.getElementById('form')}
+          >
+            <div className="text-white bg-sky-400 absolute top-3 right-3 left-3 p-3">
+              <button onClick={closeModal} className="absolute right-3">Close</button>
               <h1>Captcha</h1>
               <p>Prove you are who you say you are, {fieldStates.firstName.value}.</p>
               <p>Select five Channing Tatums.</p>
+            </div>
+            <div className="absolute grid grid-cols-3 gap-1 bottom-5 left-5 right-5">
+              <CaptchaImg 
+                source="bradpitt/brad_pitt_1.jpg"
+                onClick={() => CaptchaSelect('Brad')}
+              />
+              <CaptchaImg 
+                source="bradpitt/brad_pitt_2.jpg"
+                onClick={() => CaptchaSelect('Brad')}
+              />
               <CaptchaImg 
                 source="channing/channing_tatum_1.jpg"
-                onClick={CaptchaSelect}
+                onClick={() => CaptchaSelect('Channing')}
               />
               <CaptchaImg 
                 source="channing/channing_tatum_2.jpg"
-                onClick={CaptchaSelect}
+                onClick={() => CaptchaSelect('Channing')}
+              />
+              <CaptchaImg 
+                source="bradpitt/brad_pitt_3.jpg"
+                onClick={() => CaptchaSelect('Brad')}
               />
               <CaptchaImg 
                 source="channing/channing_tatum_3.jpg"
-                onClick={CaptchaSelect}
+                onClick={() => CaptchaSelect('Channing')}
+              />
+              <CaptchaImg 
+                source="bradpitt/brad_pitt_4.jpg"
+                onClick={() => CaptchaSelect('Brad')}
               />
               <CaptchaImg 
                 source="channing/channing_tatum_4.jpg"
-                onClick={CaptchaSelect}
+                onClick={() => CaptchaSelect('Channing')}
               />
               <CaptchaImg 
                 source="channing/channing_tatum_5.jpg"
-                onClick={CaptchaSelect}
+                onClick={() => CaptchaSelect('Channing')}
               />
-            </Modal>
-          </div>
+            </div>
+          </Modal>
+
           <TextField
             type="text"
             name="First Name"
@@ -166,10 +188,31 @@ export default function LoginPage() {
             </div>
           </div>
         </div>
+
+        <div 
+          className={`height-hidable  ${
+            fieldStates.txtcaptcha.visible ? "" : "height-hidden"
+          }`}
+        >
+          <div>
+            <TextField
+              type="text"
+              name="Verification"
+              value={fieldStates.txtcaptcha.value}
+              onChange={fieldStates.txtcaptcha.onChange}
+              className="mt-3"
+            />
+          </div>
+          
+        </div>
+
         <button
           className="bg-neutral-700 text-lg mt-12 text-white font-bold p-1 w-36 box-border rounded-md"
           type="button"
-          onClick={loginFlow.nextCallback}
+          onClick={() => {
+            if (loginFlow.stage === "txtcaptcha") openModal();
+            loginFlow.nextCallback();
+          }}
         >
           Next
         </button>

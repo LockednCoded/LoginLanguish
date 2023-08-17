@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 
+/* * {
+	border: 1px black solid;
+} */
+
 .height-hidable {
 	display: grid;
 	grid-template-rows: 1fr;
@@ -32,11 +36,8 @@
 }
 
 #img-captcha {
-	width: 40%;
-    height: 70%;
+	width: 550px;
+    height: 700px;
     margin: auto;
 }
 
-.ReactModal__Overlay {
-	background-color: rgba(255, 0, 0, 0);
-  }
