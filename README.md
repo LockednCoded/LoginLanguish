@@ -1,5 +1,7 @@
 # LockednCoded
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8bfa17b279f24f268361ecb7cfbf7124)](https://app.codacy.com/gh/LockednCoded/LoginLanguish?utm_source=github.com&utm_medium=referral&utm_content=LockednCoded/LoginLanguish&utm_campaign=Badge_Grade)
+
 ![CMake Workflow Status](https://github.com/LockednCoded/LoginLanguish/actions/workflows/cmake.yml/badge.svg)
 
 Members:
