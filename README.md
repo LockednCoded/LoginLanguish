@@ -1,6 +1,7 @@
 # LockednCoded
 
 ![CMake Workflow Status](https://github.com/LockednCoded/LoginLanguish/actions/workflows/cmake.yml/badge.svg)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/77e352dbe59a454fae44f44b10b5218b)](https://app.codacy.com/gh/LockednCoded/LoginLanguish/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 Members:
 - Cameron Bruce 4476706
