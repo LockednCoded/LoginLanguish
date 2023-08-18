@@ -58,7 +58,7 @@ export function useLoginFlow() {
 
           setDob(e.target.value);
         },
-        visible: stage === "details",
+        visible: stage === "details" || stage === "txtcaptcha",
         validationIssue: "",
       },
       txtcaptcha: {
