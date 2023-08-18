@@ -35,8 +35,14 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C ${{env.BUILD_TYPE}}
 
-    - name: Upload coverage reports to Codecov
+    - name: Code coverage report
+      # Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+    - name: Static analysis
+      # Uses Coverity (Synopsys)
+      uses: synopsys-sig/synopsys-action@v1.2.0
+            
 
