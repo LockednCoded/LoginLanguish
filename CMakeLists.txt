@@ -1,7 +1,11 @@
 project(LoginLanguish)
 cmake_minimum_required(VERSION 3.3.2)
 
-add_custom_target(npm-target COMMAND cd ${CMAKE_SOURCE_DIR}/static_site && npm run install_and_build)
+add_custom_target(npm-target
+  COMMAND npm run install_and_build 
+  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/static_site"
+  VERBATIM
+)
 
 include(cmake/App.cmake)
 

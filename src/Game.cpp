@@ -1,7 +1,7 @@
 #include "Game.h"
 
-#define WINDOW_WIDTH  600
-#define WINDOW_HEIGHT 400
+#define WINDOW_WIDTH  1024
+#define WINDOW_HEIGHT 672
 
 Game::Game() {
   ///
@@ -14,7 +14,7 @@ Game::Game() {
   /// kWindowFlags_Resizable.
   ///
   window_ = Window::Create(app_->main_monitor(), WINDOW_WIDTH, WINDOW_HEIGHT,
-    false, kWindowFlags_Titled | kWindowFlags_Resizable);
+    false, kWindowFlags_Titled);
 
   ///
   /// Create our HTML overlay-- we don't care about its initial size and
