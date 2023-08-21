@@ -8,10 +8,6 @@
 [![CodeScene System Mastery](https://codescene.io/projects/43160/status-badges/system-mastery)](https://codescene.io/projects/43160)
 [![CodeScene Missed Goals](https://codescene.io/projects/43160/status-badges/missed-goals)](https://codescene.io/projects/43160)
 
-<a href="https://scan.coverity.com/projects/lockedncoded-loginlanguish">
-  <img alt="Coverity Scan Build Status"
-       src="https://scan.coverity.com/projects/28973/badge.svg"/>
-</a>
 
 
 Members:
