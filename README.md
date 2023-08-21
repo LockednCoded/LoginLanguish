@@ -7,10 +7,10 @@
   <img alt="Coverity Scan Build Status"
        src="https://scan.coverity.com/projects/28973/badge.svg"/>
 </a>
-[![CodeScene general](https://codescene.io/images/analyzed-by-codescene-badge.svg)](https://codescene.io/projects/43160)
-[![CodeScene Code Health](https://codescene.io/projects/43160/status-badges/code-health)](https://codescene.io/projects/43160)
-[![CodeScene System Mastery](https://codescene.io/projects/43160/status-badges/system-mastery)](https://codescene.io/projects/43160)
-[![CodeScene Missed Goals](https://codescene.io/projects/43160/status-badges/missed-goals)](https://codescene.io/projects/43160)
+[![CodeScene general](https://codescene.io/images/analyzed-by-codescene-badge.svg)](https://codescene.io/projects/43160)]
+[![CodeScene Code Health](https://codescene.io/projects/43160/status-badges/code-health)](https://codescene.io/projects/43160)]
+[![CodeScene System Mastery](https://codescene.io/projects/43160/status-badges/system-mastery)](https://codescene.io/projects/43160)]
+[![CodeScene Missed Goals](https://codescene.io/projects/43160/status-badges/missed-goals)](https://codescene.io/projects/43160)]
 
 Members:
 - Cameron Bruce 4476706
