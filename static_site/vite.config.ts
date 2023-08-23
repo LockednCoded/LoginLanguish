@@ -4,11 +4,6 @@ import Icons from "unplugin-icons/vite";
 
 export default defineConfig({
   root: "src",
-  build: {
-    outDir: "../dist",
-    target: "es2015",
-    minify: false,
-  },
   plugins: [
     react(),
     Icons({

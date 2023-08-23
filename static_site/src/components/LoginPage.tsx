@@ -12,7 +12,7 @@ export default function LoginPage() {
       <form
         className={`mt-12 ${
           loginFlow.stage == "name" ? "w-[20rem]" : "w-[30rem]"
-        } transition-all duration-300
+        } transition-all
 				`}
       >
         <div
@@ -37,11 +37,7 @@ export default function LoginPage() {
             className="mt-3"
           />
         </div>
-        <div
-          className={`height-hidable  ${
-            fieldStates.username.visible ? "" : "height-hidden"
-          }`}
-        >
+        {fieldStates.username.visible && (
           <TextField
             type="text"
             name="Username"
@@ -49,14 +45,9 @@ export default function LoginPage() {
             onChange={fieldStates.username.onChange}
             className="mt-3"
           />
-        </div>
-
-        <div
-          className={`height-hidable  ${
-            fieldStates.password.visible ? "" : "height-hidden"
-          }`}
-        >
-          <div>
+        )}
+        {fieldStates.password.visible && (
+          <>
             <TextField
               type="password"
               name="Password"
@@ -69,14 +60,10 @@ export default function LoginPage() {
               message={fieldStates.password.validationIssue}
               className="mt-3"
             />
-          </div>
-        </div>
-        <div
-          className={`height-hidable  ${
-            fieldStates.dob.visible ? "" : "height-hidden"
-          }`}
-        >
-          <div className="flex flex-row justify-between items-end ">
+          </>
+        )}
+        {fieldStates.dob.visible && (
+          <div className="flex flex-row justify-between items-end">
             <TextField
               type="date"
               value={fieldStates.dob.value}
@@ -108,7 +95,7 @@ export default function LoginPage() {
               </label>
             </div>
           </div>
-        </div>
+        )}
         <button
           className="bg-neutral-700 text-lg mt-12 text-white font-bold p-1 w-36 box-border rounded-md"
           type="button"
