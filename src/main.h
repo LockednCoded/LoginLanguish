@@ -1,3 +1,10 @@
+/*
+* @file main.h
+* @brief main header file
+* @author Jeb Nicholson
+* @copyright 2023 Locked & Coded
+*/
+
 #include "webview.h"
 #include <fstream>
 #include <string>
