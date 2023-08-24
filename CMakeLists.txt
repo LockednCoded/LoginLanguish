@@ -6,6 +6,12 @@ file(GLOB source_list src/*.cpp)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_compile_options(-Wall)
+
+if (true)
+    add_compile_definitions(__DEBUG__)
+endif ()
+
 if (APPLE)
     set(PLATFORM MAC)
 elseif (CMAKE_SYSTEM_NAME MATCHES "Windows")
@@ -18,7 +24,7 @@ add_executable(${APP_NAME} WIN32 MACOSX_BUNDLE ${source_list})
 add_library(webview STATIC libs/webview/webview.cc)
 
 if (PLATFORM MATCHES "MAC")
-    set(ASSETS_PATH "$<TARGET_FILE_DIR:${APP_NAME}>/../Resources/assets") 
+    set(ASSETS_PATH "$<TARGET_FILE_DIR:${APP_NAME}>/../Resources/") 
 
     target_link_libraries(${APP_NAME}
         PRIVATE
@@ -26,7 +32,7 @@ if (PLATFORM MATCHES "MAC")
         "-framework WebKit"
     )
 elseif (PLATFORM MATCHES "WIN")
-    set(ASSETS_PATH "$<TARGET_FILE_DIR:${APP_NAME}>/assets") 
+    set(ASSETS_PATH "$<TARGET_FILE_DIR:${APP_NAME}>/") 
 
     target_include_directories(webview PUBLIC libs/webview2/build/native/include)
 endif()
@@ -38,10 +44,26 @@ target_link_libraries(${APP_NAME}
     webview
 )
 
+add_custom_target(generate_static_site
+    COMMAND npm run install_and_build 
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/static_site"
+	COMMENT "Building static site"
+    VERBATIM
+)
 
-add_custom_command(TARGET ${APP_NAME} POST_BUILD
+add_custom_target(copy_static_site ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/static_site/dist
+    ${ASSETS_PATH}
+    COMMENT "Copying static site to ${ASSETS_PATH}"
+    DEPENDS generate_static_site
+    VERBATIM
+)
+
+add_custom_target(copy_assets ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     ${ASSETS_DIR}
     ${ASSETS_PATH}
     COMMENT "Copying assets to ${ASSETS_PATH}"
+    VERBATIM
 )
