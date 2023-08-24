@@ -10,9 +10,9 @@
 #include <string>
 #include <iostream>
 #include "compatibility_utils.h"
+#include "main.h"
 
-#define WINDOW_WIDTH 1024
-#define WINDOW_HEIGHT 672
+std::string resourcesPath;
 
 /*
 * @brief runs the webview
@@ -20,26 +20,46 @@
 * @return 0 if successful, 1 if failed.
 */
 #ifdef _WIN32
-int WINAPI WinMain(HINSTANCE /*hInst*/, HINSTANCE /*hPrevInst*/,
-                   LPSTR /*lpCmdLine*/, int /*nCmdShow*/)
+int WINAPI WinMain(HINSTANCE /*hInst*/, HINSTANCE /*hPrevInst*/, LPSTR /*lpCmdLine*/, int /*nCmdShow*/)
 {
 #else
 int main()
 {
 #endif
   std::string resourcesPath = getResourcesPath();
+
+  resourcesPath = getResourcesPath();
   std::cout << "Resources path: " << resourcesPath << std::endl;
-  std::ifstream ifs(resourcesPath + "/assets/test.html");
-  std::string content((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
-  if (ifs.fail())
-  {
-    std::cout << "Error: File not found" << std::endl;
-    return 1;
+
+  webview::webview w(__DEBUG__, nullptr);
+
+  if (__DEBUG__) {
+    std::cout << "We're in debug mode" << std::endl;
+  } else {
+    std::cout << "We're in release mode" << std::endl;
   }
-  webview::webview w(true, nullptr);
-  w.set_title("Basic Example");
+
+  w.set_title("Login Languish");
   w.set_size(WINDOW_WIDTH, WINDOW_HEIGHT, WEBVIEW_HINT_FIXED);
-  w.set_html(content);
+  w.set_html(loadStringFromFile(resourcesPath + "/index.html"));
+  w.bind("testFunction", onDocumentLoadCallback, &w); 
   w.run();
   return 0;
+}
+
+void onDocumentLoadCallback(const std::string /*&seq*/, const std::string &req, void * arg) {
+  webview::webview &w = *static_cast<webview::webview *>(arg);
+
+  std::cout << "Received message from JS: " << req << std::endl;
+  w.eval("document.getElementById('title').innerHTML = 'Hello from C++';");
+  if (!__DEBUG__) {
+    w.eval("window.addEventListener('contextmenu', (event) => event.preventDefault());"); // Prevents use of the context menu
+  }
+  std::string js = loadStringFromFile(resourcesPath + "/assets/index.js");
+  std::cout << "JS: " << js << std::endl;
+  w.eval(js);
+  std::string css = loadStringFromFile(resourcesPath + "/assets/index.css");
+  std::cout << "CSS: " << css << std::endl;
+  w.eval("var style = document.createElement('style'); style.innerHTML = `" + css + "`; document.head.appendChild(style);");
+
 }
