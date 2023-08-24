@@ -1,3 +1,10 @@
+/*
+* @file compatibility_utils.cpp
+* @brief platform compatibility
+* @author Jeb Nicholson
+* @copyright 2023 Locked & Coded
+*/
+
 #include "compatibility_utils.h"
 
 std::string getResourcesPath()

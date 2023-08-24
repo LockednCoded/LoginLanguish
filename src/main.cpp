@@ -1,3 +1,10 @@
+/*
+* @file main.cpp
+* @brief runs app
+* @author Jeb Nicholson
+* @copyright 2023 Locked & Coded
+*/
+
 #include "webview.h"
 #include <fstream>
 #include <string>
@@ -7,6 +14,11 @@
 #define WINDOW_WIDTH 1024
 #define WINDOW_HEIGHT 672
 
+/*
+* @brief runs the webview
+* @details locates the html file to be displayed and runs the webview using it.
+* @return 0 if successful, 1 if failed.
+*/
 #ifdef _WIN32
 int WINAPI WinMain(HINSTANCE /*hInst*/, HINSTANCE /*hPrevInst*/,
                    LPSTR /*lpCmdLine*/, int /*nCmdShow*/)
@@ -15,7 +27,6 @@ int WINAPI WinMain(HINSTANCE /*hInst*/, HINSTANCE /*hPrevInst*/,
 int main()
 {
 #endif
-
   std::string resourcesPath = getResourcesPath();
   std::cout << "Resources path: " << resourcesPath << std::endl;
   std::ifstream ifs(resourcesPath + "/assets/test.html");
