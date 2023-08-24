@@ -23,7 +23,7 @@ int main()
 
   w.set_title("Login Languish");
   w.set_size(WINDOW_WIDTH, WINDOW_HEIGHT, WEBVIEW_HINT_FIXED);
-  w.set_html(loadStringFromFile(resourcesPath + "/index.html"));
+  w.navigate("file://" + resourcesPath + "/index.html");
   w.bind("testFunction", onDocumentLoadCallback, &w); 
   w.run();
   return 0;

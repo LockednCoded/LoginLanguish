@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 import Icons from "unplugin-icons/vite";
 
 export default defineConfig({
+  base: '',
   root: "src",
   build: {
     outDir: "../dist",
