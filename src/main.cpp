@@ -26,7 +26,6 @@ int WINAPI WinMain(HINSTANCE /*hInst*/, HINSTANCE /*hPrevInst*/, LPSTR /*lpCmdLi
 int main()
 {
 #endif
-  std::string resourcesPath = getResourcesPath();
 
   resourcesPath = getResourcesPath();
   std::cout << "Resources path: " << resourcesPath << std::endl;
@@ -47,6 +46,10 @@ int main()
   return 0;
 }
 
+/*
+* @brief callback after document loads
+* @details 
+*/
 void onDocumentLoadCallback(const std::string /*&seq*/, const std::string &req, void * arg) {
   webview::webview &w = *static_cast<webview::webview *>(arg);
 
