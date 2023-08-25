@@ -74,16 +74,22 @@ export default function LoginPage() {
             />
 
             <div className="mt-3">
-              <input type="checkbox" name="terms" id="terms" />
+              <input
+                type="checkbox"
+                name="terms"
+                id="terms"
+                data-test-id="terms-checkbox"
+              />
               <label className="text-gray-800 ml-2 font-light" htmlFor="terms">
                 I agree to the{" "}
-                <a className="text-blue-400" href="#">
+                <a className="text-blue-400" href="#" data-test-id="ts-and-cs">
                   terms & conditions
                 </a>
               </label>
               <br />
               <input
                 type="checkbox"
+                data-test-id="marketing-checkbox"
                 name="terms"
                 id="marketing"
                 checked
@@ -100,6 +106,7 @@ export default function LoginPage() {
         <button
           className="bg-neutral-700 text-lg mt-12 text-white font-bold p-1 w-36 box-border rounded-md"
           type="button"
+          data-test-id="next-button"
           onClick={loginFlow.nextCallback}
         >
           Next
