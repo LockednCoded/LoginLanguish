@@ -1,5 +1,5 @@
 /*!
- @file utils.cpp
+ @file
  @brief string load utility
  @author Jeb Nicholson
  @copyright 2023 Locked & Coded
@@ -7,6 +7,11 @@
 
 #include "utils.h"
 
+/*!
+ @brief loads content from specified file to a string
+ @param path to file
+ @return file content
+*/
 std::string loadStringFromFile(std::string filepath)
 {
 	std::cout << "Loading file: " << filepath << std::endl;

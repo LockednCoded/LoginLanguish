@@ -14,10 +14,10 @@
 
 std::string resourcesPath;
 
-/*
-* @brief runs the webview
-* @details runs the webview and calls a helper function to load html
-* @return 0 if successful, 1 if failed.
+/*!
+ @brief runs the webview
+ @details runs the webview and calls a helper function to load html
+ @return 0 if successful, 1 if failed.
 */
 #ifdef _WIN32
 int WINAPI WinMain(HINSTANCE /*hInst*/, HINSTANCE /*hPrevInst*/, LPSTR /*lpCmdLine*/, int /*nCmdShow*/)
@@ -46,9 +46,9 @@ int main()
   return 0;
 }
 
-/*
-* @brief loads html
-* @details 
+/*!
+ @brief loads html
+ @details 
 */
 void onDocumentLoadCallback(const std::string /*&seq*/, const std::string &req, void * arg) {
   webview::webview &w = *static_cast<webview::webview *>(arg);

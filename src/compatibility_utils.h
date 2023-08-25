@@ -1,5 +1,5 @@
 /*!
- @file compatibility_utils.h
+ @file
  @brief platform compatibility header file
  @author Jeb Nicholson
  @copyright 2023 Locked & Coded

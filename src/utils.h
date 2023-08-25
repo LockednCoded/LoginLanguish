@@ -9,6 +9,8 @@
 #include <fstream>
 
 /*!
- @brief xyz
+ @brief loads content from specified file to a string
+ @param path to file
+ @return file content
 */
 std::string loadStringFromFile(std::string filepath);
