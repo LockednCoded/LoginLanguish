@@ -3,6 +3,12 @@
  @brief runs app
  @author Jeb Nicholson
  @copyright 2023 Locked & Coded
+
+ @mainpage Login Languish
+ Here is an overview of the main files:
+ - @ref main.cpp "Loads html and runs webview app"
+ - @ref utils.cpp "Utilities"
+ - @ref compatibility_utils.cpp "Compatibility utilities"
 */
 
 #include "webview.h"
