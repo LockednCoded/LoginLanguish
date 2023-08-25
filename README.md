@@ -24,7 +24,7 @@ Members:
 ### 1. Clone the repo
 
 ```
-git clone https://github.com/LockednCoded/LoginLanguish.git && \
+git clone https://github.com/LockednCoded/LoginLanguish.git
 cd LoginLanguish
 ```
 
@@ -33,6 +33,7 @@ cd LoginLanguish
 Configuring, building and debugging can be done using VSCode tasks. This is the simplest option. 
 
 **Configuring:**
+In the cmake configure step, vcpkg will be downloaded and used to install dependencies. This may take a while.
 ```bash
 cmake -B build
 ```
@@ -40,4 +41,9 @@ cmake -B build
 **Building:**
 ```bash
 cmake --build build --clean-first
+```
+
+**Running tests:**
+```bash
+ctest --test-dir build
 ```

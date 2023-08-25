@@ -11,7 +11,7 @@ set(APP_NAME "LoginLanguish")
 set(ASSETS_DIR ${CMAKE_SOURCE_DIR}/assets)
 file(GLOB source_list src/*.cpp)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_compile_options(-Wall)
 
@@ -44,26 +44,21 @@ endif()
 find_path(ZSERGE_WEBVIEW_INCLUDE_DIRS "webview.h")
 target_include_directories(${APP_NAME} PRIVATE ${ZSERGE_WEBVIEW_INCLUDE_DIRS})
 
-# target_include_directories(webview PUBLIC libs/webview)
-# target_link_libraries(${APP_NAME}
-#     PRIVATE
-#     webview
-# )
 
 include(cmake/assets.cmake)
 
 # enable_testing()
 
-# file(GLOB test_list src/test/*.cpp)
+file(GLOB test_list src/test/*.cpp)
 
-# add_executable(
-#     tests
-#     ${test_list}
-# )
-# target_link_libraries(
-#     tests
-#     GTest::gtest_main
-# )
+add_executable(
+    tests
+    ${test_list}
+)
 
-# include(GoogleTest)
-# gtest_discover_tests(tests)
+enable_testing()
+    
+find_package(GTest CONFIG REQUIRED)
+target_link_libraries(tests PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
+
+add_test(Tests tests)
