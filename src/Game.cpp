@@ -1,3 +1,8 @@
+/*!
+ @file Game.cpp
+ @brief testing doxygen
+*/
+
 #include "Game.h"
 
 #define WINDOW_WIDTH  1024
