@@ -499,3 +499,5 @@ notes.txt
 
 libs/*
 !libs/__preserve_dir
+
+vcpkg/

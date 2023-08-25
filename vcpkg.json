@@ -1,0 +1,12 @@
+{
+  "name": "loginlanguish",
+  "version": "0.1.0",
+  "dependencies": [
+    "zserge-webview",
+    {
+      "name": "webview2",
+      "platform": "windows"
+    },
+    "gtest"
+  ]
+}
