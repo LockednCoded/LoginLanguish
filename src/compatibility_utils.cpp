@@ -1,4 +1,5 @@
-/*
+/// @file
+/* 
 * @file compatibility_utils.cpp
 * @brief platform compatibility
 * @author Jeb Nicholson

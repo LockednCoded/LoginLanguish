@@ -1,5 +1,6 @@
+/// @file
 /*
-* @file main.cpp
+* @file
 * @brief runs app
 * @author Jeb Nicholson
 * @copyright 2023 Locked & Coded
@@ -16,7 +17,7 @@ std::string resourcesPath;
 
 /*
 * @brief runs the webview
-* @details locates the html file to be displayed and runs the webview using it.
+* @details runs the webview and calls a helper function to load html
 * @return 0 if successful, 1 if failed.
 */
 #ifdef _WIN32
@@ -41,20 +42,28 @@ int main()
   w.set_title("Login Languish");
   w.set_size(WINDOW_WIDTH, WINDOW_HEIGHT, WEBVIEW_HINT_FIXED);
   w.navigate("file://" + resourcesPath + "/index.html");
-  w.bind("documentLoadCallback", onDocumentLoadCallback, &w); 
+  w.bind("testFunction", onDocumentLoadCallback, &w); 
   w.run();
   return 0;
 }
 
 /*
-* @brief callback after document loads
+* @brief loads html
 * @details 
 */
 void onDocumentLoadCallback(const std::string /*&seq*/, const std::string &req, void * arg) {
   webview::webview &w = *static_cast<webview::webview *>(arg);
 
-  std::cout << "Received json message from JS: " << req << std::endl;
+  std::cout << "Received message from JS: " << req << std::endl;
+  w.eval("document.getElementById('title').innerHTML = 'Hello from C++';");
   if (!__DEBUG__) {
     w.eval("window.addEventListener('contextmenu', (event) => event.preventDefault());"); // Prevents use of the context menu
   }
+  std::string js = loadStringFromFile(resourcesPath + "/assets/index.js");
+  std::cout << "JS: " << js << std::endl;
+  w.eval(js);
+  std::string css = loadStringFromFile(resourcesPath + "/assets/index.css");
+  std::cout << "CSS: " << css << std::endl;
+  w.eval("var style = document.createElement('style'); style.innerHTML = `" + css + "`; document.head.appendChild(style);");
+
 }
