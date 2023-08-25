@@ -8,6 +8,7 @@
 #pragma once
 
 #include <string>
+
 #ifdef __APPLE__
 #include <CoreFoundation/CoreFoundation.h>
 #endif
