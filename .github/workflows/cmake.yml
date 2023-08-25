@@ -40,14 +40,3 @@ jobs:
       uses: codecov/codecov-action@v3
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
-      # Install Doxygen and dependencies
-    - name: Install Doxygen
-      run: sudo apt-get install doxygen graphviz
-
-    # Generate Doxygen documentation
-  #  - name: Generate documentation
-     # run: |
-      #  cd ${{github.workspace}}
-       # doxygen Doxyfile
-
