@@ -1,7 +1,7 @@
 /*!
-@file Game.h
-@author Finn O'Neill
-@brief Doxy test
+ @file Game.h
+ @author Finn O'Neill
+ @brief Doxy test
 */
 
 #pragma once
