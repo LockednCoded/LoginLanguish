@@ -8,8 +8,8 @@
 [![CodeScene System Mastery](https://codescene.io/projects/43160/status-badges/system-mastery)](https://codescene.io/projects/43160)
 [![CodeScene Missed Goals](https://codescene.io/projects/43160/status-badges/missed-goals)](https://codescene.io/projects/43160)
 
-  
 Members:
+
 - Cameron Bruce 4476706
 - Jack Searle 6178637
 - Finn O'Neill 7143491
@@ -18,6 +18,7 @@ Members:
 ## Building from source
 
 **Prerequisites:**
+
 - CMake
 - node/npm
 
@@ -30,20 +31,23 @@ cd LoginLanguish
 
 ### 2. Build the project
 
-Configuring, building and debugging can be done using VSCode tasks. This is the simplest option. 
+Configuring, building and debugging can be done using VSCode tasks. This is the simplest option.
 
 **Configuring:**
 In the cmake configure step, vcpkg will be downloaded and used to install dependencies. This may take a while.
+
 ```bash
 cmake -B build
 ```
 
 **Building:**
+
 ```bash
 cmake --build build --clean-first
 ```
 
 **Running tests:**
+
 ```bash
 ctest --test-dir build
 ```

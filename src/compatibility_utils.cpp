@@ -13,7 +13,7 @@ std::string getResourcesPath()
 	CFBundleRef mainBundle = CFBundleGetMainBundle();
 	CFURLRef resourcesURL = CFBundleCopyResourcesDirectoryURL(mainBundle);
 	char path[PATH_MAX];
-	if (!CFURLGetFileSystemRepresentation(resourcesURL, TRUE, (UInt8 *)path, PATH_MAX))
+	if (!CFURLGetFileSystemRepresentation(resourcesURL, TRUE, static_cast<UInt8 *>(static_cast<void *>(path)), PATH_MAX))
 	{
 		return "";
 	}
