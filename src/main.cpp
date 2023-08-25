@@ -1,9 +1,8 @@
-/// @file
-/*
-* @file
-* @brief runs app
-* @author Jeb Nicholson
-* @copyright 2023 Locked & Coded
+/*!
+ @file main.cpp
+ @brief runs app
+ @author Jeb Nicholson
+ @copyright 2023 Locked & Coded
 */
 
 #include "webview.h"

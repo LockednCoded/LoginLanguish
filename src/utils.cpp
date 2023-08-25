@@ -1,9 +1,8 @@
-/// @file
-/*
-* @file utils.cpp
-* @brief string load utility
-* @author Jeb Nicholson
-* @copyright 2023 Locked & Coded
+/*!
+ @file utils.cpp
+ @brief string load utility
+ @author Jeb Nicholson
+ @copyright 2023 Locked & Coded
 */
 
 #include "utils.h"
