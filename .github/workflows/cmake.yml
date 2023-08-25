@@ -46,8 +46,8 @@ jobs:
       run: sudo apt-get install doxygen graphviz
 
     # Generate Doxygen documentation
-    - name: Generate documentation
-      run: |
-        cd ${{github.workspace}}
-        doxygen Doxyfile
+  #  - name: Generate documentation
+     # run: |
+      #  cd ${{github.workspace}}
+       # doxygen Doxyfile
 
