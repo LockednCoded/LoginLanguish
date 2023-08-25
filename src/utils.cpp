@@ -1,3 +1,11 @@
+/// @file
+/*
+* @file utils.cpp
+* @brief string load utility
+* @author Jeb Nicholson
+* @copyright 2023 Locked & Coded
+*/
+
 #include "utils.h"
 
 std::string loadStringFromFile(std::string filepath)

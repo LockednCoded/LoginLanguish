@@ -1,3 +1,11 @@
+/// @file
+/*
+* @file compatibility_utils.h
+* @brief platform compatibility header file
+* @author Jeb Nicholson
+* @copyright 2023 Locked & Coded
+*/
+
 #pragma once
 
 #include <string>
