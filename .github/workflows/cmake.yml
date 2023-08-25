@@ -40,16 +40,3 @@ jobs:
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
-      - name: Set up Doxygen
-        run: sudo apt-get install doxygen # Install Doxygen
-        continue-on-error: true
-
-      - name: Build Doxygen Documentation
-        run: doxygen Doxyfile # Run Doxygen using your Doxyfile
-
-      - name: Update CodeDocs
-        uses: codedocsapp/action@v1
-        with:
-          token: ${{ secrets.CODEDOCS_TOKEN }}
-          folder: doxygen/html
