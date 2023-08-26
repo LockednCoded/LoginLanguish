@@ -26,6 +26,7 @@ elseif (CMAKE_SYSTEM_NAME MATCHES "Windows")
     set(PLATFORM WIN)
 endif()
 
+set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
 
 file(GLOB source_list src/*.cpp)
 list(FILTER source_list EXCLUDE REGEX ".*main.cpp$") # exclude main.cpp from library (it's in the executable)
@@ -72,6 +73,21 @@ add_test(Tests tests)
 
 option(CODE_COVERAGE "Enable coverage reporting" OFF)
 if (CODE_COVERAGE)
+    set(OBJECT_DIR ${CMAKE_BINARY_DIR}/CMakeFiles/${APP_NAME}_lib.dir)
+    add_custom_target(coverage
+        COMMAND mkdir -p coverage
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    )
+    add_custom_command(TARGET coverage
+        COMMAND echo "=================== LCOV ===================="
+        COMMAND lcov --capture --directory ${OBJECT_DIR} --output-file coverage.info
+        COMMAND lcov --remove coverage.info '/usr/*' --output-file coverage.info
+        COMMAND lcov --list coverage.info
+        COMMAND echo "-- Coverage files have been output to ${CMAKE_BINARY_DIR}/coverage"
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/coverage
+    )
+    add_dependencies(coverage tests)
+
     target_compile_options("${APP_NAME}_lib" PUBLIC --coverage -O0)
     target_link_options("${APP_NAME}_lib" PUBLIC --coverage -O0)
 endif()

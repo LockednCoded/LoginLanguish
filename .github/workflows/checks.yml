@@ -1,0 +1,48 @@
+name: Run Tests & Upload Coverage
+
+on:
+  push:
+    branches: ["*"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build_test_upload_coverage:
+    runs-on: [windows-latest]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install lcov
+        # Install lcov for code coverage
+        run: choco install lcov -y
+      
+      - name: Refresh Choco
+        shell: cmd
+        run: |
+          call refreshenv
+          lcov --version
+        
+      
+
+      - name: Configure CMake for Debug and Code Coverage
+        # Configure CMake with the DEBUG build type and code coverage enabled
+        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=Debug -DCODE_COVERAGE=ON
+
+      - name: Build
+        # Build your program
+        run: cmake --build ${{github.workspace}}/build --config Debug
+      
+      - name: Test
+        # Run tests
+        run: ctest --test-dir ${{github.workspace}}/build --output-on-failure
+
+      - name: Collect Coverage
+        # Run tests and generate coverage report
+        run: cmake --build ${{github.workspace}}/build --target coverage
+
+      - name: Find and Upload Coverage
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: ${{github.workspace}}/build/coverage.info
