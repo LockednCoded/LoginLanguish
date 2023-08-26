@@ -1,0 +1,27 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "configure",
+      "command": "cmake",
+      "args": ["-B", "build"],
+      "type": "shell"
+    },
+    {
+      "label": "build",
+      "command": "cmake",
+      "args": ["--build", "build", "--clean-first"],
+      "type": "shell"
+    },
+    {
+      "label": "configure & build",
+      "dependsOn": ["configure", "build"],
+      "dependsOrder": "sequence",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}

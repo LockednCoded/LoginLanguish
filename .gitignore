@@ -492,3 +492,13 @@ out/
 build/
 
 **/.DS_Store
+
+# .vscode
+.vscode/settings.json
+
+notes.txt
+
+libs/*
+!libs/__preserve_dir
+
+vcpkg/
