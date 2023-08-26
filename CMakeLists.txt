@@ -27,12 +27,10 @@ elseif (CMAKE_SYSTEM_NAME MATCHES "Windows")
 endif()
 
 
-
 file(GLOB source_list src/*.cpp)
 list(FILTER source_list EXCLUDE REGEX ".*main.cpp$") # exclude main.cpp from library (it's in the executable)
 
 add_library("${APP_NAME}_lib" STATIC ${source_list})
-
 
 
 if (PLATFORM MATCHES "MAC")
@@ -48,6 +46,7 @@ endif()
 
 find_path(ZSERGE_WEBVIEW_INCLUDE_DIRS "webview.h")
 target_include_directories("${APP_NAME}_lib" PUBLIC ${ZSERGE_WEBVIEW_INCLUDE_DIRS})
+
 
 
 include(cmake/assets.cmake)
@@ -70,3 +69,9 @@ find_package(GTest CONFIG REQUIRED)
 target_link_libraries(tests PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
 
 add_test(Tests tests)
+
+option(CODE_COVERAGE "Enable coverage reporting" OFF)
+if (CODE_COVERAGE)
+    target_compile_options("${APP_NAME}_lib" PUBLIC --coverage -O0)
+    target_link_options("${APP_NAME}_lib" PUBLIC --coverage -O0)
+endif()
