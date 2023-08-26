@@ -6,7 +6,7 @@
 [![CodeScene general](https://codescene.io/images/analyzed-by-codescene-badge.svg)](https://codescene.io/projects/43160)
 [![CodeScene Code Health](https://codescene.io/projects/43160/status-badges/code-health)](https://codescene.io/projects/43160)
 [![CodeScene System Mastery](https://codescene.io/projects/43160/status-badges/system-mastery)](https://codescene.io/projects/43160)
-[![CodeScene Missed Goals](https://codescene.io/projects/43160/status-badges/missed-goals)](https://codescene.io/projects/43160)
+[![codecov](https://codecov.io/gh/LockednCoded/LoginLanguish/graph/badge.svg?token=1LN5G3NIQY)](https://codecov.io/gh/LockednCoded/LoginLanguish)
 
 Members:
 
