@@ -26,4 +26,7 @@ jobs:
         run: ctest --test-dir ${{github.workspace}}/build --output-on-failure
 
       - name: Find and Upload Coverage
-        run: bash <(curl -s https://codecov.io/bash) -t ${{secrets.CODECOV_TOKEN}} 
+        # Find and upload coverage report
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
