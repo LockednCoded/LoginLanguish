@@ -10,20 +10,30 @@ jobs:
   build_test_upload_coverage:
     runs-on: [windows-latest]
 
+    defaults:
+      run:
+        shell: msys2 {0}
+    env:
+      CXX: g++
+      CC: gcc
+      CMAKE_CXX_COMPILER: g++
+      CMAKE_C_COMPILER: gcc
+      CMAKE_GENERATOR: MSYS Makefiles
+
     steps:
       - uses: actions/checkout@v3
-
-      - name: Install lcov
-        # Install lcov for code coverage
-        run: choco install lcov -y
-      
-      - name: Refresh Choco
-        shell: cmd
-        run: |
-          call refreshenv
-          lcov --version
-        
-      
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: ucrt64
+          update: true
+          install: >-
+            lcov
+            cmake
+            make
+          pacboy: >-
+            toolchain:p
+            cmake:p
+            ninja:p
 
       - name: Configure CMake for Debug and Code Coverage
         # Configure CMake with the DEBUG build type and code coverage enabled
@@ -36,6 +46,9 @@ jobs:
       - name: Test
         # Run tests
         run: ctest --test-dir ${{github.workspace}}/build --output-on-failure
+
+      - name: Log Info
+        run: tree
 
       - name: Collect Coverage
         # Run tests and generate coverage report
