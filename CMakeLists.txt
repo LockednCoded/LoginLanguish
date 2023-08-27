@@ -24,7 +24,9 @@ if (APPLE)
     set(PLATFORM MAC)
 elseif (CMAKE_SYSTEM_NAME MATCHES "Windows")
     set(PLATFORM WIN)
-endif()
+elseif (UNIX)
+    set(PLATFORM LIN)
+endif ()
 
 set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
 
@@ -43,11 +45,16 @@ if (PLATFORM MATCHES "MAC")
 elseif (PLATFORM MATCHES "WIN")
     find_package(unofficial-webview2 CONFIG REQUIRED)
     target_link_libraries("${APP_NAME}_lib" PRIVATE unofficial::webview2::webview2)
-endif()
+elseif (PLATFORM MATCHES "LIN")
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
+    target_link_libraries("${APP_NAME}_lib" PRIVATE ${GTK3_LIBRARIES})
+    target_include_directories("${APP_NAME}_lib" PRIVATE ${GTK3_INCLUDE_DIRS})
+    target_compile_options("${APP_NAME}_lib" PRIVATE ${GTK3_CFLAGS_OTHER})
+endif ()
 
 find_path(ZSERGE_WEBVIEW_INCLUDE_DIRS "webview.h")
 target_include_directories("${APP_NAME}_lib" PUBLIC ${ZSERGE_WEBVIEW_INCLUDE_DIRS})
-
 
 
 include(cmake/assets.cmake)
