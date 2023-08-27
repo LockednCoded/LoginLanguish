@@ -16,5 +16,9 @@
 //#include <libloaderapi.h>
 #include <windows.h>
 #endif
+#ifdef __linux__
+#include <limits.h>
+#include <unistd.h>
+#endif
 
 std::string getResourcesPath();

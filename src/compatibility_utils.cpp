@@ -29,4 +29,11 @@ std::string getResourcesPath()
 	std::size_t pos = std::string(path).find_last_of("\\/");
 	return std::string(path).substr(0, pos);
 #endif
+#ifdef __linux__
+	char result[ PATH_MAX ];
+  ssize_t count = readlink( "/proc/self/exe", result, PATH_MAX );
+	std::size_t pos = std::string(result).find_last_of("\\/");
+	return std::string(result).substr(0, pos);
+#endif
+
 }
