@@ -7,7 +7,6 @@ target_link_libraries(${APP_NAME} PRIVATE utils)
 if (PLATFORM MATCHES "MAC")
     target_link_libraries(${APP_NAME}
         PUBLIC
-        "-framework CoreFoundation"
         "-framework WebKit"
     )
 elseif (PLATFORM MATCHES "WIN")
