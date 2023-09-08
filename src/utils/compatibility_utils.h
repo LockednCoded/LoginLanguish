@@ -18,3 +18,5 @@
 #endif
 
 std::string getResourcesPath();
+
+char getSeparator();

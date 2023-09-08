@@ -30,3 +30,11 @@ std::string getResourcesPath()
 	return std::string(path).substr(0, pos);
 #endif
 }
+
+char getSeparator()
+{
+	#ifdef _WIN32
+		return '\\';
+	#endif
+	return '/';
+}
