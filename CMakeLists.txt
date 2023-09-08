@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
+include(cmake/fetching.cmake)
+
 set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake"
   CACHE STRING "Vcpkg toolchain file")
 
@@ -28,7 +30,6 @@ elseif (CMAKE_SYSTEM_NAME MATCHES "Windows")
     set(PLATFORM WIN)
 endif()
 
-include(cmake/fetching.cmake)
 include(cmake/assets.cmake)
 
 
