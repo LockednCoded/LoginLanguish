@@ -5,13 +5,12 @@
  @copyright 2023 Locked & Coded
 */
 
-#include "webview.h"
+#pragma once
+
 #include <fstream>
 #include <string>
 #include <iostream>
 
-#include "compatibility_utils.h"
-#include "utils.h"
 
 #define WINDOW_WIDTH 1024
 #define WINDOW_HEIGHT 672
@@ -38,3 +37,7 @@ int main();
  @details 
 */
 void onDocumentLoadCallback(const std::string /*&seq*/, const std::string &req, void * /*arg*/);
+
+std::string updateFieldState(std::string args);
+std::string getFieldStates();
+std::string JSEncode(const std::string& message);

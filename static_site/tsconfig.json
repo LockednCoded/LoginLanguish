@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "moduleResolution": "node",
+    "target": "ES2019",
     "types": ["unplugin-icons/types/react"],
     "jsx": "react-jsx",
     "esModuleInterop": true
