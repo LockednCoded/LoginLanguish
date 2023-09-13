@@ -18,9 +18,10 @@
 #include "compatibility_utils.h"
 #include "utils.h"
 #include "main.h"
-#include "cpp-base64/base64.h"
 #include "fields.h"
-
+#include "game_manager.h"
+#include "cpp-base64/base64.h"
+#include "parse_args.h"
 
 std::string resourcesPath;
 
@@ -60,6 +61,7 @@ int main()
   w.bind("cpp_getFieldStates", [fields](std::string req) -> std::string { return JSEncode(fields->getFieldStates()); });
 
   std::cout << "Starting webview" << std::endl;
+
   w.run();
   return 0;
 }

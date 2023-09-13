@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useState } from "react";
 import { useBindings } from "./cpp-bindings";
+
+declare global {
+  interface Window {
+    getNextStage: () => Promise<"name" | "credentials" | "details" | "txtcaptcha">;
+    updateStage: (field, value) => Promise<void>;
+    getStageErrors: (field) => Promise<string>;
+  }
+}
 
 export function useLoginFlow() {
   const [stage, setStage] = useState(
@@ -11,14 +19,13 @@ export function useLoginFlow() {
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordErrors, setPasswordErrors] = useState("");
   const [dob, setDob] = useState("");
   const [txtcaptcha, setCaptcha] = useState("");
 
-  const nextCallback = () => {
-    if (stage === "name") setStage("credentials");
-    if (stage === "credentials") setStage("details");
-    if (stage === "details") setStage("txtcaptcha");
-  };
+  const nextCallback = useCallback(async () => {
+    setStage(await window.getNextStage());
+  }, [stage]);
 
   const bindings = useBindings();
 
@@ -49,13 +56,16 @@ export function useLoginFlow() {
       },
       password: {
         value: password,
-        onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-          setPassword(e.target.value),
+        onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+          setPassword(e.target.value);
+          window.updateStage("password", e.target.value);
+          window.getStageErrors("password").then((errors) => {
+            setPasswordErrors(errors);
+          });
+        },
+          
         visible: stage !== "name",
-        validationIssue:
-          password.length > 0 && !/[^a-zA-Z0-9 ]/.test(password)
-            ? "Your password must contain at least one symbol"
-            : "",
+        validationIssue: passwordErrors,
       },
       dob: {
         value: dob,

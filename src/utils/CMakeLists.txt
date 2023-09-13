@@ -2,6 +2,8 @@ set(source_list "compatibility_utils.cpp"
                 "compatibility_utils.h"
                 "utils.cpp"
                 "utils.h"
+                "parse_args.cpp"
+                "parse_args.h"
 )
 
 add_library(utils STATIC ${source_list})

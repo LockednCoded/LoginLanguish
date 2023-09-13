@@ -38,6 +38,4 @@ int main();
 */
 void onDocumentLoadCallback(const std::string /*&seq*/, const std::string &req, void * /*arg*/);
 
-std::string updateFieldState(std::string args);
-std::string getFieldStates();
 std::string JSEncode(const std::string& message);
