@@ -18,6 +18,7 @@
 #include "compatibility_utils.h"
 #include "main.h"
 #include "game_manager.h"
+#include "cpp-base64/base64.h"
 #include "parse_args.h"
 
 std::string resourcesPath;
@@ -58,13 +59,11 @@ int main()
     return "true";
   });
 
-  w.bind("getNextStage", [gameManager, &w](const std::string &args) -> std::string {
-    return "\"" + gameManager->getNextStage() + "\"";
-  });
+  w.bind("getNextStage", [gameManager, &w](const std::string &args) -> std::string
+         { return JSEncode(gameManager->getNextStage()); });
 
-  w.bind("getStageErrors", [gameManager, &w](const std::string &args) -> std::string {
-    return "\"" + gameManager->getStageErrors(parse_args(args)) + "\"";
-  });
+  w.bind("getStageErrors", [gameManager, &w](const std::string &args) -> std::string
+         { return JSEncode(gameManager->getStageErrors(parse_args(args))); });
 
   w.run();
   return 0;
@@ -89,4 +88,9 @@ void onDocumentLoadCallback(const std::string /*&seq*/, const std::string &req, 
   std::cout << "CSS: " << css << std::endl;
   w.eval("var style = document.createElement('style'); style.innerHTML = `" + css + "`; document.head.appendChild(style);");
 
+}
+std::string JSEncode(const std::string &message)
+{
+  return "\"" + base64_encode(message) + "\"";
+  // return "";
 }

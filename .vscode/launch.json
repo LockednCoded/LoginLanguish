@@ -11,7 +11,7 @@
       "cwd": "${workspaceFolder}",
       "preLaunchTask": "build",
       "MIMode": "lldb",
-      "program": "${workspaceFolder}/build/LoginLanguish.app/Contents/MacOS/LoginLanguish",
+      "program": "${workspaceFolder}/build/bin/LoginLanguish.app/Contents/MacOS/LoginLanguish",
       "windows": {
         //Force error on Windows
         "preLaunchTask": "",
@@ -24,7 +24,7 @@
       "type": "cppvsdbg",
       "cwd": "${workspaceFolder}",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/build/Debug/LoginLanguish.exe"
+      "program": "${workspaceFolder}/build/bin/LoginLanguish.exe"
     }
   ]
 }
