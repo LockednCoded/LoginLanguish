@@ -5,12 +5,12 @@ bool DetailsStage::validateStage()
     return true;
 }
 
-std::map<std::string, std::vector<std::string>> DetailsStage::getStageErrors()
+std::string DetailsStage::getStageErrors(std::vector<std::string> args)
 {
-    return errors;
+    return "";
 }
 
-void DetailsStage::updateStage(std::string args)
+void DetailsStage::updateStage(std::vector<std::string> args)
 {
     
 }

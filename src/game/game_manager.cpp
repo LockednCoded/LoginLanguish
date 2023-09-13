@@ -25,7 +25,11 @@ std::string GameManager::getNextStage()
     return current_stage->getStageName();
 }
 
-std::string GameManager::updateStage(std::string args)
+void GameManager::updateStage(std::vector<std::string> args)
 {
-    return "true";
+    current_stage->updateStage(args);
+}
+
+std::string GameManager::getStageErrors(std::vector<std::string> args) {
+    return current_stage->getStageErrors(args);
 }

@@ -5,14 +5,17 @@ bool CredentialsStage::validateStage()
     return true;
 }
 
-std::map<std::string, std::vector<std::string>> CredentialsStage::getStageErrors()
+std::string CredentialsStage::getStageErrors(std::vector<std::string> args)
 {
-    return errors;
+    return "password is:" + password;
 }
 
-void CredentialsStage::updateStage(std::string args)
+void CredentialsStage::updateStage(std::vector<std::string> args)
 {
-    
+    if (args[0].compare("username") == 0)
+        username = args[1];
+    else if (args[0].compare("password") == 0)
+        password = args[1];
 }
 
 std::string CredentialsStage::getStageName()

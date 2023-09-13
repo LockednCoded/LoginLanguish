@@ -5,8 +5,8 @@
 class NameStage : public Stage {
 public:
     bool validateStage();
-    std::map<std::string, std::vector<std::string>> getStageErrors();
-    void updateStage(std::string args);
+    std::string getStageErrors(std::vector<std::string> args);
+    void updateStage(std::vector<std::string> args);
     std::string getStageName();
 private:
     std::string first_name;

@@ -8,9 +8,10 @@ class GameManager
 {
 public:
     GameManager();
-    std::string updateStage(std::string args);
+    void updateStage(std::vector<std::string> args);
     // std::string getStage();
     std::string getNextStage();
+    std::string getStageErrors(std::vector<std::string> args);
 private:
     int stage_index;
     std::vector<Stage* > stages;

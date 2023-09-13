@@ -4,6 +4,8 @@ import { useState } from "react";
 declare global {
   interface Window {
     getNextStage: () => Promise<"name" | "credentials" | "details" | "txtcaptcha">;
+    updateStage: (field, value) => Promise<void>;
+    getStageErrors: (field) => Promise<string>;
   }
 }
 
@@ -16,6 +18,7 @@ export function useLoginFlow() {
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordErrors, setPasswordErrors] = useState("");
   const [dob, setDob] = useState("");
   const [txtcaptcha, setCaptcha] = useState("");
 
@@ -30,7 +33,10 @@ export function useLoginFlow() {
       firstName: {
         value: firstName,
         onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-          setFirstName(e.target.value),
+          { setFirstName(e.target.value);
+            console.log(e.target);
+            window.updateStage("firstName", e.target.value);
+          },
         disabled: stage !== "name",
       },
       lastName: {
@@ -48,13 +54,16 @@ export function useLoginFlow() {
       },
       password: {
         value: password,
-        onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-          setPassword(e.target.value),
+        onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+          setPassword(e.target.value);
+          window.updateStage("password", e.target.value);
+          window.getStageErrors("password").then((errors) => {
+            setPasswordErrors(errors);
+          });
+        },
+          
         visible: stage !== "name",
-        validationIssue:
-          password.length > 0 && !/[^a-zA-Z0-9 ]/.test(password)
-            ? "Your password must contain at least one symbol"
-            : "",
+        validationIssue: passwordErrors,
       },
       dob: {
         value: dob,

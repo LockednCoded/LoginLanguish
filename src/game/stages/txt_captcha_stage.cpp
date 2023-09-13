@@ -5,12 +5,12 @@ bool TxtCaptchaStage::validateStage()
     return true;
 }
 
-std::map<std::string, std::vector<std::string>> TxtCaptchaStage::getStageErrors()
+std::string TxtCaptchaStage::getStageErrors(std::vector<std::string> args)
 {
-    return errors;
+    return "";
 }
 
-void TxtCaptchaStage::updateStage(std::string args)
+void TxtCaptchaStage::updateStage(std::vector<std::string> args)
 {
     
 }

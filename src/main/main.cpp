@@ -18,6 +18,7 @@
 #include "compatibility_utils.h"
 #include "main.h"
 #include "game_manager.h"
+#include "parse_args.h"
 
 std::string resourcesPath;
 
@@ -52,13 +53,19 @@ int main()
 
   GameManager *gameManager = new GameManager();
 
-  w.bind("updateStage", [gameManager](const std::string &args) -> std::string {
-    return gameManager->updateStage(args);
+  w.bind("updateStage", [gameManager, &w](const std::string &args) -> std::string {
+    gameManager->updateStage(parse_args(args));
+    return "true";
   });
 
-  w.bind("getNextStage", [gameManager](const std::string &args) -> std::string {
+  w.bind("getNextStage", [gameManager, &w](const std::string &args) -> std::string {
     return "\"" + gameManager->getNextStage() + "\"";
   });
+
+  w.bind("getStageErrors", [gameManager, &w](const std::string &args) -> std::string {
+    return "\"" + gameManager->getStageErrors(parse_args(args)) + "\"";
+  });
+
   w.run();
   return 0;
 }
