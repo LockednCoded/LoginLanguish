@@ -1,3 +1,5 @@
+#pragma once
+
 #include "stage.h"
 
 class TxtCaptchaStage : public Stage {
