@@ -23,6 +23,7 @@ export default function TextField(props: {
               ? "[-webkit-text-security:disc] tracking-wider"
               : ""
           }`}
+          data-test-id={`text-field-${props.name}`}
           type={{ password: "text", text: "text", date: "date" }[props.type]}
           name={props.name}
           id={props.name}
