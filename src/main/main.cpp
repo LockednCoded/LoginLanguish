@@ -52,8 +52,8 @@ int main()
 
   GameManager *gameManager = new GameManager();
 
-  w.bind("submitStage", [gameManager](const std::string &args) -> std::string {
-    return gameManager->submitStage(args);
+  w.bind("updateStage", [gameManager](const std::string &args) -> std::string {
+    return gameManager->updateStage(args);
   });
 
   w.bind("getNextStage", [gameManager](const std::string &args) -> std::string {

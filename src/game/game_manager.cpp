@@ -1,15 +1,17 @@
 #include "game_manager.h"
 
+
 std::string GameManager::getNextStage()
 {
-    if (current_stage == stages.size() - 1)
+    if (stage_index == stages.size() - 1)
     {
         return "end";
     }
-    return stages[++current_stage];
+    current_stage = stages[++stage_index];
+    return current_stage->getStageName();
 }
 
-std::string GameManager::submitStage(std::string args)
+std::string GameManager::updateStage(std::string args)
 {
     return "true";
 }
