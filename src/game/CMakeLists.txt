@@ -1,5 +1,7 @@
 set(source_list "password_validator.cpp"
                 "password_validator.h"
+                "game_manager.cpp"
+                "game_manager.h"
 )
 
 add_library(game STATIC ${source_list})

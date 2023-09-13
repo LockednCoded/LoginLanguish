@@ -1,5 +1,11 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useState } from "react";
+
+declare global {
+  interface Window {
+    getNextStage: () => Promise<"name" | "credentials" | "details" | "txtcaptcha">;
+  }
+}
 
 export function useLoginFlow() {
   const [stage, setStage] = useState(
@@ -13,11 +19,9 @@ export function useLoginFlow() {
   const [dob, setDob] = useState("");
   const [txtcaptcha, setCaptcha] = useState("");
 
-  const nextCallback = () => {
-    if (stage === "name") setStage("credentials");
-    if (stage === "credentials") setStage("details");
-    if (stage === "details") setStage("txtcaptcha");
-  };
+  const nextCallback = useCallback(async () => {
+    setStage(await window.getNextStage());
+  }, [stage]);
 
   return {
     stage,

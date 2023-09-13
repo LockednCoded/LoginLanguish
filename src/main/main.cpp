@@ -17,6 +17,7 @@
 #include <iostream>
 #include "compatibility_utils.h"
 #include "main.h"
+#include "game_manager.h"
 
 std::string resourcesPath;
 
@@ -48,6 +49,16 @@ int main()
   w.set_size(WINDOW_WIDTH, WINDOW_HEIGHT, WEBVIEW_HINT_FIXED);
   w.navigate("file://" + resourcesPath + "/index.html");
   w.bind("testFunction", onDocumentLoadCallback, &w); 
+
+  GameManager *gameManager = new GameManager();
+
+  w.bind("submitStage", [gameManager](const std::string &args) -> std::string {
+    return gameManager->submitStage(args);
+  });
+
+  w.bind("getNextStage", [gameManager](const std::string &args) -> std::string {
+    return "\"" + gameManager->getNextStage() + "\"";
+  });
   w.run();
   return 0;
 }

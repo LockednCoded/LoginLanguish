@@ -2,7 +2,7 @@ set(source_list "main.cpp")
 
 add_executable(${APP_NAME} WIN32 MACOSX_BUNDLE ${source_list})
 
-target_link_libraries(${APP_NAME} PRIVATE utils)
+target_link_libraries(${APP_NAME} PRIVATE utils game)
 
 if (PLATFORM MATCHES "MAC")
     target_link_libraries(${APP_NAME}
