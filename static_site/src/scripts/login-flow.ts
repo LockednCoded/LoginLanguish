@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import { useState } from "react";
+import { useBindings } from "./cpp-bindings";
 
 declare global {
   interface Window {
@@ -26,17 +27,18 @@ export function useLoginFlow() {
     setStage(await window.getNextStage());
   }, [stage]);
 
+  const bindings = useBindings();
+
   return {
     stage,
     nextCallback,
     fieldStates: {
       firstName: {
         value: firstName,
-        onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-          { setFirstName(e.target.value);
-            console.log(e.target);
-            window.updateStage("firstName", e.target.value);
-          },
+        onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+          setFirstName(e.target.value),
+            bindings.updateFieldState("firstName", e.target.value);
+        },
         disabled: stage !== "name",
       },
       lastName: {
@@ -83,7 +85,7 @@ export function useLoginFlow() {
         },
         visible: stage === "txtcaptcha",
         validationIssue: "",
-      }
+      },
     },
   };
 }

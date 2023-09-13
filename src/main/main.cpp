@@ -11,12 +11,14 @@
  - @ref compatibility_utils.cpp "Compatibility utilities"
 */
 
-#include "webview.h"
 #include <fstream>
 #include <string>
 #include <iostream>
+#include "webview.h"
 #include "compatibility_utils.h"
+#include "utils.h"
 #include "main.h"
+#include "fields.h"
 #include "game_manager.h"
 #include "cpp-base64/base64.h"
 #include "parse_args.h"
@@ -50,20 +52,15 @@ int main()
   w.set_title("Login Languish");
   w.set_size(WINDOW_WIDTH, WINDOW_HEIGHT, WEBVIEW_HINT_FIXED);
   w.navigate("file://" + resourcesPath + "/index.html");
-  w.bind("testFunction", onDocumentLoadCallback, &w); 
 
-  GameManager *gameManager = new GameManager();
+  w.bind("documentLoadCallback", onDocumentLoadCallback, &w); 
 
-  w.bind("updateStage", [gameManager, &w](const std::string &args) -> std::string {
-    gameManager->updateStage(parse_args(args));
-    return "true";
-  });
+  Fields *fields = new Fields();
 
-  w.bind("getNextStage", [gameManager, &w](const std::string &args) -> std::string
-         { return JSEncode(gameManager->getNextStage()); });
+  w.bind("cpp_updateFieldState", [fields](std::string req) -> std::string { return JSEncode(fields->updateFieldState(req)); });
+  w.bind("cpp_getFieldStates", [fields](std::string req) -> std::string { return JSEncode(fields->getFieldStates()); });
 
-  w.bind("getStageErrors", [gameManager, &w](const std::string &args) -> std::string
-         { return JSEncode(gameManager->getStageErrors(parse_args(args))); });
+  std::cout << "Starting webview" << std::endl;
 
   w.run();
   return 0;
@@ -77,20 +74,15 @@ void onDocumentLoadCallback(const std::string /*&seq*/, const std::string &req, 
   webview::webview &w = *static_cast<webview::webview *>(arg);
 
   std::cout << "Received message from JS: " << req << std::endl;
-  w.eval("document.getElementById('title').innerHTML = 'Hello from C++';");
+  w.eval("console.log('Hello from C++! :)');");
   if (!__DEBUG__) {
     w.eval("window.addEventListener('contextmenu', (event) => event.preventDefault());"); // Prevents use of the context menu
   }
-  std::string js = loadStringFromFile(resourcesPath + "/assets/index.js");
-  std::cout << "JS: " << js << std::endl;
-  w.eval(js);
-  std::string css = loadStringFromFile(resourcesPath + "/assets/index.css");
-  std::cout << "CSS: " << css << std::endl;
-  w.eval("var style = document.createElement('style'); style.innerHTML = `" + css + "`; document.head.appendChild(style);");
-
 }
-std::string JSEncode(const std::string &message)
-{
+
+
+
+std::string JSEncode(const std::string& message) {
   return "\"" + base64_encode(message) + "\"";
   // return "";
 }
