@@ -10,7 +10,7 @@
     {
       "label": "build",
       "command": "cmake",
-      "args": ["--build", "build", "--clean-first"],
+      "args": ["--build", "build"],
       "type": "shell"
     },
     {

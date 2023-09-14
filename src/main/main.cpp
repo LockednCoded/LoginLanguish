@@ -20,7 +20,8 @@
 #include "main.h"
 #include "fields.h"
 #include "game_manager.h"
-#include "cpp-base64/base64.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
 #include "parse_args.h"
 
 std::string resourcesPath;
@@ -43,9 +44,12 @@ int main()
 
   webview::webview w(__DEBUG__, nullptr);
 
-  if (__DEBUG__) {
+  if (__DEBUG__)
+  {
     std::cout << "We're in debug mode" << std::endl;
-  } else {
+  }
+  else
+  {
     std::cout << "We're in release mode" << std::endl;
   }
 
@@ -53,12 +57,100 @@ int main()
   w.set_size(WINDOW_WIDTH, WINDOW_HEIGHT, WEBVIEW_HINT_FIXED);
   w.navigate("file://" + resourcesPath + "/index.html");
 
-  w.bind("documentLoadCallback", onDocumentLoadCallback, &w); 
+  w.bind("documentLoadCallback", onDocumentLoadCallback, &w);
 
   Fields *fields = new Fields();
+  GameManager *gameManager = new GameManager();
 
-  w.bind("cpp_updateFieldState", [fields](std::string req) -> std::string { return JSEncode(fields->updateFieldState(req)); });
-  w.bind("cpp_getFieldStates", [fields](std::string req) -> std::string { return JSEncode(fields->getFieldStates()); });
+  w.bind("cpp_setFieldState", [fields](std::string req) -> std::string
+         {
+  // Todo: parse field updates
+    std::vector<std::string> args = parseArgs(req);
+    // Log args
+    std::cout << "cpp_setFieldState args: ";
+    for (auto it = args.begin(); it != args.end(); ++it)
+    {
+      std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+    return ""; });
+
+  w.bind("cpp_getGameState", [gameManager](std::string req) -> std::string
+         {
+          rapidjson::Document document = gameManager->getGameState();
+          rapidjson::StringBuffer buffer;
+          rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+          document.Accept(writer);
+          std::string result = buffer.GetString();
+          std::cout << "cpp_getGameState result: " << result << std::endl;
+          std::string dummy = R"""(
+            {
+            "stage": 1,
+            "stages": [
+              {
+                "name": "name",
+                "state": {
+                  "firstName": {
+                    "value": "Joe",
+                    "errors": "",
+                    "disabled": false
+                  },
+                  "lastName": {
+                    "value": "Biden",
+                    "errors": "",
+                    "disabled": false
+                  }
+                }
+              },
+              {
+                "name": "credentials",
+                "state": {
+                  "username": {
+                    "value": "",
+                    "errors": "",
+                    "disabled": false
+                  },
+                  "password": {
+                    "value": "",
+                    "errors": "",
+                    "disabled": false
+                  }
+                }
+              },
+              {
+                "name": "extras",
+                "state": {
+                  "dob": {
+                    "value": "",
+                    "errors": "",
+                    "disabled": false
+                  },
+                  "tsAndCs": {
+                    "value": "false",
+                    "errors": "",
+                    "disabled": false
+                  }
+                }
+              },
+              {
+                "name": "txtcaptcha",
+                "state": {
+                  "txtcaptcha": {
+                    "value": "",
+                    "errors": "",
+                    "disabled": false
+                  }
+                }
+              }
+            ]
+          }
+          )""";
+          return JSEncode(dummy); });
+  w.bind("cpp_setNextStage", [gameManager](std::string req) -> std::string
+         {
+    // Todo: deal with progressing stage
+    std::cout << "cpp_setNextStage req: " << req << std::endl; 
+    return ""; });
 
   const std::vector<std::string> testArgs = {"test", "test2"};
   const std::string testArgsString = JSEncode(testArgs);
@@ -72,36 +164,16 @@ int main()
 
 /*!
  @brief loads html
- @details 
+ @details
 */
-void onDocumentLoadCallback(const std::string /*&seq*/, const std::string &req, void * arg) {
+void onDocumentLoadCallback(const std::string /*&seq*/, const std::string &req, void *arg)
+{
   webview::webview &w = *static_cast<webview::webview *>(arg);
 
   std::cout << "Received message from JS: " << req << std::endl;
   w.eval("console.log('Hello from C++! :)');");
-  if (!__DEBUG__) {
+  if (!__DEBUG__)
+  {
     w.eval("window.addEventListener('contextmenu', (event) => event.preventDefault());"); // Prevents use of the context menu
   }
-}
-
-
-
-std::string JSEncode(const std::string& message) {
-  return "\"" + base64_encode(message) + "\"";
-  // return "";
-}
-
-std::string JSEncode(const std::vector<std::string> &message)
-{
-  std::string result = "[";
-  for (auto it = message.begin(); it != message.end(); ++it)
-  {
-    result += "\"" + base64_encode(*it) + "\"";
-    if (it != message.end() - 1)
-    {
-      result += ",";
-    }
-  }
-  result += "]";
-  return result;
 }

@@ -14,3 +14,6 @@
  @return file content
 */
 std::string loadStringFromFile(std::string filepath);
+
+std::string JSEncode(const std::string &message);
+std::string JSEncode(const std::vector<std::string> &message);

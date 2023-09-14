@@ -3,7 +3,7 @@
 #include "stages/credentials_stage.h"
 #include "stages/details_stage.h"
 #include "stages/txt_captcha_stage.h"
-
+#include "rapidjson/document.h"
 
 GameManager::GameManager()
 {
@@ -32,4 +32,17 @@ void GameManager::updateStage(std::vector<std::string> args)
 
 std::string GameManager::getStageErrors(std::vector<std::string> args) {
     return current_stage->getStageErrors(args);
+}
+
+rapidjson::Document GameManager::getGameState()
+{
+    rapidjson::Document document;
+    document.SetObject();
+    for (auto stage : stages)
+    {
+        rapidjson::Value stageState = stage->getStageState(document.GetAllocator());
+        rapidjson::Value stageNameValue(stage->getStageName().c_str(), document.GetAllocator());
+        document.AddMember(stageNameValue, stageState, document.GetAllocator());
+    }
+    return document;
 }

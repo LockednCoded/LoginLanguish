@@ -3,4 +3,4 @@
 #include <string>
 #include <vector>
 
-std::vector<std::string> parse_args(std::string args);
+std::vector<std::string> parseArgs(std::string args);

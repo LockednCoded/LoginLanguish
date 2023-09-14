@@ -22,3 +22,19 @@ std::string NameStage::getStageName()
 {
     return "name";
 }
+
+rapidjson::Value NameStage::getStageState(rapidjson::Document::AllocatorType &allocator)
+{
+    rapidjson::Value stageState(rapidjson::kObjectType);
+    rapidjson::Value firstnameObj(rapidjson::kObjectType);
+    rapidjson::Value firstnameValue(first_name.c_str(), allocator);
+    firstnameObj.AddMember("value", firstnameValue, allocator);
+    rapidjson::Value firstnameErrors(getStageErrors({"firstName"}).c_str(), allocator);
+    firstnameObj.AddMember("errors", firstnameErrors, allocator);
+    rapidjson::Value lastnameObj(rapidjson::kObjectType);
+    rapidjson::Value lastnameValue(last_name.c_str(), allocator);
+    lastnameObj.AddMember("value", lastnameValue, allocator);
+    rapidjson::Value lastnameErrors(getStageErrors({"lastName"}).c_str(), allocator);
+    lastnameObj.AddMember("errors", lastnameErrors, allocator);
+    return stageState;
+};
