@@ -7,6 +7,12 @@ bool CredentialsStage::validateStage()
 
 std::string CredentialsStage::getStageErrors(std::vector<std::string> args)
 {
+    if (args[0].compare("password") == 0){
+        // password puzzles
+        if (password.compare("ps") == 0)
+            return "cannot be 'ps'.";
+        
+    }
     return "password is:" + password;
 }
 
