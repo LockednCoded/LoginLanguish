@@ -60,6 +60,10 @@ int main()
   w.bind("cpp_updateFieldState", [fields](std::string req) -> std::string { return JSEncode(fields->updateFieldState(req)); });
   w.bind("cpp_getFieldStates", [fields](std::string req) -> std::string { return JSEncode(fields->getFieldStates()); });
 
+  const std::vector<std::string> testArgs = {"test", "test2"};
+  const std::string testArgsString = JSEncode(testArgs);
+  std::cout << "testArgsString: " << testArgsString << std::endl;
+
   std::cout << "Starting webview" << std::endl;
 
   w.run();
@@ -85,4 +89,19 @@ void onDocumentLoadCallback(const std::string /*&seq*/, const std::string &req, 
 std::string JSEncode(const std::string& message) {
   return "\"" + base64_encode(message) + "\"";
   // return "";
+}
+
+std::string JSEncode(const std::vector<std::string> &message)
+{
+  std::string result = "[";
+  for (auto it = message.begin(); it != message.end(); ++it)
+  {
+    result += "\"" + base64_encode(*it) + "\"";
+    if (it != message.end() - 1)
+    {
+      result += ",";
+    }
+  }
+  result += "]";
+  return result;
 }

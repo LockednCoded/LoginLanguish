@@ -39,3 +39,4 @@ int main();
 void onDocumentLoadCallback(const std::string /*&seq*/, const std::string &req, void * /*arg*/);
 
 std::string JSEncode(const std::string& message);
+std::string JSEncode(const std::vector<std::string> &message);
