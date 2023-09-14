@@ -9,11 +9,23 @@ std::string CredentialsStage::getStageErrors(std::vector<std::string> args)
 {
     if (args[0].compare("password") == 0){
         // password puzzles
-        if (password.compare("ps") == 0)
-            return "cannot be 'ps'.";
-        
+        if (password.length() < 8)
+            return "Password must include 8 or more characters.";
+        if (password.find_first_of("ABCDEFGHIJKLMNOPQRSTUVWXYZ") != std::string::npos)
+            return "Password must include atleast one capital letter (A-Z).";
+        if (password.find_first_of("0123456789") != std::string::npos)
+            return "Password must include atleast one digit (0-9).";
+        bool containsSymbol = false;
+        for (char c : password){
+            if (!std::isalnum(c)){
+                containsSymbol = true;
+                break;
+            }
+        }
+        if (!containsSymbol)
+            return "Password must include atleast one special character.";
     }
-    return "password is:" + password;
+    return "password is: " + password;
 }
 
 void CredentialsStage::updateStage(std::vector<std::string> args)
