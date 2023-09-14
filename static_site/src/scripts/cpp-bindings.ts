@@ -1,73 +1,98 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 declare global {
   interface Window {
-    cpp_getFieldStates(): Promise<string>;
-    cpp_updateFieldState(field: string, value: string): Promise<string>;
+    cpp_getGameState(): Promise<string>;
+    cpp_setFieldState(
+      stage: Stage,
+      fieldName: string,
+      value: string
+    ): Promise<string>;
+    cpp_setNextStage(): Promise<void>;
   }
 }
+type Stage = 0 | 1 | 2 | 3;
+export const NameStage = 0;
+export const CredentialsStage = 1;
+export const ExtrasStage = 2;
+export const TxtcaptchaStage = 3;
 
 type Field = {
   value: string;
-  error: string;
-  // disabled: boolean;
+  errors: string;
+  disabled: boolean;
 };
 
-type FieldKeys =
-  | "firstName"
-  | "lastName"
-  | "username"
-  | "password"
-  | "dob"
-  | "txtcaptcha";
-
-type FieldState = {
-  [fieldKey in FieldKeys]: Field;
-} & {
-  __serialized: string;
+type GameState = {
+  stage: Stage;
+  canProgress: boolean;
+  stages: [
+    {
+      name: "name";
+      state: {
+        firstName: Field;
+        lastName: Field;
+      };
+    },
+    {
+      name: "credentials";
+      state: {
+        username: Field;
+        password: Field;
+      };
+    },
+    {
+      name: "extras";
+      state: {
+        dob: Field;
+        tsAndCs: Field;
+      };
+    },
+    {
+      name: "txtcaptcha";
+      state: {
+        txtcaptcha: Field;
+      };
+    }
+  ];
 };
-
-const emptyFieldState = Object.fromEntries([
-  ...["firstName", "lastName", "username", "password", "dob", "txtcaptcha"].map(
-    (field) => [
-      field,
-      {
-        value: "",
-        error: "",
-        // disabled: false,
-      },
-    ]
-  ),
-  ["__serialized", ""],
-]) as FieldState;
 
 export function useBindings() {
-  const [fieldStates, setFieldStates] = useState(emptyFieldState);
+  const [gameState, setGameState] = useState<GameState>(null);
 
-  const updateFieldStates = useCallback(async () => {
-    const newFieldStateJSON = atob(await window.cpp_getFieldStates());
-    console.log(newFieldStateJSON);
-    if (newFieldStateJSON === fieldStates.__serialized) return;
-    const newFieldState = {
-      ...fieldStates,
-      ...JSON.parse(newFieldStateJSON),
-      __serialized: newFieldStateJSON,
-    } as FieldState;
-    console.log(newFieldState);
-    setFieldStates(newFieldState);
-  }, [fieldStates.__serialized]);
+  useEffect(() => {
+    getGameState();
+  }, []);
 
-  const updateFieldState = useCallback(
-    async (field: keyof FieldState, value: string) => {
-      if (atob(await window.cpp_updateFieldState(field, value)) == "true") {
-        await updateFieldStates();
-      }
+  const getGameState = useCallback(async () => {
+    const newGameState = atob(await window.cpp_getGameState());
+    console.log({ newGameState: JSON.parse(newGameState) as GameState });
+    setGameState(JSON.parse(newGameState) as GameState);
+  }, []);
+
+  const setFieldState = useCallback(
+    async (stage: Stage, fieldName: string, value: string) => {
+      await window.cpp_setFieldState(stage, fieldName, value);
     },
-    [updateFieldStates]
+    []
   );
 
+  const updateFieldState = useCallback(
+    async (stage: Stage, fieldName: string, value: string) => {
+      await setFieldState(stage, fieldName, value);
+      await getGameState();
+    },
+    []
+  );
+  const nextBtnClick = useCallback(async () => {
+    await window.cpp_setNextStage();
+    await getGameState();
+  }, []);
+
   return {
-    fieldStates,
+    gameState,
+    setFieldState,
     updateFieldState,
+    nextBtnClick,
   };
 }

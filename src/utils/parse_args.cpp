@@ -1,7 +1,7 @@
 #include "parse_args.h"
 #include <sstream>
 
-std::vector<std::string> parse_args(std::string args)
+std::vector<std::string> parseArgs(std::string args)
 {
     std::vector<std::string> parsed_args;
     
