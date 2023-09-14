@@ -24,12 +24,14 @@ rapidjson::Value TxtCaptchaStage::getStageState(rapidjson::Document::AllocatorTy
 {
     rapidjson::Value stageState(rapidjson::kObjectType);
     rapidjson::Value usernameObj(rapidjson::kObjectType);
-    usernameObj.AddMember("value", username, allocator);
-    usernameObj.AddMember("errors", getStageErrors({"username"}), allocator);
-    stageState.AddMember("firstName", usernameObj, allocator);
+    rapidjson::Value usernameValue(username.c_str(), allocator);
+    usernameObj.AddMember("value", usernameValue, allocator);
+    rapidjson::Value usernameErrors(getStageErrors({"username"}).c_str(), allocator);
+    usernameObj.AddMember("errors", usernameErrors, allocator);
     rapidjson::Value passwordObj(rapidjson::kObjectType);
-    passwordObj.AddMember("value", password, allocator);
-    passwordObj.AddMember("errors", getStageErrors({"password"}), allocator);
-    stageState.AddMember("lastName", passwordObj, allocator);
+    rapidjson::Value passwordValue(password.c_str(), allocator);
+    passwordObj.AddMember("value", passwordValue, allocator);
+    rapidjson::Value passwordErrors(getStageErrors({"password"}).c_str(), allocator);
+    passwordObj.AddMember("errors", passwordErrors, allocator);
     return stageState;
 };

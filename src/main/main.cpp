@@ -73,7 +73,9 @@ int main()
           rapidjson::StringBuffer buffer;
           rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
           document.Accept(writer);
-          return JSEncode(document.GetString()); });
+          std::string result = buffer.GetString();
+          std::cout << "cpp_getGameState result: " << result << std::endl;
+          return JSEncode(result); });
 
   const std::vector<std::string> testArgs = {"test", "test2"};
   const std::string testArgsString = JSEncode(testArgs);

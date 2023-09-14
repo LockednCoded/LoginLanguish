@@ -41,7 +41,9 @@ rapidjson::Document GameManager::getGameState()
     for (auto stage : stages)
     {
         rapidjson::Value stageState = stage->getStageState(document.GetAllocator());
-        document.AddMember(rapidjson::StringRef(stage->getStageName().c_str()), stageState, document.GetAllocator());
+        const char *stageName = stage->getStageName().c_str();
+        rapidjson::Value stageNameValue(stageName, document.GetAllocator());
+        document.AddMember(stageNameValue, stageState, document.GetAllocator());
     }
     return document;
 }

@@ -11,6 +11,6 @@ public:
     rapidjson::Value getStageState(rapidjson::Document::AllocatorType &allocator);
 
 private:
-    std::string username;
-    std::string password;
+    std::string username = "";
+    std::string password = "";
 };
