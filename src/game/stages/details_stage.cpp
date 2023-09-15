@@ -11,7 +11,7 @@ std::vector<std::string> DetailsStage::getStageErrors(std::vector<std::string> a
     return errors;
 }
 
-void DetailsStage::updateStage(std::vector<std::string> args)
+void DetailsStage::updateField(std::string field, std::string value)
 {
     
 }

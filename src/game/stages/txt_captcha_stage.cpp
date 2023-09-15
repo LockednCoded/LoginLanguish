@@ -11,7 +11,7 @@ std::vector<std::string> TxtCaptchaStage::getStageErrors(std::vector<std::string
     return errors;
 }
 
-void TxtCaptchaStage::updateStage(std::vector<std::string> args)
+void TxtCaptchaStage::updateField(std::string field, std::string value)
 {
     
 }

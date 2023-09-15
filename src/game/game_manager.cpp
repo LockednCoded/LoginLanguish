@@ -8,10 +8,22 @@
 GameManager::GameManager()
 {
     stage_index = 0;
-    stages.push_back(new NameStage());
-    stages.push_back(new CredentialsStage());
-    stages.push_back(new DetailsStage());
-    stages.push_back(new TxtCaptchaStage());
+
+    Stage *name_stage = new NameStage();
+    Stage *credentials_stage = new CredentialsStage();
+    Stage *details_stage = new DetailsStage();
+    Stage *txt_captcha_stage = new TxtCaptchaStage();
+
+    stages.push_back(name_stage);
+    stages.push_back(credentials_stage);
+    stages.push_back(details_stage);
+    stages.push_back(txt_captcha_stage);
+
+    stages_map["name"] = name_stage;
+    stages_map["credentials"] = credentials_stage;
+    stages_map["details"] = details_stage;
+    stages_map["txt_captcha"] = txt_captcha_stage;
+
     current_stage = stages[stage_index];
 }
 
@@ -25,9 +37,12 @@ std::string GameManager::getNextStage()
     return current_stage->getStageName();
 }
 
-void GameManager::updateStage(std::vector<std::string> args)
+void GameManager::updateField(std::vector<std::string> args)
 {
-    current_stage->updateStage(args);
+    std::string stage = args[0];
+    std::string field = args[1];
+    std::string value = args[2];
+    stages_map[stage]->updateField(field, value);
 }
 
 std::vector<std::string> GameManager::getStageErrors(std::vector<std::string> args) {

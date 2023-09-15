@@ -9,7 +9,7 @@ class Stage
 public:
     virtual bool validateStage() = 0;
     virtual std::vector<std::string> getStageErrors(std::vector<std::string> args) = 0;
-    virtual void updateStage(std::vector<std::string> args) = 0;
+    virtual void updateField(std::string field, std::string value) = 0;
     virtual std::string getStageName() = 0;
     rapidjson::Value getStageState(rapidjson::Document::AllocatorType &allocator);
     

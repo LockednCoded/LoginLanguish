@@ -11,12 +11,12 @@ std::vector<std::string> NameStage::getStageErrors(std::vector<std::string> args
     return errors;
 }
 
-void NameStage::updateStage(std::vector<std::string> args)
+void NameStage::updateField(std::string field, std::string value)
 {
-    if (args[0].compare("firstName") == 0)
-        first_name = args[1];
-    else if (args[0].compare("lastName") == 0)
-        last_name = args[1];
+    if (field.compare("firstName") == 0)
+        first_name = value;
+    else if (field.compare("lastName") == 0)
+        last_name = value;
 }
 
 std::string NameStage::getStageName()

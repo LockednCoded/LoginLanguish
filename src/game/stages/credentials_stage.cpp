@@ -12,12 +12,12 @@ std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::strin
     return errors;
 }
 
-void CredentialsStage::updateStage(std::vector<std::string> args)
+void CredentialsStage::updateField(std::string field, std::string value)
 {
-    if (args[0].compare("username") == 0)
-        username = args[1];
-    else if (args[0].compare("password") == 0)
-        password = args[1];
+    if (field.compare("username") == 0)
+        username = value;
+    else if (field.compare("password") == 0)
+        password = value;
 }
 
 std::string CredentialsStage::getStageName()
