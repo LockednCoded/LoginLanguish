@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <string>
+
 #include "stages/credentials_stage.h"
 
 namespace {
@@ -27,38 +28,44 @@ namespace {
 
 TEST_F(CredentialsStageTest, EmptyPassword) {
     std::string password = "";
-    std::string result = stage->getStageErrors({"password", password});
-    EXPECT_TRUE(result.compare(password) == 0);
+    std::vector<std::string> expected;
+    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    EXPECT_TRUE(result == expected);
 }
 
 TEST_F(CredentialsStageTest, ShortPassword) {
     std::string password = "Pass";
-    std::string result = stage->getStageErrors({"password", password});
-    EXPECT_TRUE(result.compare(stage->tooShortError) == 0);
+    std::vector<std::string> expected = {stage->tooShortError};
+    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    EXPECT_TRUE(result == expected);
 }
 
 TEST_F(CredentialsStageTest, PasswordWithoutCapital) {
     std::string password = "password";
-    std::string result = stage->getStageErrors({"password", password});
-    EXPECT_TRUE(result.compare(stage->missingUppercaseError) == 0);
+    std::vector<std::string> expected = {stage->missingUppercaseError};
+    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    EXPECT_TRUE(result == expected);
 }
 
 TEST_F(CredentialsStageTest, PasswordWithoutDigit) {
     std::string password = "Password";
-    std::string result = stage->getStageErrors({"password", password});
-    EXPECT_TRUE(result.compare(stage->missingDigitError) == 0);
+    std::vector<std::string> expected = {stage->missingDigitError};
+    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    EXPECT_TRUE(result == expected);
 }
 
 TEST_F(CredentialsStageTest, PasswordWithoutSpecial) {
     std::string password = "Password123";
-    std::string result = stage->getStageErrors({"password", password});
-    EXPECT_TRUE(result.compare(stage->missingSpecialError) == 0);
+    std::vector<std::string> expected = {stage->missingSpecialError};
+    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    EXPECT_TRUE(result == expected);
 }
 
 TEST_F(CredentialsStageTest, ValidPassword) {
-    std::string password = "Password-12";
-    std::string result = stage->getStageErrors({"password", password});
-    EXPECT_TRUE(result.compare(password) == 0);
+    std::string password = "Password-123";
+    std::vector<std::string> expected;
+    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    EXPECT_TRUE(result == expected);
 }
 
 

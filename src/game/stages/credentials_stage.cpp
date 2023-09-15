@@ -35,25 +35,20 @@ std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::strin
             }
         }
 
-        // empty password
-        if (password.length() == 0)
-            return errors;
-        // minimum length
-        if (password.length() < 8)
-            errors.push_back(tooShortError); 
-        // contains an uppercase letter
-        if (numUppercase < 1)
-            errors.push_back(missingUppercaseError);
-        // contains a digit
-        if (numDigits < 1)
-            errors.push_back(missingDigitError);
-        // contains a special character    
-        if (!containsSpecial)
-            errors.push_back(missingSpecialError);
         
-        // maximum length
-        if (password.length() > 12)
+        if (password.length() == 0){        // empty password
+            return errors;
+        } else if (password.length() < 8){  // minimum length not reached
+            errors.push_back(tooShortError); 
+        } else if (numUppercase < 1){       // contains an uppercase letter
+            errors.push_back(missingUppercaseError);
+        } else if (numDigits < 1){          // contains a digit
+            errors.push_back(missingDigitError);
+        } else if (!containsSpecial){        // contains a special character  
+            errors.push_back(missingSpecialError);
+        } else if (password.length() > 12){ // maximum length exceeded
             errors.push_back(tooLongError);
+        }
     }
     return errors;
 }
