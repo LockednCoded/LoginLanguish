@@ -1,7 +1,10 @@
 #include "credentials_stage.h"
 #include <vector>
+#include <iostream>
 
 bool isPalindrome(const std::string& str);
+bool isPrime(int n);
+bool hasPrime(const std::string& input);
 
 bool CredentialsStage::validateStage()
 {
@@ -14,15 +17,16 @@ std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::strin
     std::string password = args[1];
     // password puzzles
     if (args[0].compare("password") == 0){
-        int numDigits = 0;
-        int numLowercase = 0;
-        int numUppercase = 0;
-        bool containsSpecial = false;
         std::string digits = "0123456789";
         std::string lowercase = "abcdefghijklmnopqrstuvwxyz";
         std::string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         std::string special = "!@#$%^&*()-_=+[]{}\\|;:'\",.<>/?`~";
         std::string roman = "IVXLCDM";
+
+        // int numDigits = 0;
+        // int numLowercase = 0;
+        // int numUppercase = 0;
+        // bool containsSpecial = false;
 
         // iterate through password and update fields
         // for (char c : password){
@@ -52,7 +56,7 @@ std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::strin
             errors.push_back(missingLowercaseError);
         } else if (password.find_first_of(special) == std::string::npos){       // missing special character(s)
             errors.push_back(missingSpecialError);
-        } else if (password.find_first_of(roman) == std::string::npos){
+        } else if (password.find_first_of(roman) == std::string::npos){         // missing Roman numeral(s)
             errors.push_back(missingRomanNumError);
         } else if (!isPalindrome(password)){                                    // is not a palindrome
             errors.push_back(notPalindromeError);
@@ -92,15 +96,52 @@ rapidjson::Value CredentialsStage::getFieldStates(rapidjson::Document::Allocator
 }
 
 
-bool isPalindrome(const std::string& str) {
+// helper function to check if a string (input) is a palindrome.
+bool isPalindrome(const std::string& input){
     // find midpoint of the password
-    int midpoint = str.length() / 2;
+    int midpoint = input.length() / 2;
     
     // check if the first half is the same as the second half reversed
     for (int i = 0; i < midpoint; i++) {
-        if (str[i] != str[str.length() - i - 1]) {
+        if (input[i] != input[input.length() - i - 1]) {
             return false;
         }
     }
     return true;
+}
+
+// helper function to check if an int (n) is prime.
+bool isPrime(int n){
+    if (n <= 1) return false;
+    if (n <= 3) return true;
+    if (n % 2 == 0 || n % 3 == 0) return false;
+
+    for (int i = 5; i * i <= n; i += 6) {
+        if (n % i == 0 || n % (i + 2) == 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// helper function to check if a string (input) contains any prime numbers.
+bool hasPrime(const std::string& input){
+    std::string numStr;
+    // iterate through string and extract digits
+    for (char c : input){
+        if (isdigit(c))
+            numStr += c;
+    }
+    std::cout << numStr;
+
+    for (int front = 0; front < numStr.length()-1; front++){
+        for (int back = front+1; back < numStr.length(); back++){
+            std::string subStr = input.substr(front, back+1);
+            std::cout << subStr;
+            int num = std::stoi(subStr);
+            if (isPrime(num))
+                return true;
+        }
+    }
+    return false;
 }

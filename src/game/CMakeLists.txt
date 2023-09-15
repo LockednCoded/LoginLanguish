@@ -1,6 +1,4 @@
-set(source_list "password_validator.cpp"
-                "password_validator.h"
-                "game_manager.cpp"
+set(source_list "game_manager.cpp"
                 "game_manager.h"
                 "stages/stage.h"
                 "stages/stage.cpp"

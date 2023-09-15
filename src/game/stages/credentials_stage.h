@@ -20,7 +20,6 @@ public:
     std::string missingRomanNumError = "Pasword must include atleast one Roman numeral.";
     std::string notPalindromeError = "Password must be a palindrome.";
     std::string tooLongError = "Password must be 12 or less characters."; // "Maximum password length exceeded"?
-    
 
 protected:
     std::string name = "credentials";

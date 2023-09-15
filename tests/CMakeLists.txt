@@ -1,7 +1,6 @@
 find_package(GTest CONFIG REQUIRED)
 
 set(TEST_SOURCES    "test.cpp"
-                    "password_validator_test.cpp"
                     "credentials_stage_test.cpp")
 
 add_executable("${APP_NAME}_tests" ${TEST_SOURCES})
