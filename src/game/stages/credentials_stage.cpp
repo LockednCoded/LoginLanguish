@@ -9,25 +9,42 @@ std::string CredentialsStage::getStageErrors(std::vector<std::string> args)
 {
     // password puzzles
     if (args[0].compare("password") == 0){
+        int numDigits = 0;
+        int numLowercase = 0;
+        int numUppercase = 0;
+        bool containsSpecial = false;
+        std::string digits = "0123456789";
+        std::string lowercase = "abcdefghijklmnopqrstuvwxyz";
+        std::string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        // iterate through password and update fields
+        for (char c : password){
+            if (lowercase.find(c) != std::string::npos){        // char is lowercase
+                numLowercase++;
+                continue;
+            } else if (uppercase.find(c) != std::string::npos){ // char is uppercase
+                numUppercase++;
+                continue;
+            } else if (digits.find(c) != std::string::npos){    // char is digit
+                numDigits++;
+                continue;
+            } else {                                            // char is special character
+                containsSpecial = true;
+            }
+        }
+
         // minimum length
         if (password.length() < 8)
             return "Password must include 8 or more characters."; // "Minimum password length not yet reached"?
-        // contains a capital letter
-        if (password.find_first_of("ABCDEFGHIJKLMNOPQRSTUVWXYZ") != std::string::npos)
-            return "Password must include atleast one capital letter (A-Z).";
+        // contains an uppercase letter
+        if (numUppercase < 1)
+            return "Password must include atleast one uppercase letter (A-Z).";
         // contains a digit
-        if (password.find_first_of("0123456789") != std::string::npos)
+        if (numDigits < 1)
             return "Password must include atleast one digit (0-9).";
-        // conatins a special character    
-        bool containsSymbol = false;
-        for (char c : password){
-            if (!std::isalnum(c)){
-                containsSymbol = true;
-                break;
-            }
-        }
-        if (!containsSymbol)
+        // contains a special character    
+        if (!containsSpecial)
             return "Password must include atleast one special character.";
+        
         // maximum length
         if (password.length() > 12)
             return "Password must be 12 or less characters."; // "Maximum password length exceeded"?
