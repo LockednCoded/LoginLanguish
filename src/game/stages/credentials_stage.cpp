@@ -1,6 +1,8 @@
 #include "credentials_stage.h"
 #include <vector>
 
+bool isPalindrome(const std::string& str);
+
 bool CredentialsStage::validateStage()
 {
     return true;
@@ -19,6 +21,7 @@ std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::strin
         std::string digits = "0123456789";
         std::string lowercase = "abcdefghijklmnopqrstuvwxyz";
         std::string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        std::string special = "`~!@#$%^&*()-_=+[]{}\\|;:'\",.<>/?";
         // iterate through password and update fields
         for (char c : password){
             if (lowercase.find(c) != std::string::npos){        // char is lowercase
@@ -35,18 +38,19 @@ std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::strin
             }
         }
 
-        
-        if (password.length() == 0){        // empty password
+        if (password.length() == 0){            // empty password
             return errors;
-        } else if (password.length() < 8){  // minimum length not reached
+        } else if (password.length() < 8){      // minimum length not reached
             errors.push_back(tooShortError); 
-        } else if (numUppercase < 1){       // contains an uppercase letter
+        } else if (numUppercase < 1){           // contains an uppercase letter
             errors.push_back(missingUppercaseError);
-        } else if (numDigits < 1){          // contains a digit
+        } else if (numDigits < 1){              // contains a digit
             errors.push_back(missingDigitError);
-        } else if (!containsSpecial){        // contains a special character  
+        } else if (!containsSpecial){           // contains a special character  
             errors.push_back(missingSpecialError);
-        } else if (password.length() > 12){ // maximum length exceeded
+        } else if (!isPalindrome(password)){    // is not a palindrome
+            errors.push_back(notPalindromeError);
+        } else if (password.length() > 12){     // maximum length exceeded
             errors.push_back(tooLongError);
         }
     }
@@ -79,4 +83,18 @@ rapidjson::Value CredentialsStage::getFieldStates(rapidjson::Document::Allocator
     fieldStates.AddMember("password", passwordObj, allocator);
 
     return fieldStates;
+}
+
+
+bool isPalindrome(const std::string& str) {
+    // find midpoint of the password
+    int midpoint = str.length() / 2;
+    
+    // check if the first half is the same as the second half reversed
+    for (int i = 0; i < midpoint; i++) {
+        if (str[i] != str[str.length() - i - 1]) {
+            return false;
+        }
+    }
+    return true;
 }

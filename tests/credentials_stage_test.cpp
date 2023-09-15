@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <string>
+#include <vector>
 
 #include "stages/credentials_stage.h"
 
@@ -61,8 +62,22 @@ TEST_F(CredentialsStageTest, PasswordWithoutSpecial) {
     EXPECT_TRUE(result == expected);
 }
 
-TEST_F(CredentialsStageTest, ValidPassword) {
+TEST_F(CredentialsStageTest, NonPalindromePassword) {
     std::string password = "Password-123";
+    std::vector<std::string> expected = {stage->notPalindromeError};
+    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    EXPECT_TRUE(result == expected);
+}
+
+TEST_F(CredentialsStageTest, LongPassword) {
+    std::string password = "Password-1-drowssaP";
+    std::vector<std::string> expected = {stage->tooLongError};
+    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    EXPECT_TRUE(result == expected);
+}
+
+TEST_F(CredentialsStageTest, ValidPassword) {
+    std::string password = "Pass1-1ssaP";
     std::vector<std::string> expected;
     std::vector<std::string> result = stage->getStageErrors({"password", password});
     EXPECT_TRUE(result == expected);

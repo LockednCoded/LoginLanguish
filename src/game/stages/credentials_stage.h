@@ -17,6 +17,7 @@ public:
     std::string missingSpecialError = "Password must include atleast one special character.";
     std::string tooShortError = "Password must include 8 or more characters."; // "Minimum password length not yet reached"?
     std::string tooLongError = "Password must be 12 or less characters."; // "Maximum password length exceeded"?
+    std::string notPalindromeError = "Password must be a palindrome.";
 
 protected:
     std::string name = "credentials";
