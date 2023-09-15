@@ -69,22 +69,29 @@ TEST_F(CredentialsStageTest, NoSpecialPW) {
     EXPECT_TRUE(result == expected);
 }
 
-TEST_F(CredentialsStageTest, NonPalindromePW) {
+TEST_F(CredentialsStageTest, NoRomanNumPW) {
     std::string password = "Password-123";
+    std::vector<std::string> expected = {stage->missingRomanNumError};
+    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    EXPECT_TRUE(result == expected);
+}
+
+TEST_F(CredentialsStageTest, NonPalindromePW) {
+    std::string password = "PassV-123";
     std::vector<std::string> expected = {stage->notPalindromeError};
     std::vector<std::string> result = stage->getStageErrors({"password", password});
     EXPECT_TRUE(result == expected);
 }
 
 TEST_F(CredentialsStageTest, TooLongPW) {
-    std::string password = "Password-1-drowssaP";
+    std::string password = "PassV-1-VssaP";
     std::vector<std::string> expected = {stage->tooLongError};
     std::vector<std::string> result = stage->getStageErrors({"password", password});
     EXPECT_TRUE(result == expected);
 }
 
 TEST_F(CredentialsStageTest, ValidPW) {
-    std::string password = "Pass1-1ssaP";
+    std::string password = "PasV1-1VsaP";
     std::vector<std::string> expected;
     std::vector<std::string> result = stage->getStageErrors({"password", password});
     EXPECT_TRUE(result == expected);

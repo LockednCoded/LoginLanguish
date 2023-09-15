@@ -23,7 +23,7 @@ std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::strin
         std::string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         std::string special = "!@#$%^&*()-_=+[]{}\\|;:'\",.<>/?`~";
         std::string roman = "IVXLCDM";
-        
+
         // iterate through password and update fields
         // for (char c : password){
         //     if (lowercase.find(c) != std::string::npos){        // char is lowercase
@@ -52,6 +52,8 @@ std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::strin
             errors.push_back(missingLowercaseError);
         } else if (password.find_first_of(special) == std::string::npos){       // missing special character(s)
             errors.push_back(missingSpecialError);
+        } else if (password.find_first_of(roman) == std::string::npos){
+            errors.push_back(missingRomanNumError);
         } else if (!isPalindrome(password)){                                    // is not a palindrome
             errors.push_back(notPalindromeError);
         } else if (password.length() > 12){                                     // maximum length exceeded
