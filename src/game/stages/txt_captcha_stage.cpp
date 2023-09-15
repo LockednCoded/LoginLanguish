@@ -13,7 +13,10 @@ std::vector<std::string> TxtCaptchaStage::getStageErrors(std::vector<std::string
 
 void TxtCaptchaStage::updateField(std::string field, std::string value)
 {
-    
+    if (field.compare("txtcaptcha") == 0)
+        txt_captcha = value;
+    else if (field.compare("imageURL") == 0)
+        image_url = value;
 }
 
 std::string TxtCaptchaStage::getStageName()
