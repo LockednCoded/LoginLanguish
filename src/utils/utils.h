@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 /*!
  @brief loads content from specified file to a string

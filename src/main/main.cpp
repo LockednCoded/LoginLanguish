@@ -14,6 +14,7 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <vector>
 #include "webview.h"
 #include "compatibility_utils.h"
 #include "utils.h"
