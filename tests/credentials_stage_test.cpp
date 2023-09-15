@@ -8,10 +8,12 @@ protected:
 
     // set up a test environment before each test case
     void SetUp() override {
+        stage = new CredentialsStage();
     }
 
     // tear down a test environment after each test case
     void TearDown() override {
+        delete stage;
     }
 };
 
