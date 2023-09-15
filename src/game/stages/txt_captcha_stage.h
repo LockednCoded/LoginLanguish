@@ -12,6 +12,6 @@ protected:
     std::string name = "txtcaptcha";
     rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator);
 private:
-    std::string username = "";
-    std::string password = "";
+    std::string txt_captcha = "";
+    std::string image_url = "";
 };
