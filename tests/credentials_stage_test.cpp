@@ -27,56 +27,63 @@ namespace {
 
 
 
-TEST_F(CredentialsStageTest, EmptyPassword) {
+TEST_F(CredentialsStageTest, EmptyPW) {
     std::string password = "";
     std::vector<std::string> expected;
     std::vector<std::string> result = stage->getStageErrors({"password", password});
     EXPECT_TRUE(result == expected);
 }
 
-TEST_F(CredentialsStageTest, ShortPassword) {
+TEST_F(CredentialsStageTest, TooShortPW) {
     std::string password = "Pass";
     std::vector<std::string> expected = {stage->tooShortError};
     std::vector<std::string> result = stage->getStageErrors({"password", password});
     EXPECT_TRUE(result == expected);
 }
 
-TEST_F(CredentialsStageTest, PasswordWithoutCapital) {
-    std::string password = "password";
-    std::vector<std::string> expected = {stage->missingUppercaseError};
-    std::vector<std::string> result = stage->getStageErrors({"password", password});
-    EXPECT_TRUE(result == expected);
-}
-
-TEST_F(CredentialsStageTest, PasswordWithoutDigit) {
+TEST_F(CredentialsStageTest, NoDigitPW) {
     std::string password = "Password";
     std::vector<std::string> expected = {stage->missingDigitError};
     std::vector<std::string> result = stage->getStageErrors({"password", password});
     EXPECT_TRUE(result == expected);
 }
 
-TEST_F(CredentialsStageTest, PasswordWithoutSpecial) {
+TEST_F(CredentialsStageTest, NoUppercasePW) {
+    std::string password = "password123";
+    std::vector<std::string> expected = {stage->missingUppercaseError};
+    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    EXPECT_TRUE(result == expected);
+}
+
+TEST_F(CredentialsStageTest, NoLowercasePW) {
+    std::string password = "PASSWORD123";
+    std::vector<std::string> expected = {stage->missingLowercaseError};
+    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    EXPECT_TRUE(result == expected);
+}
+
+TEST_F(CredentialsStageTest, NoSpecialPW) {
     std::string password = "Password123";
     std::vector<std::string> expected = {stage->missingSpecialError};
     std::vector<std::string> result = stage->getStageErrors({"password", password});
     EXPECT_TRUE(result == expected);
 }
 
-TEST_F(CredentialsStageTest, NonPalindromePassword) {
+TEST_F(CredentialsStageTest, NonPalindromePW) {
     std::string password = "Password-123";
     std::vector<std::string> expected = {stage->notPalindromeError};
     std::vector<std::string> result = stage->getStageErrors({"password", password});
     EXPECT_TRUE(result == expected);
 }
 
-TEST_F(CredentialsStageTest, LongPassword) {
+TEST_F(CredentialsStageTest, TooLongPW) {
     std::string password = "Password-1-drowssaP";
     std::vector<std::string> expected = {stage->tooLongError};
     std::vector<std::string> result = stage->getStageErrors({"password", password});
     EXPECT_TRUE(result == expected);
 }
 
-TEST_F(CredentialsStageTest, ValidPassword) {
+TEST_F(CredentialsStageTest, ValidPW) {
     std::string password = "Pass1-1ssaP";
     std::vector<std::string> expected;
     std::vector<std::string> result = stage->getStageErrors({"password", password});
