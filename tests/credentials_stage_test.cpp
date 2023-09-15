@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
 #include <string>
-#include "credentials_stage.h"
+#include "stages/credentials_stage.h"
 
 class CredentialsStageTest : public testing::Test {
 protected:
-    CredentialsStage stage;
+    CredentialsStage *stage;
 
     // set up a test environment before each test case
     void SetUp() override {
