@@ -1,4 +1,5 @@
 #include "credentials_stage.h"
+#include <vector>
 
 bool CredentialsStage::validateStage()
 {
@@ -38,20 +39,20 @@ std::string CredentialsStage::getStageErrors(std::vector<std::string> args)
             return "";
         // minimum length
         if (password.length() < 8)
-            return "Password must include 8 or more characters."; // "Minimum password length not yet reached"?
+            return tooShortError; 
         // contains an uppercase letter
         if (numUppercase < 1)
-            return "Password must include atleast one uppercase letter (A-Z).";
+            return missingUppercaseError;
         // contains a digit
         if (numDigits < 1)
-            return "Password must include atleast one digit (0-9).";
+            return missingDigitError;
         // contains a special character    
         if (!containsSpecial)
-            return "Password must include atleast one special character.";
+            return missingSpecialError;
         
         // maximum length
         if (password.length() > 12)
-            return "Password must be 12 or less characters."; // "Maximum password length exceeded"?
+            return tooLongError;
     }
     return password;
 }

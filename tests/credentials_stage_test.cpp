@@ -24,37 +24,37 @@ namespace {
 }
 
 
-// NOT WORKING
+
 TEST_F(CredentialsStageTest, EmptyPassword) {
     std::string password = "";
     std::string result = stage->getStageErrors({"password", password});
     EXPECT_TRUE(result.compare(password) == 0);
 }
-// WORKING
+
 TEST_F(CredentialsStageTest, ShortPassword) {
     std::string password = "Pass";
     std::string result = stage->getStageErrors({"password", password});
-    EXPECT_TRUE(result.compare("Password must include 8 or more characters.") == 0);
+    EXPECT_TRUE(result.compare(stage->tooShortError) == 0);
 }
-// NOT WORKING
+
 TEST_F(CredentialsStageTest, PasswordWithoutCapital) {
     std::string password = "password";
     std::string result = stage->getStageErrors({"password", password});
-    EXPECT_TRUE(result.compare("Password must include atleast one uppercase letter (A-Z).") == 0);
+    EXPECT_TRUE(result.compare(stage->missingUppercaseError) == 0);
 }
-// NOT WORKING
+
 TEST_F(CredentialsStageTest, PasswordWithoutDigit) {
     std::string password = "Password";
     std::string result = stage->getStageErrors({"password", password});
-    EXPECT_TRUE(result.compare("Password must include atleast one digit (0-9).") == 0);
+    EXPECT_TRUE(result.compare(stage->missingDigitError) == 0);
 }
-// NOT WORKING
+
 TEST_F(CredentialsStageTest, PasswordWithoutSpecial) {
     std::string password = "Password123";
     std::string result = stage->getStageErrors({"password", password});
-    EXPECT_TRUE(result.compare("Password must include atleast one special character.") == 0);
+    EXPECT_TRUE(result.compare(stage->missingSpecialError) == 0);
 }
-// NOT WORKING
+
 TEST_F(CredentialsStageTest, ValidPassword) {
     std::string password = "Password-12";
     std::string result = stage->getStageErrors({"password", password});
