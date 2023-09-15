@@ -1,7 +1,6 @@
 #include "game_manager.h"
 #include "stages/name_stage.h"
 #include "stages/credentials_stage.h"
-#include "stages/details_stage.h"
 #include "stages/txt_captcha_stage.h"
 #include "rapidjson/document.h"
 
@@ -11,17 +10,14 @@ GameManager::GameManager()
 
     Stage *name_stage = new NameStage();
     Stage *credentials_stage = new CredentialsStage();
-    Stage *details_stage = new DetailsStage();
     Stage *txt_captcha_stage = new TxtCaptchaStage();
 
     stages.push_back(name_stage);
     stages.push_back(credentials_stage);
-    stages.push_back(details_stage);
     stages.push_back(txt_captcha_stage);
 
     stages_map["name"] = name_stage;
     stages_map["credentials"] = credentials_stage;
-    stages_map["details"] = details_stage;
     stages_map["txt_captcha"] = txt_captcha_stage;
 
     current_stage = stages[stage_index];
