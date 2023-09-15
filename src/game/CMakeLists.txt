@@ -14,6 +14,8 @@ set(source_list "password_validator.cpp"
                 "stages/txt_captcha_stage.h"
                 "stages/extras_stage.cpp"
                 "stages/extras_stage.h"
+                "stages/image_captcha_stage.cpp"
+                "stages/image_captcha_stage.h"
 )
 
 add_library(game STATIC ${source_list})
