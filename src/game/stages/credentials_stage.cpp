@@ -6,8 +6,9 @@ bool CredentialsStage::validateStage()
     return true;
 }
 
-std::string CredentialsStage::getStageErrors(std::vector<std::string> args)
+std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::string> args)
 {
+    std::vector<std::string> errors;
     std::string password = args[1];
     // password puzzles
     if (args[0].compare("password") == 0){
@@ -36,25 +37,25 @@ std::string CredentialsStage::getStageErrors(std::vector<std::string> args)
 
         // empty password
         if (password.length() == 0)
-            return "";
+            return errors;
         // minimum length
         if (password.length() < 8)
-            return tooShortError; 
+            errors.push_back(tooShortError); 
         // contains an uppercase letter
         if (numUppercase < 1)
-            return missingUppercaseError;
+            errors.push_back(missingUppercaseError);
         // contains a digit
         if (numDigits < 1)
-            return missingDigitError;
+            errors.push_back(missingDigitError);
         // contains a special character    
         if (!containsSpecial)
-            return missingSpecialError;
+            errors.push_back(missingSpecialError);
         
         // maximum length
         if (password.length() > 12)
-            return tooLongError;
+            errors.push_back(tooLongError);
     }
-    return password;
+    return errors;
 }
 
 void CredentialsStage::updateStage(std::vector<std::string> args)
