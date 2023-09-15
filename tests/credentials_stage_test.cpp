@@ -7,13 +7,9 @@ namespace {
         protected:
             CredentialsStage *stage;
 
-            CredentialsStageTest() {
+            CredentialsStageTest() {}
 
-            }
-
-            virtual ~CredentialsStageTest() {
-
-            }
+            virtual ~CredentialsStageTest() {}
 
             // set up a test environment before each test case
             virtual void SetUp() override {
@@ -28,36 +24,44 @@ namespace {
 }
 
 
-
-TEST(CredentialsStageTest, ValidPassword) {
-    std::string password = "Password123";
-    std::string result = stage->getStageErrors({"password", password});
-    EXPECT_TRUE(result.compare("password is: " + password) == 0);
-}
-
-TEST(CredentialsStageTest, ShortPassword) {
-    std::string password = "Pass12";
-    std::string result = stage->getStageErrors({"password", password});
-    EXPECT_FALSE(result.compare("Password must include 8 or more characters.") == 0);
-}
-
-TEST(CredentialsStageTest, PasswordWithoutCapital) {
-    std::string password = "password123";
-    std::string result = stage->getStageErrors({"password", password});
-    EXPECT_FALSE(result.compare("Password must include atleast one capital letter (A-Z).") == 0);
-}
-
-TEST(CredentialsStageTest, PasswordWithoutDigit) {
-    std::string password = "Password";
-    std::string result = stage->getStageErrors({"password", password});
-    EXPECT_FALSE(result.compare("Password must include atleast one digit (0-9).") == 0);
-}
-
-TEST(CredentialsStageTest, EmptyPassword) {
+// NOT WORKING
+TEST_F(CredentialsStageTest, EmptyPassword) {
     std::string password = "";
     std::string result = stage->getStageErrors({"password", password});
-    EXPECT_TRUE(result.compare("") == 0);
+    EXPECT_TRUE(result.compare(password) == 0);
 }
+// WORKING
+TEST_F(CredentialsStageTest, ShortPassword) {
+    std::string password = "Pass";
+    std::string result = stage->getStageErrors({"password", password});
+    EXPECT_TRUE(result.compare("Password must include 8 or more characters.") == 0);
+}
+// NOT WORKING
+TEST_F(CredentialsStageTest, PasswordWithoutCapital) {
+    std::string password = "password";
+    std::string result = stage->getStageErrors({"password", password});
+    EXPECT_TRUE(result.compare("Password must include atleast one uppercase letter (A-Z).") == 0);
+}
+// NOT WORKING
+TEST_F(CredentialsStageTest, PasswordWithoutDigit) {
+    std::string password = "Password";
+    std::string result = stage->getStageErrors({"password", password});
+    EXPECT_TRUE(result.compare("Password must include atleast one digit (0-9).") == 0);
+}
+// NOT WORKING
+TEST_F(CredentialsStageTest, PasswordWithoutSpecial) {
+    std::string password = "Password123";
+    std::string result = stage->getStageErrors({"password", password});
+    EXPECT_TRUE(result.compare("Password must include atleast one special character.") == 0);
+}
+// NOT WORKING
+TEST_F(CredentialsStageTest, ValidPassword) {
+    std::string password = "Password-12";
+    std::string result = stage->getStageErrors({"password", password});
+    EXPECT_TRUE(result.compare(password) == 0);
+}
+
+
 
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);

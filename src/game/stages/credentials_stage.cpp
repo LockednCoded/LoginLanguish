@@ -7,6 +7,7 @@ bool CredentialsStage::validateStage()
 
 std::string CredentialsStage::getStageErrors(std::vector<std::string> args)
 {
+    std::string password = args[1];
     // password puzzles
     if (args[0].compare("password") == 0){
         int numDigits = 0;
@@ -32,6 +33,9 @@ std::string CredentialsStage::getStageErrors(std::vector<std::string> args)
             }
         }
 
+        // empty password
+        if (password.length() == 0)
+            return "";
         // minimum length
         if (password.length() < 8)
             return "Password must include 8 or more characters."; // "Minimum password length not yet reached"?
@@ -49,7 +53,7 @@ std::string CredentialsStage::getStageErrors(std::vector<std::string> args)
         if (password.length() > 12)
             return "Password must be 12 or less characters."; // "Maximum password length exceeded"?
     }
-    return "password is: " + password;
+    return password;
 }
 
 void CredentialsStage::updateStage(std::vector<std::string> args)
