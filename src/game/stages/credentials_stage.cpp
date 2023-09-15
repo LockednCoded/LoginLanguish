@@ -1,6 +1,5 @@
 #include "credentials_stage.h"
 #include <vector>
-#include <iostream>
 
 bool isPalindrome(const std::string& str);
 bool isPrime(int n);
@@ -56,6 +55,8 @@ std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::strin
             errors.push_back(missingLowercaseError);
         } else if (password.find_first_of(special) == std::string::npos){       // missing special character(s)
             errors.push_back(missingSpecialError);
+        } else if (!hasPrime(password)){
+            errors.push_back(missingPrimeError);
         } else if (password.find_first_of(roman) == std::string::npos){         // missing Roman numeral(s)
             errors.push_back(missingRomanNumError);
         } else if (!isPalindrome(password)){                                    // is not a palindrome
@@ -125,23 +126,23 @@ bool isPrime(int n){
 }
 
 // helper function to check if a string (input) contains any prime numbers.
+// this checks entire numbers; 15 will be read as 15, not 1 and 5.
 bool hasPrime(const std::string& input){
+    std::vector<int> numbers;
     std::string numStr;
-    // iterate through string and extract digits
-    for (char c : input){
-        if (isdigit(c))
-            numStr += c;
-    }
-    std::cout << numStr;
-
-    for (int front = 0; front < numStr.length()-1; front++){
-        for (int back = front+1; back < numStr.length(); back++){
-            std::string subStr = input.substr(front, back+1);
-            std::cout << subStr;
-            int num = std::stoi(subStr);
-            if (isPrime(num))
-                return true;
+    // iterate through string and append any number to nums
+    for (int i = 0; i < input.length(); i++){
+        if (isdigit(input[i]))
+            numStr += input[i];
+        if (numStr.length() > 0 && (!isdigit(input[i]) || i == input.length()-1)){
+            numbers.push_back(std::stoi(numStr));
+            numStr = "";
         }
+    }
+    // iterate through numbers and check if they are prime
+    for (int num : numbers){
+        if (isPrime(num))
+            return true;
     }
     return false;
 }

@@ -17,6 +17,7 @@ public:
     std::string missingUppercaseError = "Password must include atleast one uppercase character (A-Z).";
     std::string missingLowercaseError = "Password must include atleast one lowercase character (a-z).";
     std::string missingSpecialError = "Password must include atleast one special character.";
+    std::string missingPrimeError = "Password must include atleast one prime number.";
     std::string missingRomanNumError = "Pasword must include atleast one Roman numeral.";
     std::string notPalindromeError = "Password must be a palindrome.";
     std::string tooLongError = "Password must be 12 or less characters."; // "Maximum password length exceeded"?
