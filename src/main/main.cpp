@@ -55,7 +55,14 @@ int main()
   }
 
   w.set_title("Login Languish");
-  w.set_size(WINDOW_WIDTH, WINDOW_HEIGHT, WEBVIEW_HINT_FIXED);
+  if (__DEBUG__)
+  {
+    w.set_size(WINDOW_WIDTH, WINDOW_HEIGHT, WEBVIEW_HINT_NONE);
+  }
+  else
+  {
+    w.set_size(WINDOW_WIDTH, WINDOW_HEIGHT, WEBVIEW_HINT_FIXED);
+  }
   w.navigate("file://" + resourcesPath + "/index.html");
 
   w.bind("documentLoadCallback", onDocumentLoadCallback, &w);
@@ -93,13 +100,13 @@ int main()
                 "state": {
                   "firstName": {
                     "value": "Joe",
-                    "errors": "",
-                    "disabled": false
+                    "errors": [],
+                    "disabled": true
                   },
                   "lastName": {
                     "value": "Biden",
-                    "errors": "",
-                    "disabled": false
+                    "errors": [],
+                    "disabled": true
                   }
                 }
               },
@@ -107,13 +114,13 @@ int main()
                 "name": "credentials",
                 "state": {
                   "username": {
-                    "value": "",
-                    "errors": "",
+                    "value": "Joe52",
+                    "errors": ["Joe52 is already taken. Availiable Suggestions: \"xxXJoe_DawgXxx\", \"JoeBiden696969\", \"JoeBidenIsCool\"."],
                     "disabled": false
                   },
                   "password": {
                     "value": "",
-                    "errors": "",
+                    "errors": [],
                     "disabled": false
                   }
                 }
@@ -123,24 +130,43 @@ int main()
                 "state": {
                   "dob": {
                     "value": "",
-                    "errors": "",
+                    "errors": [],
                     "disabled": false
                   },
                   "tsAndCs": {
                     "value": "false",
-                    "errors": "",
+                    "errors": [],
                     "disabled": false
                   }
                 }
               },
               {
                 "name": "txtcaptcha",
+                "imageURL":"",
                 "state": {
                   "txtcaptcha": {
                     "value": "",
-                    "errors": "",
+                    "errors": [],
                     "disabled": false
                   }
+                }
+              },
+              {
+                "name": "imagecaptcha",
+                "images": [
+                  "channing/channing_tatum_4.jpg",
+                  "channing/channing_tatum_3.jpg",
+                  "bradpitt/brad_pitt_1.jpg",
+                  "channing/channing_tatum_5.jpg",
+                  "bradpitt/brad_pitt_2.jpg",
+                  "bradpitt/brad_pitt_3.jpg",
+                  "channing/channing_tatum_2.jpg",
+                  "bradpitt/brad_pitt_5.jpg",
+                  "channing/channing_tatum_1.jpg"
+                ],
+                "challengeText":"Select 5 Channing Tatums",
+                "state": {
+                  "selected": [1, 2, 9]
                 }
               }
             ]

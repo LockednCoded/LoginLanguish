@@ -11,19 +11,20 @@ declare global {
     cpp_setNextStage(): Promise<void>;
   }
 }
-type Stage = 0 | 1 | 2 | 3;
+export type Stage = 0 | 1 | 2 | 3 | 4;
 export const NameStage = 0;
 export const CredentialsStage = 1;
 export const ExtrasStage = 2;
-export const TxtcaptchaStage = 3;
+export const TxtCaptchaStage = 3;
+export const ImageCaptchaStage = 4;
 
 type Field = {
   value: string;
-  errors: string;
+  errors: string[];
   disabled: boolean;
 };
 
-type GameState = {
+export type GameState = {
   stage: Stage;
   canProgress: boolean;
   stages: [
@@ -49,9 +50,18 @@ type GameState = {
       };
     },
     {
+      imageURL: "";
       name: "txtcaptcha";
       state: {
         txtcaptcha: Field;
+      };
+    },
+    {
+      name: "imagecaptcha";
+      images: string[];
+      challengeText: string;
+      state: {
+        selected: number[];
       };
     }
   ];
