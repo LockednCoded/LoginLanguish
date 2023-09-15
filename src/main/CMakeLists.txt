@@ -1,8 +1,9 @@
-set(source_list "main.cpp")
+set(source_list "main.cpp"
+                "fields.cpp")
 
 add_executable(${APP_NAME} WIN32 MACOSX_BUNDLE ${source_list})
 
-target_link_libraries(${APP_NAME} PRIVATE utils)
+target_link_libraries(${APP_NAME} PRIVATE utils game)
 
 if (PLATFORM MATCHES "MAC")
     target_link_libraries(${APP_NAME}
@@ -16,3 +17,6 @@ endif()
 
 find_path(ZSERGE_WEBVIEW_INCLUDE_DIRS "webview.h")
 target_include_directories(${APP_NAME} PUBLIC ${ZSERGE_WEBVIEW_INCLUDE_DIRS})
+
+find_package(RapidJSON CONFIG REQUIRED)
+target_link_libraries(${APP_NAME} PRIVATE rapidjson)

@@ -7,6 +7,8 @@
       "name": "webview2",
       "platform": "windows"
     },
-    "gtest"
+    "gtest",
+    "rapidjson",
+    "cpp-base64"
   ]
 }
