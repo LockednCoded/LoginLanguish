@@ -11,11 +11,16 @@ std::vector<std::string> ImageCaptchaStage::getStageErrors(std::vector<std::stri
     return errors;
 }
 
-void ImageCaptchaStage::updateField(std::string field, std::string value)
+void ImageCaptchaStage::update(const rapidjson::Value &req)
 {
+    std::string field = req[REQ_FIELD_INDEX].GetString();
     if (field.compare("selected") == 0) {
-        //TODO: implement this
-
+        const rapidjson::Value& valueArray = req[REQ_VALUE_INDEX].GetArray();
+        std::vector<int> new_selection;
+        for (int i = 0; i < valueArray.Size(); i++) {
+            new_selection.push_back(valueArray[i].GetInt());
+        }
+        selected = new_selection;
     }
 }
 

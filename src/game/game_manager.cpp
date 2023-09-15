@@ -5,6 +5,10 @@
 #include "stages/extras_stage.h"
 #include "stages/image_captcha_stage.h"
 #include "rapidjson/document.h"
+#include "rapidjson/stringbuffer.h"
+#include <rapidjson/writer.h>
+
+#include <iostream>
 
 GameManager::GameManager()
 {
@@ -41,12 +45,10 @@ std::string GameManager::getNextStage()
     return current_stage->getStageName();
 }
 
-void GameManager::updateField(std::vector<std::string> args)
+void GameManager::updateField(const rapidjson::Value &req)
 {
-    std::string stage = args[0];
-    std::string field = args[1];
-    std::string value = args[2];
-    stages_map[stage]->updateField(field, value);
+    int index = req[REQ_STAGE_INDEX].GetInt();
+    stages[index]->update(req);
 }
 
 std::vector<std::string> GameManager::getStageErrors(std::vector<std::string> args) {

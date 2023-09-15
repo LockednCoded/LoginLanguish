@@ -11,12 +11,14 @@ std::vector<std::string> TxtCaptchaStage::getStageErrors(std::vector<std::string
     return errors;
 }
 
-void TxtCaptchaStage::updateField(std::string field, std::string value)
+void TxtCaptchaStage::update(const rapidjson::Value &req)
 {
+    std::string field = req[REQ_FIELD_INDEX].GetString();
+
     if (field.compare("txtcaptcha") == 0)
-        txt_captcha = value;
+        txt_captcha = req[REQ_VALUE_INDEX].GetString();
     else if (field.compare("imageURL") == 0)
-        image_url = value;
+        image_url = req[REQ_VALUE_INDEX].GetString();
 }
 
 std::string TxtCaptchaStage::getStageName()

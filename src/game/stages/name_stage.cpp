@@ -11,12 +11,13 @@ std::vector<std::string> NameStage::getStageErrors(std::vector<std::string> args
     return errors;
 }
 
-void NameStage::updateField(std::string field, std::string value)
+void NameStage::update(const rapidjson::Value &req)
 {
+    std::string field = req[REQ_FIELD_INDEX].GetString();
     if (field.compare("firstName") == 0)
-        first_name = value;
+        first_name = req[REQ_VALUE_INDEX].GetString();
     else if (field.compare("lastName") == 0)
-        last_name = value;
+        last_name = req[REQ_VALUE_INDEX].GetString();
 }
 
 std::string NameStage::getStageName()

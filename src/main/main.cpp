@@ -70,17 +70,22 @@ int main()
   Fields *fields = new Fields();
   GameManager *gameManager = new GameManager();
 
-  w.bind("cpp_setFieldState", [fields](std::string req) -> std::string
+  w.bind("cpp_setFieldState", [fields, gameManager](std::string req) -> std::string
          {
-  // Todo: parse field updates
-    std::vector<std::string> args = parseArgs(req);
-    // Log args
-    std::cout << "cpp_setFieldState args: ";
-    for (auto it = args.begin(); it != args.end(); ++it)
-    {
-      std::cout << *it << " ";
-    }
-    std::cout << std::endl;
+    rapidjson::Document document;
+    document.Parse(req.c_str());
+    const rapidjson::Value &reqArray = document.GetArray();
+    gameManager->updateField(reqArray);
+    // std::vector<std::string> args = parseArgs(req);
+    // // Log args
+    // std::cout << "cpp_setFieldState args: ";
+    // for (auto it = args.begin(); it != args.end(); ++it)
+    // {
+    //   std::cout << *it << " ";
+    // }
+    // std::cout << std::endl;
+
+
     return ""; });
 
   w.bind("cpp_getGameState", [gameManager](std::string req) -> std::string
@@ -172,7 +177,7 @@ int main()
             ]
           }
           )""";
-          return JSEncode(dummy); });
+          return JSEncode(result); });
   w.bind("cpp_setNextStage", [gameManager](std::string req) -> std::string
          {
     // Todo: deal with progressing stage

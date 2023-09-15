@@ -6,7 +6,7 @@ class TxtCaptchaStage : public Stage {
 public:
     bool validateStage();
     std::vector<std::string> getStageErrors(std::vector<std::string> args);
-    void updateField(std::string field, std::string value);
+    void update(const rapidjson::Value &req);
     std::string getStageName();
 protected:
     std::string name = "txtcaptcha";

@@ -11,12 +11,14 @@ std::vector<std::string> ExtrasStage::getStageErrors(std::vector<std::string> ar
     return errors;
 }
 
-void ExtrasStage::updateField(std::string field, std::string value)
+void ExtrasStage::update(const rapidjson::Value &req)
 {
+    std::string field = req[REQ_FIELD_INDEX].GetString();
     if (field.compare("dob") == 0)
-        dob = value;
-    else if (field.compare("tsAndCs") == 0)
-        ts_and_cs = value.compare("true") == 0;
+        dob = req[REQ_VALUE_INDEX].GetString();
+    else if (field.compare("tsAndCs") == 0) {
+        ts_and_cs = req[REQ_VALUE_INDEX].GetBool();
+    }
 }
 
 std::string ExtrasStage::getStageName()

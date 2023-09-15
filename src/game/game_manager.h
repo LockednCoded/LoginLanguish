@@ -8,7 +8,7 @@ class GameManager
 {
 public:
     GameManager();
-    void updateField(std::vector<std::string> args);
+    void updateField(const rapidjson::Value &req);
     // std::string getStage();
     std::string getNextStage();
     std::vector<std::string> getStageErrors(std::vector<std::string> args);
@@ -20,4 +20,5 @@ private:
     std::vector<Stage* > stages;
 
     Stage* current_stage;
+    const int REQ_STAGE_INDEX = 0;
 };
