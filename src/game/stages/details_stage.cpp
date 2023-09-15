@@ -5,9 +5,10 @@ bool DetailsStage::validateStage()
     return true;
 }
 
-std::string DetailsStage::getStageErrors(std::vector<std::string> args)
+std::vector<std::string> DetailsStage::getStageErrors(std::vector<std::string> args)
 {
-    return "";
+    std::vector<std::string> errors;
+    return errors;
 }
 
 void DetailsStage::updateStage(std::vector<std::string> args)
@@ -20,18 +21,17 @@ std::string DetailsStage::getStageName()
     return "details";
 }
 
-rapidjson::Value DetailsStage::getStageState(rapidjson::Document::AllocatorType &allocator)
+rapidjson::Value DetailsStage::getFieldStates(rapidjson::Document::AllocatorType &allocator)
 {
-    rapidjson::Value stageState(rapidjson::kObjectType);
-    rapidjson::Value usernameObj(rapidjson::kObjectType);
+    rapidjson::Value fieldStates(rapidjson::kObjectType);
+
     rapidjson::Value usernameValue(username.c_str(), allocator);
-    usernameObj.AddMember("value", usernameValue, allocator);
-    rapidjson::Value usernameErrors(getStageErrors({"username"}).c_str(), allocator);
-    usernameObj.AddMember("errors", usernameErrors, allocator);
-    rapidjson::Value passwordObj(rapidjson::kObjectType);
+    rapidjson::Value usernameObj = createFieldState("username", usernameValue, allocator);
+    fieldStates.AddMember("username", usernameObj, allocator);
+
     rapidjson::Value passwordValue(password.c_str(), allocator);
-    passwordObj.AddMember("value", passwordValue, allocator);
-    rapidjson::Value passwordErrors(getStageErrors({"password"}).c_str(), allocator);
-    passwordObj.AddMember("errors", passwordErrors, allocator);
-    return stageState;
+    rapidjson::Value passwordObj = createFieldState("password", passwordValue, allocator);
+    fieldStates.AddMember("password", passwordObj, allocator);
+
+    return fieldStates;
 };

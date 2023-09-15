@@ -30,7 +30,7 @@ void GameManager::updateStage(std::vector<std::string> args)
     current_stage->updateStage(args);
 }
 
-std::string GameManager::getStageErrors(std::vector<std::string> args) {
+std::vector<std::string> GameManager::getStageErrors(std::vector<std::string> args) {
     return current_stage->getStageErrors(args);
 }
 
@@ -38,11 +38,17 @@ rapidjson::Document GameManager::getGameState()
 {
     rapidjson::Document document;
     document.SetObject();
+
+    rapidjson::Value currentStage(stage_index + 1);
+    document.AddMember("stage", currentStage, document.GetAllocator());
+
+    rapidjson::Value stagesArray(rapidjson::kArrayType);
     for (auto stage : stages)
     {
         rapidjson::Value stageState = stage->getStageState(document.GetAllocator());
-        rapidjson::Value stageNameValue(stage->getStageName().c_str(), document.GetAllocator());
-        document.AddMember(stageNameValue, stageState, document.GetAllocator());
+        stagesArray.PushBack(stageState, document.GetAllocator());
     }
+
+    document.AddMember("stages", stagesArray, document.GetAllocator());
     return document;
 }

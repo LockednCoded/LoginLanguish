@@ -1,44 +1,19 @@
 import TextField from "./TextField";
 // import { useLoginFlow } from "../scripts/login-flow";
 import { ValidationBox } from "./ValidationBox";
-import Modal from "react-modal";
-import { useState } from "react";
+// import Modal from "react-modal";
 import {
   useBindings,
   NameStage,
   CredentialsStage,
   ExtrasStage,
-  TxtcaptchaStage,
+  TxtCaptchaStage,
+  ImageCaptchaStage,
 } from "../scripts/cpp-bindings";
+import ImageCaptcha from "./ImageCaptcha";
 
 export default function LoginPage() {
-  // const loginFlow = useLoginFlow();
-  // const fieldStates = loginFlow.fieldStates;
-
   const { gameState, updateFieldState, nextBtnClick } = useBindings();
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const CaptchaImg = ({ source, onClick }) => {
-    return (
-      <div className="relative w-full h-full" onClick={onClick}>
-        <img src={source} alt="Image" className="w-full h-full aspect-square" />
-        <div className="absolute inset-0 bg-white opacity-0 transition-opacity duration-100 hover:opacity-50" />
-      </div>
-    );
-  };
-
-  const CaptchaSelect = (celeb) => {
-    console.log(celeb + " clicked!");
-  };
 
   return gameState == null ? null : (
     <main className="flex flex-col justify-center items-center w-[64rem] h-[42rem] bg-white border-2 rounded-sm border-gray-400">
@@ -51,62 +26,13 @@ export default function LoginPage() {
 				`}
       >
         <div className={`grid gap-x-3.5 ${true ? "grid-cols-2" : ""}`}>
-          <Modal
-            id="img-captcha"
-            isOpen={isModalOpen}
-            contentLabel="Captcha Popup"
-            appElement={document.getElementById("form")}
-          >
-            <div className="text-white bg-sky-400 absolute top-3 right-3 left-3 p-3">
-              <button onClick={closeModal} className="absolute right-3">
-                Close
-              </button>
-              <h1>Captcha</h1>
-              <p>
-                Prove you are who you say you are,{" "}
-                {gameState.stages[NameStage].state.firstName.value}
-              </p>
-              <p>Select five Channing Tatums.</p>
-            </div>
-            <div className="absolute grid grid-cols-3 gap-1 bottom-5 left-5 right-5">
-              <CaptchaImg
-                source="bradpitt/brad_pitt_1.jpg"
-                onClick={() => CaptchaSelect("Brad")}
-              />
-              <CaptchaImg
-                source="bradpitt/brad_pitt_2."
-                onClick={() => CaptchaSelect("Brad")}
-              />
-              <CaptchaImg
-                source="channing/channing_tatum_1.jpg"
-                onClick={() => CaptchaSelect("Channing")}
-              />
-              <CaptchaImg
-                source="channing/channing_tatum_2.jpg"
-                onClick={() => CaptchaSelect("Channing")}
-              />
-              <CaptchaImg
-                source="bradpitt/brad_pitt_3.jpg"
-                onClick={() => CaptchaSelect("Brad")}
-              />
-              <CaptchaImg
-                source="channing/channing_tatum_3.jpg"
-                onClick={() => CaptchaSelect("Channing")}
-              />
-              <CaptchaImg
-                source="bradpitt/brad_pitt_4.jpg"
-                onClick={() => CaptchaSelect("Brad")}
-              />
-              <CaptchaImg
-                source="channing/channing_tatum_4.jpg"
-                onClick={() => CaptchaSelect("Channing")}
-              />
-              <CaptchaImg
-                source="channing/channing_tatum_5.jpg"
-                onClick={() => CaptchaSelect("Channing")}
-              />
-            </div>
-          </Modal>
+          {gameState.stage == ImageCaptchaStage && (
+            <ImageCaptcha
+              gameState={gameState}
+              updateFieldState={updateFieldState}
+              nextBtnClick={nextBtnClick}
+            />
+          )}
           <TextField
             type="text"
             name="First Name"
@@ -114,7 +40,7 @@ export default function LoginPage() {
             onChange={(e) =>
               updateFieldState(NameStage, "firstName", e.target.value)
             }
-            disabled={false}
+            disabled={gameState.stages[NameStage].state.firstName.disabled}
             className="mt-3"
           />
           <TextField
@@ -124,7 +50,7 @@ export default function LoginPage() {
             onChange={(e) =>
               updateFieldState(NameStage, "lastName", e.target.value)
             }
-            disabled={false}
+            disabled={gameState.stages[NameStage].state.lastName.disabled}
             className="mt-3"
           />
         </div>
@@ -140,14 +66,13 @@ export default function LoginPage() {
             onChange={(e) =>
               updateFieldState(CredentialsStage, "username", e.target.value)
             }
+            disabled={
+              gameState.stages[CredentialsStage].state.username.disabled
+            }
             className="mt-3"
           />
           <ValidationBox
-            shown={
-              gameState.stages[CredentialsStage].state.username.errors.length >
-              0
-            }
-            message={gameState.stages[CredentialsStage].state.username.errors}
+            messages={gameState.stages[CredentialsStage].state.username.errors}
             className="mt-3"
           />
           <div>
@@ -158,14 +83,15 @@ export default function LoginPage() {
               onChange={(e) =>
                 updateFieldState(CredentialsStage, "password", e.target.value)
               }
+              disabled={
+                gameState.stages[CredentialsStage].state.password.disabled
+              }
               className="mt-3 animate-height-in-container"
             />
             <ValidationBox
-              shown={
+              messages={
                 gameState.stages[CredentialsStage].state.password.errors
-                  .length > 0
               }
-              message={gameState.stages[CredentialsStage].state.password.errors}
               className="mt-3"
             />
           </div>
@@ -183,6 +109,7 @@ export default function LoginPage() {
               onChange={(e) =>
                 updateFieldState(ExtrasStage, "dob", e.target.value)
               }
+              disabled={gameState.stages[ExtrasStage].state.dob.disabled}
               className="mt-3 w-1/3"
             />
 
@@ -194,6 +121,7 @@ export default function LoginPage() {
                 checked={
                   gameState.stages[ExtrasStage].state.tsAndCs.value == "true"
                 }
+                disabled={gameState.stages[ExtrasStage].state.tsAndCs.disabled}
                 onChange={(e) => {
                   updateFieldState(
                     ExtrasStage,
@@ -225,16 +153,19 @@ export default function LoginPage() {
 
         <div
           className={`height-hidable  ${
-            gameState.stage >= TxtcaptchaStage ? "" : "height-hidden"
+            gameState.stage >= TxtCaptchaStage ? "" : "height-hidden"
           }`}
         >
           <div>
             <TextField
               type="text"
               name="Verification"
-              value={gameState.stages[TxtcaptchaStage].state.txtcaptcha.value}
+              value={gameState.stages[TxtCaptchaStage].state.txtcaptcha.value}
               onChange={(e) =>
-                updateFieldState(TxtcaptchaStage, "txtcaptcha", e.target.value)
+                updateFieldState(TxtCaptchaStage, "txtcaptcha", e.target.value)
+              }
+              disabled={
+                gameState.stages[TxtCaptchaStage].state.txtcaptcha.disabled
               }
               className="mt-3"
             />
