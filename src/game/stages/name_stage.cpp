@@ -5,9 +5,10 @@ bool NameStage::validateStage()
     return true;
 }
 
-std::string NameStage::getStageErrors(std::vector<std::string> args)
-{
-    return "";
+std::vector<std::string> NameStage::getStageErrors(std::vector<std::string> args)
+{   
+    std::vector<std::string> errors;
+    return errors;
 }
 
 void NameStage::updateStage(std::vector<std::string> args)
@@ -23,18 +24,17 @@ std::string NameStage::getStageName()
     return "name";
 }
 
-rapidjson::Value NameStage::getStageState(rapidjson::Document::AllocatorType &allocator)
+rapidjson::Value NameStage::getFieldStates(rapidjson::Document::AllocatorType &allocator)
 {
-    rapidjson::Value stageState(rapidjson::kObjectType);
-    rapidjson::Value firstnameObj(rapidjson::kObjectType);
-    rapidjson::Value firstnameValue(first_name.c_str(), allocator);
-    firstnameObj.AddMember("value", firstnameValue, allocator);
-    rapidjson::Value firstnameErrors(getStageErrors({"firstName"}).c_str(), allocator);
-    firstnameObj.AddMember("errors", firstnameErrors, allocator);
-    rapidjson::Value lastnameObj(rapidjson::kObjectType);
-    rapidjson::Value lastnameValue(last_name.c_str(), allocator);
-    lastnameObj.AddMember("value", lastnameValue, allocator);
-    rapidjson::Value lastnameErrors(getStageErrors({"lastName"}).c_str(), allocator);
-    lastnameObj.AddMember("errors", lastnameErrors, allocator);
-    return stageState;
+    rapidjson::Value fieldStates(rapidjson::kObjectType);
+
+    rapidjson::Value firstNameValue(first_name.c_str(), allocator);
+    rapidjson::Value firstNameObj = createFieldState("firstName", firstNameValue, allocator);
+    fieldStates.AddMember("firstName", firstNameObj, allocator);
+
+    rapidjson::Value lastNameValue(last_name.c_str(), allocator);
+    rapidjson::Value lastNameObj = createFieldState("lastName", lastNameValue, allocator);
+    fieldStates.AddMember("lastName", lastNameObj, allocator);
+
+    return fieldStates;
 };
