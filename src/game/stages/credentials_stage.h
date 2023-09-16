@@ -10,8 +10,6 @@ public:
     void update(const rapidjson::Value &req);
     std::string getStageName();
 
-    rapidjson::Value getStageState(rapidjson::Document::AllocatorType &allocator);
-
     std::string tooShortError = "Password must include 8 or more characters."; // "Minimum password length not yet reached"?
     std::string missingDigitError = "Password must include atleast one digit (0-9).";
     std::string missingUppercaseError = "Password must include atleast one uppercase character (A-Z).";

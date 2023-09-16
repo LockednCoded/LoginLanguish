@@ -14,7 +14,6 @@ bool CredentialsStage::validateStage()
 std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::string> args)
 {
     std::vector<std::string> errors;
-    std::string password = args[1];
     // password puzzles
     if (args[0].compare("password") == 0){
         std::string digits = "0123456789";
