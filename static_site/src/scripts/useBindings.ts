@@ -74,6 +74,7 @@ export type GameState = {
       state: {
         imageURL: "";
         txtcaptcha: Field;
+        challengeText: string;
       };
     },
     {
@@ -122,11 +123,8 @@ export function useBindings() {
     []
   );
   const nextBtnClick = useCallback(async () => {
-    console.log("nextBtnClick1");
     await window.cpp_setNextStage();
-    console.log("nextBtnClick2");
     await getGameState();
-    console.log("nextBtnClick3");
   }, []);
 
   return {

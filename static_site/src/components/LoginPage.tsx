@@ -156,6 +156,7 @@ export default function LoginPage() {
             gameState={gameState}
             updateFieldState={updateFieldState}
             nextBtnClick={nextBtnClick}
+            className="mt-3"
           />
         </div>
 

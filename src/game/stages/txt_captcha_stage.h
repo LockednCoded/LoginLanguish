@@ -13,5 +13,6 @@ protected:
     rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator);
 private:
     std::string txt_captcha = "";
+    std::string challenge_text = "";
     std::string image_url = "";
 };
