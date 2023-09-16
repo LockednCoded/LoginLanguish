@@ -47,7 +47,7 @@ void ImageCaptchaStage::update(const rapidjson::Value &req)
     if (field.compare("selected") == 0) {
         const rapidjson::Value& valueArray = req[REQ_VALUE_INDEX].GetArray();
         std::vector<int> new_selection;
-        for (int i = 0; i < valueArray.Size(); i++) {
+        for (int i = 0; i < (int) valueArray.Size(); i++) {
             new_selection.push_back(valueArray[i].GetInt());
         }
         selected = new_selection;

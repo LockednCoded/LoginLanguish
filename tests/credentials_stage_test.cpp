@@ -30,11 +30,26 @@ namespace {
             // tear down a test environment after each test case
             virtual void TearDown() override {
                 delete stage;
+                delete gm;
             }
     };
 }
 
+TEST_F(CredentialsStageTest, SetUsername) {
+    gm->updateField("credentials", "username", "peterlee");
+    std::string expected = "peterlee";
+    rapidjson::Document document;
+    std::string result = stage->getFieldStates(document.GetAllocator())["username"]["value"].GetString();
+    EXPECT_EQ(result, expected);
+}
 
+TEST_F(CredentialsStageTest, SetPassword) {
+    gm->updateField("credentials", "password", "password");
+    std::string expected = "password";
+    rapidjson::Document document;
+    std::string result = stage->getFieldStates(document.GetAllocator())["password"]["value"].GetString();
+    EXPECT_EQ(result, expected);
+}
 
 TEST_F(CredentialsStageTest, EmptyPW){
     gm->updateField("credentials", "password", "");

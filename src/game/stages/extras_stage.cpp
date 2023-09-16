@@ -72,8 +72,7 @@ rapidjson::Value ExtrasStage::getFieldStates(rapidjson::Document::AllocatorType 
     rapidjson::Value dobObj = createFieldState("dob", dobValue, allocator);
     fieldStates.AddMember("dob", dobObj, allocator);
 
-    std::string tsAndCsStr = ts_and_cs ? "true" : "false";
-    rapidjson::Value tsAndCsValue(tsAndCsStr.c_str(), allocator);
+    rapidjson::Value tsAndCsValue(ts_and_cs);
     rapidjson::Value tsAndCsObj = createFieldState("tsAndCs", tsAndCsValue, allocator);
     fieldStates.AddMember("tsAndCs", tsAndCsObj, allocator);
 
