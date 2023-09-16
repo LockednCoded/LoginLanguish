@@ -1,7 +1,7 @@
 /*!
  @file credentials_stage.cpp
- @brief credentials stage validation
- @author Jack Searle
+ @brief The CredentialsStage class is a class that represents the credentials stage in the game
+ @author Jack Searle, Cameron Bruce
  @copyright 2023 Locked & Coded
 */
 
@@ -12,14 +12,17 @@
 #include "stage.h"
 #include <vector>
 
-
+/*!
+    @brief The CredetialsStage class is a class that represents the credentials stage in the game.
+    @details The CredetialsStage class is a class that represents a credentials stage in the game. It contains
+    concrete stage implementions for the credentials stage in the game.
+*/
 class CredentialsStage : public Stage {
 public:
     CredentialsStage(GameManager *gameManager);
 
     bool validateStage();
     void update(const rapidjson::Value &req);
-    std::string getStageName();
     rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator);
 
     // error messages

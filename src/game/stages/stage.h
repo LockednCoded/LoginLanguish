@@ -1,3 +1,10 @@
+/*!
+    @file stage.h
+    @brief The Stage class is an abstract class that represents a stage in the game.
+    @author Cameron Bruce
+    @copyright 2023 Locked & Coded
+*/
+
 #pragma once
 
 #include <vector>
@@ -5,6 +12,11 @@
 #include <map>
 #include "rapidjson/document.h"
 
+/*!
+    @brief The Stage class is an abstract class that represents a stage in the game.
+    @details The Stage class is an abstract class that represents a stage in the game. It contains
+    functions that are implemented by all stages in the game.
+*/
 class Stage
 {
 public:

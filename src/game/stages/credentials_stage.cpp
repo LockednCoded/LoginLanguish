@@ -1,7 +1,7 @@
 /*!
  @file credentials_stage.cpp
- @brief credentials stage validation
- @author Jack Searle
+ @brief This file contains the implementation of the CredentialsStage class.
+ @author Jack Searle, Cameron Bruce
  @copyright 2023 Locked & Coded
 */
 
@@ -14,7 +14,10 @@ bool isPrime(int n);
 bool hasPrime(std::string input);
 bool hasColour(std::string input);
 
-
+/*!
+    @brief constructor for CredentialsStage
+    @param gameManager the game manager object owning this stage
+*/
 CredentialsStage::CredentialsStage(GameManager *gameManager){
     name = "credentials";
     gm = gameManager;
@@ -24,15 +27,21 @@ CredentialsStage::CredentialsStage(GameManager *gameManager){
     };
 }
 
+/*!
+    @brief validates the stage
+    @details validates the stage by checking if the requirements are met
+    @return true if the stage is valid, false otherwise
+*/
 bool CredentialsStage::validateStage()
 {
+    //TODO: implement this
     return true;
 }
 
 /*!
- @brief validates password input and returns errors (puzzle tasks)
- @details checks password input against a set of conditions
- @return vector containing first error message
+    @brief updates error messages
+    @details updates the error messages for the given field
+    @param field the name of the field to update
 */
 void CredentialsStage::updateErrors(std::string field)
 {
@@ -90,8 +99,9 @@ void CredentialsStage::updateErrors(std::string field)
 }
 
 /*!
- @brief updates credential values
- @details updates the username or password fields from rapidjson value
+    @brief updates the stage
+    @details updates the stage using the given request parameters
+    @param req the request to update the stage with
 */
 void CredentialsStage::update(const rapidjson::Value &req)
 {
@@ -104,11 +114,13 @@ void CredentialsStage::update(const rapidjson::Value &req)
     updateErrors(field);
 }
 
-std::string CredentialsStage::getStageName()
-{
-    return "credentials";
-}
-
+/*!
+    @brief creates the JSON object for the field states
+    @details creates the rapidjson::Value for the aggregated field states
+    @param allocator The rapidjson::Document::AllocatorType object used to allocate memory for the JSON objects.
+    @return the field states
+    @ref Stage::createFieldState
+*/
 rapidjson::Value CredentialsStage::getFieldStates(rapidjson::Document::AllocatorType &allocator)
 {
     rapidjson::Value fieldStates(rapidjson::kObjectType);
@@ -125,7 +137,9 @@ rapidjson::Value CredentialsStage::getFieldStates(rapidjson::Document::Allocator
 }
 
 
-// helper function to check if a string (input) is a palindrome.
+/*!
+    @brief checks if a string is a palindrome
+*/
 bool isPalindrome(std::string input){
     // find midpoint of the password
     int midpoint = input.length() / 2;
@@ -139,7 +153,9 @@ bool isPalindrome(std::string input){
     return true;
 }
 
-// helper function to check if an int (n) is prime.
+/*!
+    @brief checks if a number is prime
+*/
 bool isPrime(int n){
     if (n <= 1) return false;
     if (n <= 3) return true;
@@ -153,8 +169,10 @@ bool isPrime(int n){
     return true;
 }
 
-// helper function to check if a string (input) contains any prime numbers.
-// this checks entire numbers; 15 will be read as 15, not 1 and 5.
+/*!
+    @brief checks if a string contains a prime number
+    @details this checks entire numbers; 15 will be read as 15, not 1 and 5.
+*/
 bool hasPrime(std::string input){
     std::vector<int> numbers;
     std::string numStr;
@@ -175,7 +193,9 @@ bool hasPrime(std::string input){
     return false;
 }
 
-// helper function to check if a string contains a colour
+/*!
+    @brief checks if a string contains a colour
+*/
 bool hasColour(std::string input){
     // vector of all accepted colours
     std::vector<std::string> colours = {

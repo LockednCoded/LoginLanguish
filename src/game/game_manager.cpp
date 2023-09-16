@@ -1,3 +1,10 @@
+/*!
+ @file game_manager.cpp
+ @brief This file contains the implementation of the GameManager class.
+ @author Cameron Bruce
+ @copyright 2023 Locked & Coded
+*/
+
 #include "game_manager.h"
 #include "stages/name_stage.h"
 #include "stages/credentials_stage.h"
@@ -10,6 +17,9 @@
 
 #include <iostream>
 
+/*!
+    @brief constructor for GameManager
+*/
 GameManager::GameManager()
 {
     stage_index = 0;
@@ -35,11 +45,17 @@ GameManager::GameManager()
     current_stage = stages[stage_index];
 }
 
+/*!
+    @brief gets the current stage
+*/
 Stage* GameManager::getStage(std::string stage)
 {
     return stages_map[stage];
 }
 
+/*!
+    @brief gets the next stage
+*/
 std::string GameManager::getNextStage()
 {
     if (stage_index == stages.size() - 1)
@@ -50,12 +66,27 @@ std::string GameManager::getNextStage()
     return current_stage->getStageName();
 }
 
+/*!
+    @brief updates the field
+    @details updates the field within the requested stage
+    @param req the request object containing the stage, field to update and the new value
+    @ref Stage::update
+*/
 void GameManager::updateField(const rapidjson::Value &req)
 {
     const char *index = req[REQ_STAGE_INDEX].GetString();
     stages_map[index]->update(req);
 }
 
+/*!
+    @brief updates the field
+    @details helper method to update the field within the requested stage, using string instead
+    of a rapidjson object, used in testing
+    @param stage the name of the stage to update
+    @param field the name of the field to update
+    @param value the new value of the field
+    @ref GameManager::updateField
+*/
 void GameManager::updateField(std::string stage, std::string field, std::string value)
 {
     rapidjson::Document document;
@@ -70,10 +101,24 @@ void GameManager::updateField(std::string stage, std::string field, std::string 
     updateField(req);
 }
 
+/*!
+    @brief gets the field errors
+    @details gets the field errors for the requested stage and field
+    @param stage the name of the stage to get the field errors for
+    @param field the name of the field to get the errors for
+    @return a vector of strings containing the errors for the field
+    @ref Stage::getFieldErrors
+*/
 std::vector<std::string> GameManager::getFieldErrors(std::string stage, std::string field) {
     return stages_map[stage]->getFieldErrors(field);
 }
 
+/*!
+    @brief gets the game state
+    @details gets the game state by creating a rapidjson object containing the game state
+    @return a rapidjson object containing the game state
+    @ref Stage::getStageState
+*/
 rapidjson::Document GameManager::getGameState()
 {
     rapidjson::Document document;

@@ -1,3 +1,10 @@
+/*!
+    @file game_manager.h
+    @brief The GameManager class is a class that controls the flow of the game
+    @author Cameron Bruce
+    @copyright 2023 Locked & Coded
+*/
+
 #pragma once
 
 #include <string>
@@ -5,7 +12,11 @@
 #include <map>
 #include "stages/stage.h"
 
-
+/*!
+    @brief The GameManager class is a class that controls the flow of the game.
+    @details The GameManager class is a class that controls the flow of the game. It contains
+    all concrete stage objects and method for interacting with the vairous stages.
+*/
 class GameManager
 {
 public:
