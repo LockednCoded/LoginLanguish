@@ -1,5 +1,9 @@
 #include "txt_captcha_stage.h"
 
+TxtCaptchaStage::TxtCaptchaStage(GameManager *gameManager){
+    gm = gameManager;
+};
+
 bool TxtCaptchaStage::validateStage()
 {
     return true;

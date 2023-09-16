@@ -1,5 +1,9 @@
 #include "image_captcha_stage.h"
 
+ImageCaptchaStage::ImageCaptchaStage(GameManager *gameManager){
+    gm = gameManager;
+};
+
 bool ImageCaptchaStage::validateStage()
 {
     return true;

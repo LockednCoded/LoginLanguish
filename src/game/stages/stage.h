@@ -12,13 +12,13 @@ public:
     virtual void update(const rapidjson::Value &req) = 0;
     virtual std::string getStageName() = 0;
     rapidjson::Value getStageState(rapidjson::Document::AllocatorType &allocator);
-    
+    virtual rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator) = 0;
     //TODO: implement this
     bool isFieldDisabled(std::string field) { return false; };
     // virtual void setFieldDisabled(std::string field, bool disabled) = 0;
 protected:
     rapidjson::Value createFieldState(std::string field, rapidjson::Value &fieldValue, rapidjson::Document::AllocatorType &allocator);
-    virtual rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator) = 0;
+    
     const int REQ_FIELD_INDEX = 1;
     const int REQ_VALUE_INDEX = 2;
 };

@@ -2,12 +2,14 @@
 #include <string>
 #include <vector>
 #include <rapidjson/document.h>
+#include "game_manager.h"
 
 #include "stages/credentials_stage.h"
 
 namespace {
     class CredentialsStageTest : public ::testing::Test {
         protected:
+            GameManager *gm;
             CredentialsStage *stage;
 
             CredentialsStageTest() {}
@@ -16,7 +18,17 @@ namespace {
 
             // set up a test environment before each test case
             virtual void SetUp() override {
-                stage = new CredentialsStage();
+                gm = new GameManager();
+                stage = dynamic_cast<CredentialsStage*>(gm->getStage("credentials"));
+                // set first name
+                rapidjson::Document doc;
+                doc.Parse("[0, \"firstName\", \"Peter\"]");
+                rapidjson::Value &jsonArray = doc.GetArray();
+                gm->updateField(jsonArray);
+                // set last name
+                doc.Parse("[0, \"lastName\", \"Lee\"]");
+                jsonArray = doc.GetArray();
+                gm->updateField(jsonArray);
             }
 
             // tear down a test environment after each test case
@@ -98,9 +110,19 @@ TEST_F(CredentialsStageTest, NoPrimePW){
     EXPECT_TRUE(result == expected);
 }
 
-TEST_F(CredentialsStageTest, NoColourPW){
+TEST_F(CredentialsStageTest, NoInitialsPW){
     rapidjson::Document doc;
     doc.Parse("[0, \"password\", \"PassV-23\"]");
+    rapidjson::Value &jsonArray = doc.GetArray();
+    stage->update(jsonArray);
+    std::vector<std::string> expected = {stage->missingInitialsError};
+    std::vector<std::string> result = stage->getStageErrors({"password"});
+    EXPECT_TRUE(result == expected);
+}
+
+TEST_F(CredentialsStageTest, NoColourPW){
+    rapidjson::Document doc;
+    doc.Parse("[0, \"password\", \"Plate-23\"]");
     rapidjson::Value &jsonArray = doc.GetArray();
     stage->update(jsonArray);
     std::vector<std::string> expected = {stage->missingColourError};
@@ -110,7 +132,7 @@ TEST_F(CredentialsStageTest, NoColourPW){
 
 TEST_F(CredentialsStageTest, NoRomanNumPW){
     rapidjson::Document doc;
-    doc.Parse("[0, \"password\", \"Purple-23\"]");
+    doc.Parse("[0, \"password\", \"mossPlate-23\"]");
     rapidjson::Value &jsonArray = doc.GetArray();
     stage->update(jsonArray);
     std::vector<std::string> expected = {stage->missingRomanNumError};
@@ -120,7 +142,7 @@ TEST_F(CredentialsStageTest, NoRomanNumPW){
 
 TEST_F(CredentialsStageTest, NonPalindromePW){
     rapidjson::Document doc;
-    doc.Parse("[0, \"password\", \"GreenV-23\"]");
+    doc.Parse("[0, \"password\", \"Mossplate-23\"]");
     rapidjson::Value &jsonArray = doc.GetArray();
     stage->update(jsonArray);
     std::vector<std::string> expected = {stage->notPalindromeError};
@@ -130,7 +152,7 @@ TEST_F(CredentialsStageTest, NonPalindromePW){
 
 TEST_F(CredentialsStageTest, TooLongPW){
     rapidjson::Document doc;
-    doc.Parse("[0, \"password\", \"GreenV-11-VneerG\"]");
+    doc.Parse("[0, \"password\", \"thepluM-2-Mulpeht\"]");
     rapidjson::Value &jsonArray = doc.GetArray();
     stage->update(jsonArray);
     std::vector<std::string> expected = {stage->tooLongError};
@@ -140,7 +162,7 @@ TEST_F(CredentialsStageTest, TooLongPW){
 
 TEST_F(CredentialsStageTest, ValidPW){
     rapidjson::Document doc;
-    doc.Parse("[0, \"password\", \"pInk-2-knIp\"]");
+    doc.Parse("[0, \"password\", \"pluM-2-Mulp\"]");
     rapidjson::Value &jsonArray = doc.GetArray();
     stage->update(jsonArray);
     std::vector<std::string> expected;

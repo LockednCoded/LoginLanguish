@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 #include <vector>
 #include <map>
@@ -8,6 +10,7 @@ class GameManager
 {
 public:
     GameManager();
+    Stage* getStage(std::string stage);
     void updateField(const rapidjson::Value &req);
     // std::string getStage();
     std::string getNextStage();

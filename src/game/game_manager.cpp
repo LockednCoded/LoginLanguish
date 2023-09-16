@@ -14,11 +14,11 @@ GameManager::GameManager()
 {
     stage_index = 0;
 
-    Stage *name_stage = new NameStage();
-    Stage *credentials_stage = new CredentialsStage();
-    Stage *extras_stage = new ExtrasStage();
-    Stage *txt_captcha_stage = new TxtCaptchaStage();
-    Stage *image_captcha_stage = new ImageCaptchaStage();
+    Stage *name_stage = new NameStage(this);
+    Stage *credentials_stage = new CredentialsStage(this);
+    Stage *extras_stage = new ExtrasStage(this);
+    Stage *txt_captcha_stage = new TxtCaptchaStage(this);
+    Stage *image_captcha_stage = new ImageCaptchaStage(this);
 
     stages.push_back(name_stage);
     stages.push_back(credentials_stage);
@@ -33,6 +33,11 @@ GameManager::GameManager()
     stages_map["image_captcha"] = image_captcha_stage;
 
     current_stage = stages[stage_index];
+}
+
+Stage* GameManager::getStage(std::string stage)
+{
+    return stages_map[stage];
 }
 
 std::string GameManager::getNextStage()

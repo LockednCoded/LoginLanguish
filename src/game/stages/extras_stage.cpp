@@ -1,5 +1,9 @@
 #include "extras_stage.h"
 
+ExtrasStage::ExtrasStage(GameManager *gameManager){
+    gm = gameManager;
+};
+
 bool ExtrasStage::validateStage()
 {
     return true;

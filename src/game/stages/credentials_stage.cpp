@@ -14,6 +14,11 @@ bool isPrime(int n);
 bool hasPrime(std::string input);
 bool hasColour(std::string input);
 
+
+CredentialsStage::CredentialsStage(GameManager *gameManager){
+    gm = gameManager;
+};
+
 bool CredentialsStage::validateStage()
 {
     return true;
@@ -29,32 +34,25 @@ std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::strin
     std::vector<std::string> errors;
     // password puzzles
     if (args[0].compare("password") == 0){
+        // strings of characters to find in password
         std::string digits = "0123456789";
         std::string lowercase = "abcdefghijklmnopqrstuvwxyz";
         std::string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         std::string special = "!@#$%^&*()-_=+[]{}\\|;:'\",.<>/?`~";
         std::string roman = "IVXLCDM";
+        // get initials
+        Stage* nameStage = gm->getStage("name");
+        rapidjson::Document doc;
+        doc.SetObject();
+        rapidjson::Value &fieldStates = nameStage->getFieldStates(doc.GetAllocator());
+        std::string fName = fieldStates["firstName"]["value"].GetString();
+        std::string lName = fieldStates["lastName"]["value"].GetString();
+        std::string initials = std::string(1, fName[0]) + std::string(1, lName[0]);
+        std::transform(initials.begin(), initials.end(), initials.begin(), [](unsigned char c) { return std::tolower(c); });
+        // create a lowercase copy of password to test against initials
+        std::string lowercasePW = password;
+        std::transform(lowercasePW.begin(), lowercasePW.end(), lowercasePW.begin(), [](unsigned char c) { return std::tolower(c); });
 
-        // int numDigits = 0;
-        // int numLowercase = 0;
-        // int numUppercase = 0;
-        // bool containsSpecial = false;
-
-        // iterate through password and update fields
-        // for (char c : password){
-        //     if (lowercase.find(c) != std::string::npos){        // char is lowercase
-        //         numLowercase++;
-        //         continue;
-        //     } else if (uppercase.find(c) != std::string::npos){ // char is uppercase
-        //         numUppercase++;
-        //         continue;
-        //     } else if (digits.find(c) != std::string::npos){    // char is digit
-        //         numDigits++;
-        //         continue;
-        //     } else if (special.find(c) != std::string::npos){   // char is special character
-        //         containsSpecial = true;
-        //     }
-        // }
 
         if (password.length() == 0){                                            // empty password
             return errors;
@@ -70,6 +68,8 @@ std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::strin
             errors.push_back(missingSpecialError);
         } else if (!hasPrime(password)){                                        // missing prime number(s)
             errors.push_back(missingPrimeError);
+        } else if (lowercasePW.find(initials) == std::string::npos){            // missing user initials
+            errors.push_back(missingInitialsError);
         } else if (!hasColour(password)){                                       // missing colour
             errors.push_back(missingColourError);
         } else if (password.find_first_of(roman) == std::string::npos){         // missing Roman numeral(s)
@@ -79,6 +79,7 @@ std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::strin
         } else if (password.length() > 12){                                     // maximum length exceeded
             errors.push_back(tooLongError);
         }
+
     }
     return errors;
 }

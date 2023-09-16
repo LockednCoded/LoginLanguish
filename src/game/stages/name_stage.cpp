@@ -1,5 +1,9 @@
 #include "name_stage.h"
 
+NameStage::NameStage(GameManager *gameManager){
+    gm = gameManager;
+};
+
 bool NameStage::validateStage()
 {
     return true;
@@ -39,3 +43,4 @@ rapidjson::Value NameStage::getFieldStates(rapidjson::Document::AllocatorType &a
 
     return fieldStates;
 };
+
