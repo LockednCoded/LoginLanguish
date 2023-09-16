@@ -34,7 +34,7 @@ export default function TextCaptcha({
             {gameState.stages[TxtCaptchaStage].state.challengeText}
           </p>
           <input
-            className="h-7 p-2 box-border rounded-md outline-none disabled:opacity-75 w-full text-sm"
+            className="h-7 p-2 box-border rounded-md outline-none disabled:opacity-75 w-full text-sm select-text"
             data-test-id="text-field-text-captcha"
             type="text"
             name="textCaptcha"

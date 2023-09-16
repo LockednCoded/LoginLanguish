@@ -24,7 +24,7 @@ export default function TextField(props: {
           {props.name}
         </label>
         <input
-          className={`border rounded border-black w-full h-9 p-2 box-border outline-none disabled:opacity-75 ${
+          className={`border rounded border-black w-full h-9 p-2 box-border outline-none disabled:opacity-75 select-text ${
             props.type == "password"
               ? "[-webkit-text-security:disc] tracking-wider"
               : ""

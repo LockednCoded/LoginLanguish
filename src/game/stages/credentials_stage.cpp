@@ -44,7 +44,7 @@ std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::strin
         Stage* nameStage = gm->getStage("name");
         rapidjson::Document doc;
         doc.SetObject();
-        rapidjson::Value &fieldStates = nameStage->getFieldStates(doc.GetAllocator());
+        rapidjson::Value fieldStates = nameStage->getFieldStates(doc.GetAllocator());
         std::string fName = fieldStates["firstName"]["value"].GetString();
         std::string lName = fieldStates["lastName"]["value"].GetString();
         std::string initials = std::string(1, fName[0]) + std::string(1, lName[0]);

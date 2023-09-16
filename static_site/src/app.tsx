@@ -7,7 +7,7 @@ const reactRoot = document.getElementById("react-root");
 
 const App = () => {
   return (
-    <div className="h-screen bg-gray-700 flex justify-center items-center">
+    <div className="h-screen bg-gray-700 flex justify-center items-center overflow-hidden">
       <LoginPage />
     </div>
   );
