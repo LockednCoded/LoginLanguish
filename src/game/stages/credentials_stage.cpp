@@ -76,7 +76,7 @@ std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::strin
             errors.push_back(missingRomanNumError);
         } else if (!isPalindrome(password)){                                    // is not a palindrome
             errors.push_back(notPalindromeError);
-        } else if (password.length() > 12){                                     // maximum length exceeded
+        } else if (password.length() > 22){                                     // maximum length exceeded
             errors.push_back(tooLongError);
         }
 
