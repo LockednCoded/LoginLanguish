@@ -9,8 +9,10 @@ import {
   ExtrasStage,
   TxtCaptchaStage,
   ImageCaptchaStage,
-} from "../scripts/cpp-bindings";
+  StageMap,
+} from "../scripts/useBindings";
 import ImageCaptcha from "./ImageCaptcha";
+import TextCaptcha from "./TextCaptcha";
 
 export default function LoginPage() {
   const { gameState, updateFieldState, nextBtnClick } = useBindings();
@@ -26,7 +28,7 @@ export default function LoginPage() {
 				`}
       >
         <div className={`grid gap-x-3.5 ${true ? "grid-cols-2" : ""}`}>
-          {gameState.stage == ImageCaptchaStage && (
+          {StageMap[gameState.stage] == ImageCaptchaStage && (
             <ImageCaptcha
               gameState={gameState}
               updateFieldState={updateFieldState}
@@ -38,7 +40,7 @@ export default function LoginPage() {
             name="First Name"
             value={gameState.stages[NameStage].state.firstName.value}
             onChange={(e) =>
-              updateFieldState(NameStage, "firstName", e.target.value)
+              updateFieldState("name", "firstName", e.target.value)
             }
             disabled={gameState.stages[NameStage].state.firstName.disabled}
             className="mt-3"
@@ -48,7 +50,7 @@ export default function LoginPage() {
             name="Last Name"
             value={gameState.stages[NameStage].state.lastName.value}
             onChange={(e) =>
-              updateFieldState(NameStage, "lastName", e.target.value)
+              updateFieldState("name", "lastName", e.target.value)
             }
             disabled={gameState.stages[NameStage].state.lastName.disabled}
             className="mt-3"
@@ -56,7 +58,7 @@ export default function LoginPage() {
         </div>
         <div
           className={`height-hidable  ${
-            gameState.stage >= CredentialsStage ? "" : "height-hidden"
+            StageMap[gameState.stage] >= CredentialsStage ? "" : "height-hidden"
           }`}
         >
           <TextField
@@ -64,7 +66,7 @@ export default function LoginPage() {
             name="Username"
             value={gameState.stages[CredentialsStage].state.username.value}
             onChange={(e) =>
-              updateFieldState(CredentialsStage, "username", e.target.value)
+              updateFieldState("credentials", "username", e.target.value)
             }
             disabled={
               gameState.stages[CredentialsStage].state.username.disabled
@@ -81,7 +83,7 @@ export default function LoginPage() {
               name="Password"
               value={gameState.stages[CredentialsStage].state.password.value}
               onChange={(e) =>
-                updateFieldState(CredentialsStage, "password", e.target.value)
+                updateFieldState("credentials", "password", e.target.value)
               }
               disabled={
                 gameState.stages[CredentialsStage].state.password.disabled
@@ -98,7 +100,7 @@ export default function LoginPage() {
         </div>
         <div
           className={`height-hidable  ${
-            gameState.stage >= ExtrasStage ? "" : "height-hidden"
+            StageMap[gameState.stage] >= ExtrasStage ? "" : "height-hidden"
           }`}
         >
           <div className="flex flex-row justify-between items-end ">
@@ -107,7 +109,7 @@ export default function LoginPage() {
               name="Date of Birth"
               value={gameState.stages[ExtrasStage].state.dob.value}
               onChange={(e) =>
-                updateFieldState(ExtrasStage, "dob", e.target.value)
+                updateFieldState("extras", "dob", e.target.value)
               }
               disabled={gameState.stages[ExtrasStage].state.dob.disabled}
               className="mt-3 w-1/3"
@@ -118,16 +120,10 @@ export default function LoginPage() {
                 type="checkbox"
                 name="terms"
                 id="terms"
-                checked={
-                  gameState.stages[ExtrasStage].state.tsAndCs.value == "true"
-                }
+                checked={gameState.stages[ExtrasStage].state.tsAndCs.value}
                 disabled={gameState.stages[ExtrasStage].state.tsAndCs.disabled}
                 onChange={(e) => {
-                  updateFieldState(
-                    ExtrasStage,
-                    "tsAndCs",
-                    e.target.checked ? "true" : "false"
-                  );
+                  updateFieldState("extras", "tsAndCs", e.target.checked);
                 }}
               />
               <label className="text-gray-800 ml-2 font-light" htmlFor="terms">
@@ -153,23 +149,15 @@ export default function LoginPage() {
 
         <div
           className={`height-hidable  ${
-            gameState.stage >= TxtCaptchaStage ? "" : "height-hidden"
+            StageMap[gameState.stage] >= TxtCaptchaStage ? "" : "height-hidden"
           }`}
         >
-          <div>
-            <TextField
-              type="text"
-              name="Verification"
-              value={gameState.stages[TxtCaptchaStage].state.txtcaptcha.value}
-              onChange={(e) =>
-                updateFieldState(TxtCaptchaStage, "txtcaptcha", e.target.value)
-              }
-              disabled={
-                gameState.stages[TxtCaptchaStage].state.txtcaptcha.disabled
-              }
-              className="mt-3"
-            />
-          </div>
+          <TextCaptcha
+            gameState={gameState}
+            updateFieldState={updateFieldState}
+            nextBtnClick={nextBtnClick}
+            className="mt-3"
+          />
         </div>
 
         <button

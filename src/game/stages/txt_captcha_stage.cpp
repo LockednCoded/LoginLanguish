@@ -21,8 +21,6 @@ void TxtCaptchaStage::update(const rapidjson::Value &req)
 
     if (field.compare("txtcaptcha") == 0)
         txt_captcha = req[REQ_VALUE_INDEX].GetString();
-    else if (field.compare("imageURL") == 0)
-        image_url = req[REQ_VALUE_INDEX].GetString();
 }
 
 std::string TxtCaptchaStage::getStageName()
@@ -40,6 +38,9 @@ rapidjson::Value TxtCaptchaStage::getFieldStates(rapidjson::Document::AllocatorT
 
     rapidjson::Value imageUrlValue(image_url.c_str(), allocator);
     fieldStates.AddMember("imageURL", imageUrlValue, allocator);
+
+    rapidjson::Value challengeTextValue(challenge_text.c_str(), allocator);
+    fieldStates.AddMember("challengeText", challengeTextValue, allocator);
 
     return fieldStates;
 };

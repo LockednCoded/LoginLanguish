@@ -1,4 +1,10 @@
-import { GameState, ImageCaptchaStage, Stage } from "../scripts/cpp-bindings";
+import {
+  GameState,
+  ImageCaptchaStage,
+  SetFieldStateFunc,
+  Stage,
+  StageName,
+} from "../scripts/useBindings";
 
 const CaptchaTile = ({
   source,
@@ -28,11 +34,7 @@ export default function ImageCaptcha({
   nextBtnClick,
 }: {
   gameState: GameState;
-  updateFieldState: (
-    stage: Stage,
-    fieldName: string,
-    value: string
-  ) => Promise<void>;
+  updateFieldState: SetFieldStateFunc;
   nextBtnClick: () => Promise<void>;
 }) {
   return (
@@ -40,24 +42,32 @@ export default function ImageCaptcha({
       <div className="bg-white p-1">
         <div className="text-white bg-blue-600 p-3 mb-1">
           <h1 className="font-bold text-xl">
-            {gameState.stages[ImageCaptchaStage].challengeText}
+            {gameState.stages[ImageCaptchaStage].state.challengeText}
           </h1>
         </div>
         <div className="grid grid-cols-3 gap-1 w-[400px] h-[400px]">
-          {gameState.stages[ImageCaptchaStage].images.map((image, i) => {
+          {gameState.stages[ImageCaptchaStage].state.images.map((image, i) => {
+            const selected =
+              gameState.stages[ImageCaptchaStage].state.selected.includes(
+                image
+              );
+            const updateVersion = selected
+              ? gameState.stages[ImageCaptchaStage].state.selected.filter(
+                  (v) => v !== image
+                )
+              : [...gameState.stages[ImageCaptchaStage].state.selected, image];
+
             return (
               <CaptchaTile
                 source={image}
                 onClick={() =>
                   updateFieldState(
-                    ImageCaptchaStage,
+                    "imagecaptcha",
                     "selectedImage",
-                    i.toString()
+                    updateVersion
                   )
                 }
-                selected={gameState.stages[
-                  ImageCaptchaStage
-                ].state.selected.includes(i)}
+                selected={selected}
               />
             );
           })}

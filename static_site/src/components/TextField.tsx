@@ -1,4 +1,5 @@
 import React from "react";
+import useSmoothUpdate from "../scripts/useSmoothUpdate";
 
 export default function TextField(props: {
   type: "text" | "password" | "date";
@@ -8,6 +9,11 @@ export default function TextField(props: {
   disabled?: boolean;
   className?: string;
 }) {
+  const [stableValue, updateValue, setFieldIsActive] = useSmoothUpdate(
+    props.value,
+    props.onChange
+  );
+
   return (
     <div className={props.className}>
       <div>
@@ -27,9 +33,11 @@ export default function TextField(props: {
           type={{ password: "text", text: "text", date: "date" }[props.type]}
           name={props.name}
           id={props.name}
+          onBlur={() => setFieldIsActive(false)}
+          onFocus={() => setFieldIsActive(true)}
           autoComplete="off"
-          value={props.value}
-          onChange={props.onChange}
+          value={stableValue}
+          onChange={updateValue}
           disabled={props.disabled || false}
         />
       </div>
