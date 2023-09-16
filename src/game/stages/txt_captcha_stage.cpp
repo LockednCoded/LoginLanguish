@@ -1,18 +1,21 @@
 #include "txt_captcha_stage.h"
 
 TxtCaptchaStage::TxtCaptchaStage(GameManager *gameManager){
+    name = "txtcaptcha";
     gm = gameManager;
-};
+    field_errors = {
+        {"txtcaptcha", std::vector<std::string>()}
+    };
+}
 
 bool TxtCaptchaStage::validateStage()
 {
     return true;
 }
 
-std::vector<std::string> TxtCaptchaStage::getStageErrors(std::vector<std::string> args)
+void TxtCaptchaStage::updateErrors(std::string field)
 {   
-    std::vector<std::string> errors;
-    return errors;
+    //TODO: implement this
 }
 
 void TxtCaptchaStage::update(const rapidjson::Value &req)
@@ -21,11 +24,8 @@ void TxtCaptchaStage::update(const rapidjson::Value &req)
 
     if (field.compare("txtcaptcha") == 0)
         txt_captcha = req[REQ_VALUE_INDEX].GetString();
-}
-
-std::string TxtCaptchaStage::getStageName()
-{
-    return "txtcaptcha";
+    
+    updateErrors(field);
 }
 
 rapidjson::Value TxtCaptchaStage::getFieldStates(rapidjson::Document::AllocatorType &allocator)

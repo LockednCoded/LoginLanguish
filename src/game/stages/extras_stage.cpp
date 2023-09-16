@@ -1,18 +1,22 @@
 #include "extras_stage.h"
 
 ExtrasStage::ExtrasStage(GameManager *gameManager){
+    name = "extras";
     gm = gameManager;
-};
+    field_errors = {
+        {"dob", std::vector<std::string>()},
+        {"tsAndCs", std::vector<std::string>()}
+    };
+}
 
 bool ExtrasStage::validateStage()
 {
     return true;
 }
 
-std::vector<std::string> ExtrasStage::getStageErrors(std::vector<std::string> args)
+void ExtrasStage::updateErrors(std::string field)
 {   
-    std::vector<std::string> errors;
-    return errors;
+    //TODO: implement this
 }
 
 void ExtrasStage::update(const rapidjson::Value &req)
@@ -23,11 +27,8 @@ void ExtrasStage::update(const rapidjson::Value &req)
     else if (field.compare("tsAndCs") == 0) {
         ts_and_cs = req[REQ_VALUE_INDEX].GetBool();
     }
-}
 
-std::string ExtrasStage::getStageName()
-{
-    return "extras";
+    updateErrors(field);
 }
 
 rapidjson::Value ExtrasStage::getFieldStates(rapidjson::Document::AllocatorType &allocator)

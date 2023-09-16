@@ -18,7 +18,6 @@ public:
     CredentialsStage(GameManager *gameManager);
 
     bool validateStage();
-    std::vector<std::string> getStageErrors(std::vector<std::string> args);
     void update(const rapidjson::Value &req);
     std::string getStageName();
     rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator);
@@ -36,10 +35,8 @@ public:
     std::string notPalindromeError = "Password must be a palindrome.";
     std::string tooLongError = "Password must be 22 or less characters."; // "Maximum password length exceeded"?
 
-protected:
-    std::string name = "credentials";
-
 private:
+    void updateErrors(std::string field);
     GameManager* gm;
     NameStage* nameStage;
     std::string username = "";

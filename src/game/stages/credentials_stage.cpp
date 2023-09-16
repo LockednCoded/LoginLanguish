@@ -16,8 +16,13 @@ bool hasColour(std::string input);
 
 
 CredentialsStage::CredentialsStage(GameManager *gameManager){
+    name = "credentials";
     gm = gameManager;
-};
+    field_errors = {
+        {"username", std::vector<std::string>()},
+        {"password", std::vector<std::string>()}
+    };
+}
 
 bool CredentialsStage::validateStage()
 {
@@ -29,11 +34,11 @@ bool CredentialsStage::validateStage()
  @details checks password input against a set of conditions
  @return vector containing first error message
 */
-std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::string> args)
+void CredentialsStage::updateErrors(std::string field)
 {
     std::vector<std::string> errors;
     // password puzzles
-    if (args[0].compare("password") == 0){
+    if (field.compare("password") == 0){
         // strings of characters to find in password
         std::string digits = "0123456789";
         std::string lowercase = "abcdefghijklmnopqrstuvwxyz";
@@ -54,8 +59,8 @@ std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::strin
         std::transform(lowercasePW.begin(), lowercasePW.end(), lowercasePW.begin(), [](unsigned char c) { return std::tolower(c); });
 
 
-        if (password.length() == 0){                                            // empty password
-            return errors;
+        if (password.length() == 0){  
+            //do nothing                                          // empty password
         } else if (password.length() < 8){                                      // minimum length not reached
             errors.push_back(tooShortError);
         } else if (password.find_first_of(digits) == std::string::npos){        // missing digit(s)
@@ -80,8 +85,8 @@ std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::strin
             errors.push_back(tooLongError);
         }
 
+        field_errors["password"] = errors;
     }
-    return errors;
 }
 
 /*!
@@ -95,6 +100,8 @@ void CredentialsStage::update(const rapidjson::Value &req)
         username = req[REQ_VALUE_INDEX].GetString();
     else if (field.compare("password") == 0)
         password = req[REQ_VALUE_INDEX].GetString();
+
+    updateErrors(field);
 }
 
 std::string CredentialsStage::getStageName()

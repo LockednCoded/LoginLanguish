@@ -26,7 +26,7 @@ rapidjson::Value Stage::createFieldState(std::string field, rapidjson::Value &fi
 
     //add errors to field state object
     rapidjson::Value fieldErrors(rapidjson::kArrayType);
-    for (auto error : getStageErrors({field}))
+    for (auto error : getFieldErrors(field))
     {
         rapidjson::Value errorValue(error.c_str(), allocator);
         fieldErrors.PushBack(errorValue, allocator);
@@ -37,4 +37,14 @@ rapidjson::Value Stage::createFieldState(std::string field, rapidjson::Value &fi
     fieldState.AddMember("disabled", rapidjson::Value(isFieldDisabled(field)), allocator);
 
     return fieldState;
+}
+
+std::vector<std::string> Stage::getFieldErrors(std::string field)
+{
+    return field_errors[field];
+}
+
+std::string Stage::getStageName()
+{
+    return name;
 }

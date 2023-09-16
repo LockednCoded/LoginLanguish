@@ -1,18 +1,22 @@
 #include "name_stage.h"
 
 NameStage::NameStage(GameManager *gameManager){
+    name = "name";
     gm = gameManager;
-};
+    field_errors = {
+        {"firstName", std::vector<std::string>()},
+        {"lastName", std::vector<std::string>()}
+    };
+}
 
 bool NameStage::validateStage()
 {
     return true;
 }
 
-std::vector<std::string> NameStage::getStageErrors(std::vector<std::string> args)
+void NameStage::updateErrors(std::string field)
 {   
-    std::vector<std::string> errors;
-    return errors;
+    //TODO: implement this?
 }
 
 void NameStage::update(const rapidjson::Value &req)
@@ -22,11 +26,8 @@ void NameStage::update(const rapidjson::Value &req)
         first_name = req[REQ_VALUE_INDEX].GetString();
     else if (field.compare("lastName") == 0)
         last_name = req[REQ_VALUE_INDEX].GetString();
-}
-
-std::string NameStage::getStageName()
-{
-    return "name";
+    
+    updateErrors(field);
 }
 
 rapidjson::Value NameStage::getFieldStates(rapidjson::Document::AllocatorType &allocator)

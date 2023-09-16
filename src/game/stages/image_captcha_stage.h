@@ -8,15 +8,11 @@ public:
     ImageCaptchaStage(GameManager *gameManager);
 
     bool validateStage();
-    std::vector<std::string> getStageErrors(std::vector<std::string> args);
     void update(const rapidjson::Value &req);
-    std::string getStageName();
     rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator);
-protected:
-    //TODO: tidy up
-    std::string name = "imagecaptcha";
     
 private:
+    void updateErrors(std::string field);
     GameManager* gm;
     std::vector<std::string> image_urls;
     std::string challenge_text = "";

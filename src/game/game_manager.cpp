@@ -56,8 +56,22 @@ void GameManager::updateField(const rapidjson::Value &req)
     stages_map[index]->update(req);
 }
 
-std::vector<std::string> GameManager::getStageErrors(std::vector<std::string> args) {
-    return current_stage->getStageErrors(args);
+void GameManager::updateField(std::string stage, std::string field, std::string value)
+{
+    rapidjson::Document document;
+    document.SetArray();
+    rapidjson::Document::AllocatorType &allocator = document.GetAllocator();
+
+    document.PushBack(rapidjson::Value(stage.c_str(), allocator), allocator);
+    document.PushBack(rapidjson::Value(field.c_str(), allocator), allocator);
+    document.PushBack(rapidjson::Value(value.c_str(), allocator), allocator);
+
+    rapidjson::Value req = document.GetArray();
+    updateField(req);
+}
+
+std::vector<std::string> GameManager::getFieldErrors(std::string stage, std::string field) {
+    return stages_map[stage]->getFieldErrors(field);
 }
 
 rapidjson::Document GameManager::getGameState()

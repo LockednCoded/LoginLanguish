@@ -1,6 +1,7 @@
 #include "image_captcha_stage.h"
 
 ImageCaptchaStage::ImageCaptchaStage(GameManager *gameManager){
+    name = "imagecaptcha";
     gm = gameManager;
 };
 
@@ -9,10 +10,9 @@ bool ImageCaptchaStage::validateStage()
     return true;
 }
 
-std::vector<std::string> ImageCaptchaStage::getStageErrors(std::vector<std::string> args)
+void ImageCaptchaStage::updateErrors(std::string field)
 {   
-    std::vector<std::string> errors;
-    return errors;
+    //TODO: implement this?
 }
 
 void ImageCaptchaStage::update(const rapidjson::Value &req)
@@ -26,11 +26,7 @@ void ImageCaptchaStage::update(const rapidjson::Value &req)
         }
         selected = new_selection;
     }
-}
-
-std::string ImageCaptchaStage::getStageName()
-{
-    return "imagecaptcha";
+    updateErrors(field);
 }
 
 rapidjson::Value ImageCaptchaStage::getFieldStates(rapidjson::Document::AllocatorType &allocator)

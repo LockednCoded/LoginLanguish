@@ -8,14 +8,11 @@ public:
     NameStage(GameManager *gameManager);
 
     bool validateStage();
-    std::vector<std::string> getStageErrors(std::vector<std::string> args);
     void update(const rapidjson::Value &req);
-    std::string getStageName();
     rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator);
-protected:
-    std::string name = "name";
-    
 private:
+    void updateErrors(std::string field);
+    
     GameManager* gm;
     std::string first_name = "";
     std::string last_name = "";

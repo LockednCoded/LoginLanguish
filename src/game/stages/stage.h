@@ -2,15 +2,16 @@
 
 #include <vector>
 #include <string>
+#include <map>
 #include "rapidjson/document.h"
 
 class Stage
 {
 public:
     virtual bool validateStage() = 0;
-    virtual std::vector<std::string> getStageErrors(std::vector<std::string> args) = 0;
+    std::vector<std::string> getFieldErrors(std::string field);
     virtual void update(const rapidjson::Value &req) = 0;
-    virtual std::string getStageName() = 0;
+    std::string getStageName();
     rapidjson::Value getStageState(rapidjson::Document::AllocatorType &allocator);
     virtual rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator) = 0;
     //TODO: implement this
@@ -18,7 +19,8 @@ public:
     // virtual void setFieldDisabled(std::string field, bool disabled) = 0;
 protected:
     rapidjson::Value createFieldState(std::string field, rapidjson::Value &fieldValue, rapidjson::Document::AllocatorType &allocator);
-    
+    std::string name = "";
+    std::map<std::string, std::vector<std::string>> field_errors;
     const int REQ_FIELD_INDEX = 1;
     const int REQ_VALUE_INDEX = 2;
 };
