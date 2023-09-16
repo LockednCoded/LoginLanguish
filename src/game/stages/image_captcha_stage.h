@@ -2,16 +2,18 @@
 
 #include "stage.h"
 
-class TxtCaptchaStage : public Stage {
+class ImageCaptchaStage : public Stage {
 public:
     bool validateStage();
     std::vector<std::string> getStageErrors(std::vector<std::string> args);
     void update(const rapidjson::Value &req);
     std::string getStageName();
 protected:
-    std::string name = "txtcaptcha";
+    //TODO: tidy up
+    std::string name = "imagecaptcha";
     rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator);
 private:
-    std::string txt_captcha = "";
-    std::string image_url = "";
+    std::vector<std::string> image_urls;
+    std::string challenge_text = "";
+    std::vector<int> selected;
 };

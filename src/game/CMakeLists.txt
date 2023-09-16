@@ -4,12 +4,14 @@ set(source_list "game_manager.cpp"
                 "stages/stage.cpp"
                 "stages/credentials_stage.cpp"
                 "stages/credentials_stage.h"
-                "stages/details_stage.cpp"
-                "stages/details_stage.h"
                 "stages/name_stage.cpp"
                 "stages/name_stage.h"
                 "stages/txt_captcha_stage.cpp"
                 "stages/txt_captcha_stage.h"
+                "stages/extras_stage.cpp"
+                "stages/extras_stage.h"
+                "stages/image_captcha_stage.cpp"
+                "stages/image_captcha_stage.h"
 )
 
 add_library(game STATIC ${source_list})

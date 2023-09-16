@@ -67,12 +67,13 @@ std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::strin
     return errors;
 }
 
-void CredentialsStage::updateStage(std::vector<std::string> args)
+void CredentialsStage::update(const rapidjson::Value &req)
 {
-    if (args[0].compare("username") == 0)
-        username = args[1];
-    else if (args[0].compare("password") == 0)
-        password = args[1];
+    std::string field = req[REQ_FIELD_INDEX].GetString();
+    if (field.compare("username") == 0)
+        username = req[REQ_VALUE_INDEX].GetString();
+    else if (field.compare("password") == 0)
+        password = req[REQ_VALUE_INDEX].GetString();
 }
 
 std::string CredentialsStage::getStageName()

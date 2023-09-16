@@ -1,17 +1,37 @@
 #include "game_manager.h"
 #include "stages/name_stage.h"
 #include "stages/credentials_stage.h"
-#include "stages/details_stage.h"
 #include "stages/txt_captcha_stage.h"
+#include "stages/extras_stage.h"
+#include "stages/image_captcha_stage.h"
 #include "rapidjson/document.h"
+#include "rapidjson/stringbuffer.h"
+#include <rapidjson/writer.h>
+
+#include <iostream>
 
 GameManager::GameManager()
 {
     stage_index = 0;
-    stages.push_back(new NameStage());
-    stages.push_back(new CredentialsStage());
-    stages.push_back(new DetailsStage());
-    stages.push_back(new TxtCaptchaStage());
+
+    Stage *name_stage = new NameStage();
+    Stage *credentials_stage = new CredentialsStage();
+    Stage *extras_stage = new ExtrasStage();
+    Stage *txt_captcha_stage = new TxtCaptchaStage();
+    Stage *image_captcha_stage = new ImageCaptchaStage();
+
+    stages.push_back(name_stage);
+    stages.push_back(credentials_stage);
+    stages.push_back(extras_stage);
+    stages.push_back(txt_captcha_stage);
+    stages.push_back(image_captcha_stage);
+
+    stages_map["name"] = name_stage;
+    stages_map["credentials"] = credentials_stage;
+    stages_map["extras"] = extras_stage;
+    stages_map["txt_captcha"] = txt_captcha_stage;
+    stages_map["image_captcha"] = image_captcha_stage;
+
     current_stage = stages[stage_index];
 }
 
@@ -25,9 +45,10 @@ std::string GameManager::getNextStage()
     return current_stage->getStageName();
 }
 
-void GameManager::updateStage(std::vector<std::string> args)
+void GameManager::updateField(const rapidjson::Value &req)
 {
-    current_stage->updateStage(args);
+    int index = req[REQ_STAGE_INDEX].GetInt();
+    stages[index]->update(req);
 }
 
 std::vector<std::string> GameManager::getStageErrors(std::vector<std::string> args) {

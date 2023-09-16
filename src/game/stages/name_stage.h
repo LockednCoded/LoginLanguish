@@ -6,9 +6,8 @@ class NameStage : public Stage {
 public:
     bool validateStage();
     std::vector<std::string> getStageErrors(std::vector<std::string> args);
-    void updateStage(std::vector<std::string> args);
+    void update(const rapidjson::Value &req);
     std::string getStageName();
-    rapidjson::Value getStageState(rapidjson::Document::AllocatorType &allocator);
 protected:
     std::string name = "name";
     rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator);
