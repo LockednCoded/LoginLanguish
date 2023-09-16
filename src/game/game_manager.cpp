@@ -47,8 +47,8 @@ std::string GameManager::getNextStage()
 
 void GameManager::updateField(const rapidjson::Value &req)
 {
-    int index = req[REQ_STAGE_INDEX].GetInt();
-    stages[index]->update(req);
+    const char *index = req[REQ_STAGE_INDEX].GetString();
+    stages_map[index]->update(req);
 }
 
 std::vector<std::string> GameManager::getStageErrors(std::vector<std::string> args) {
@@ -60,8 +60,11 @@ rapidjson::Document GameManager::getGameState()
     rapidjson::Document document;
     document.SetObject();
 
-    rapidjson::Value currentStage(stage_index + 1);
+    rapidjson::Value currentStage(current_stage->getStageName().c_str(), document.GetAllocator());
     document.AddMember("stage", currentStage, document.GetAllocator());
+
+    // TODO: check if stage can progress
+    document.AddMember("canProgress", true, document.GetAllocator());
 
     rapidjson::Value stagesArray(rapidjson::kArrayType);
     for (auto stage : stages)

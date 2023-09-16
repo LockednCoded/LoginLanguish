@@ -7,7 +7,8 @@
 
 #include "utils.h"
 #include "cpp-base64/base64.h"
-#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
 
 /*!
  @brief loads content from specified file to a string
@@ -45,5 +46,13 @@ std::string JSEncode(const std::vector<std::string> &message)
 		}
 	}
 	result += "]";
+	return result;
+}
+std::string JSONToString(const rapidjson::Document &doc)
+{
+	rapidjson::StringBuffer buffer;
+	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+	doc.Accept(writer);
+	std::string result = buffer.GetString();
 	return result;
 }
