@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <string>
 #include <vector>
+#include <rapidjson/document.h>
 
 #include "stages/credentials_stage.h"
 
@@ -27,80 +28,123 @@ namespace {
 
 
 
-TEST_F(CredentialsStageTest, EmptyPW) {
-    std::string password = "";
+TEST_F(CredentialsStageTest, EmptyPW){
+    rapidjson::Document doc;
+    doc.Parse("[0, \"password\", \"\"]");
+    rapidjson::Value &jsonArray = doc.GetArray();
+    stage->update(jsonArray);
     std::vector<std::string> expected;
-    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    std::vector<std::string> result = stage->getStageErrors({"password"});
     EXPECT_TRUE(result == expected);
 }
 
-TEST_F(CredentialsStageTest, TooShortPW) {
-    std::string password = "Pass";
+TEST_F(CredentialsStageTest, TooShortPW){
+    rapidjson::Document doc;
+    doc.Parse("[0, \"password\", \"pass\"]");
+    rapidjson::Value &jsonArray = doc.GetArray();
+    stage->update(jsonArray);
     std::vector<std::string> expected = {stage->tooShortError};
-    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    std::vector<std::string> result = stage->getStageErrors({"password"});
     EXPECT_TRUE(result == expected);
 }
 
-TEST_F(CredentialsStageTest, NoDigitPW) {
-    std::string password = "Password";
+TEST_F(CredentialsStageTest, NoDigitPW){
+    rapidjson::Document doc;
+    doc.Parse("[0, \"password\", \"password\"]");
+    rapidjson::Value &jsonArray = doc.GetArray();
+    stage->update(jsonArray);
     std::vector<std::string> expected = {stage->missingDigitError};
-    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    std::vector<std::string> result = stage->getStageErrors({"password"});
     EXPECT_TRUE(result == expected);
 }
 
-TEST_F(CredentialsStageTest, NoUppercasePW) {
-    std::string password = "password123";
+TEST_F(CredentialsStageTest, NoUppercasePW){
+    rapidjson::Document doc;
+    doc.Parse("[0, \"password\", \"password123\"]");
+    rapidjson::Value &jsonArray = doc.GetArray();
+    stage->update(jsonArray);
     std::vector<std::string> expected = {stage->missingUppercaseError};
-    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    std::vector<std::string> result = stage->getStageErrors({"password"});
     EXPECT_TRUE(result == expected);
 }
 
-TEST_F(CredentialsStageTest, NoLowercasePW) {
-    std::string password = "PASSWORD123";
+TEST_F(CredentialsStageTest, NoLowercasePW){
+    rapidjson::Document doc;
+    doc.Parse("[0, \"password\", \"PASSWORD123\"]");
+    rapidjson::Value &jsonArray = doc.GetArray();
+    stage->update(jsonArray);
     std::vector<std::string> expected = {stage->missingLowercaseError};
-    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    std::vector<std::string> result = stage->getStageErrors({"password"});
     EXPECT_TRUE(result == expected);
 }
 
-TEST_F(CredentialsStageTest, NoSpecialCharPW) {
-    std::string password = "Password123";
+TEST_F(CredentialsStageTest, NoSpecialCharPW){
+    rapidjson::Document doc;
+    doc.Parse("[0, \"password\", \"Password123\"]");
+    rapidjson::Value &jsonArray = doc.GetArray();
+    stage->update(jsonArray);
     std::vector<std::string> expected = {stage->missingSpecialError};
-    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    std::vector<std::string> result = stage->getStageErrors({"password"});
     EXPECT_TRUE(result == expected);
 }
 
-TEST_F(CredentialsStageTest, NoPrimePW) {
-    std::string password = "Password-123";
+TEST_F(CredentialsStageTest, NoPrimePW){
+    rapidjson::Document doc;
+    doc.Parse("[0, \"password\", \"Password-123\"]");
+    rapidjson::Value &jsonArray = doc.GetArray();
+    stage->update(jsonArray);
     std::vector<std::string> expected = {stage->missingPrimeError};
-    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    std::vector<std::string> result = stage->getStageErrors({"password"});
     EXPECT_TRUE(result == expected);
 }
 
-TEST_F(CredentialsStageTest, NoRomanNumPW) {
-    std::string password = "Password-2";
+TEST_F(CredentialsStageTest, NoColourPW){
+    rapidjson::Document doc;
+    doc.Parse("[0, \"password\", \"PassV-23\"]");
+    rapidjson::Value &jsonArray = doc.GetArray();
+    stage->update(jsonArray);
+    std::vector<std::string> expected = {stage->missingColourError};
+    std::vector<std::string> result = stage->getStageErrors({"password"});
+    EXPECT_TRUE(result == expected);
+}
+
+TEST_F(CredentialsStageTest, NoRomanNumPW){
+    rapidjson::Document doc;
+    doc.Parse("[0, \"password\", \"Purple-23\"]");
+    rapidjson::Value &jsonArray = doc.GetArray();
+    stage->update(jsonArray);
     std::vector<std::string> expected = {stage->missingRomanNumError};
-    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    std::vector<std::string> result = stage->getStageErrors({"password"});
     EXPECT_TRUE(result == expected);
 }
 
-TEST_F(CredentialsStageTest, NonPalindromePW) {
-    std::string password = "PassV-23";
+TEST_F(CredentialsStageTest, NonPalindromePW){
+    rapidjson::Document doc;
+    doc.Parse("[0, \"password\", \"GreenV-23\"]");
+    rapidjson::Value &jsonArray = doc.GetArray();
+    stage->update(jsonArray);
     std::vector<std::string> expected = {stage->notPalindromeError};
-    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    std::vector<std::string> result = stage->getStageErrors({"password"});
     EXPECT_TRUE(result == expected);
 }
 
-TEST_F(CredentialsStageTest, TooLongPW) {
-    std::string password = "PassV-2-VssaP";
+TEST_F(CredentialsStageTest, TooLongPW){
+    rapidjson::Document doc;
+    doc.Parse("[0, \"password\", \"GreenV-11-VneerG\"]");
+    rapidjson::Value &jsonArray = doc.GetArray();
+    stage->update(jsonArray);
     std::vector<std::string> expected = {stage->tooLongError};
-    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    std::vector<std::string> result = stage->getStageErrors({"password"});
     EXPECT_TRUE(result == expected);
 }
 
-TEST_F(CredentialsStageTest, ValidPW) {
-    std::string password = "PasV-2-VsaP";
+TEST_F(CredentialsStageTest, ValidPW){
+    rapidjson::Document doc;
+    doc.Parse("[0, \"password\", \"pInk-2-knIp\"]");
+    rapidjson::Value &jsonArray = doc.GetArray();
+    stage->update(jsonArray);
     std::vector<std::string> expected;
-    std::vector<std::string> result = stage->getStageErrors({"password", password});
+    std::vector<std::string> result = stage->getStageErrors({"password"});
     EXPECT_TRUE(result == expected);
 }
 

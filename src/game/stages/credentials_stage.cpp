@@ -83,6 +83,10 @@ std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::strin
     return errors;
 }
 
+/*!
+ @brief updates credential values
+ @details updates the username or password fields from rapidjson value
+*/
 void CredentialsStage::update(const rapidjson::Value &req)
 {
     std::string field = req[REQ_FIELD_INDEX].GetString();
