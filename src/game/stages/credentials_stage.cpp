@@ -1,19 +1,32 @@
+/*!
+ @file credentials_stage.cpp
+ @brief credentials stage validation
+ @author Jack Searle
+ @copyright 2023 Locked & Coded
+*/
+
 #include "credentials_stage.h"
 #include <vector>
+#include <algorithm>
 
-bool isPalindrome(const std::string& str);
+bool isPalindrome(std::string str);
 bool isPrime(int n);
-bool hasPrime(const std::string& input);
+bool hasPrime(std::string input);
+bool hasColour(std::string input);
 
 bool CredentialsStage::validateStage()
 {
     return true;
 }
 
+/*!
+ @brief validates password input and returns errors (puzzle tasks)
+ @details checks password input against a set of conditions
+ @return vector containing first error message
+*/
 std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::string> args)
 {
     std::vector<std::string> errors;
-    std::string password = args[1];
     // password puzzles
     if (args[0].compare("password") == 0){
         std::string digits = "0123456789";
@@ -55,8 +68,10 @@ std::vector<std::string> CredentialsStage::getStageErrors(std::vector<std::strin
             errors.push_back(missingLowercaseError);
         } else if (password.find_first_of(special) == std::string::npos){       // missing special character(s)
             errors.push_back(missingSpecialError);
-        } else if (!hasPrime(password)){
+        } else if (!hasPrime(password)){                                        // missing prime number(s)
             errors.push_back(missingPrimeError);
+        } else if (!hasColour(password)){                                       // missing colour
+            errors.push_back(missingColourError);
         } else if (password.find_first_of(roman) == std::string::npos){         // missing Roman numeral(s)
             errors.push_back(missingRomanNumError);
         } else if (!isPalindrome(password)){                                    // is not a palindrome
@@ -98,7 +113,7 @@ rapidjson::Value CredentialsStage::getFieldStates(rapidjson::Document::Allocator
 
 
 // helper function to check if a string (input) is a palindrome.
-bool isPalindrome(const std::string& input){
+bool isPalindrome(std::string input){
     // find midpoint of the password
     int midpoint = input.length() / 2;
     
@@ -127,7 +142,7 @@ bool isPrime(int n){
 
 // helper function to check if a string (input) contains any prime numbers.
 // this checks entire numbers; 15 will be read as 15, not 1 and 5.
-bool hasPrime(const std::string& input){
+bool hasPrime(std::string input){
     std::vector<int> numbers;
     std::string numStr;
     // iterate through string and append any number to nums
@@ -142,6 +157,35 @@ bool hasPrime(const std::string& input){
     // iterate through numbers and check if they are prime
     for (int num : numbers){
         if (isPrime(num))
+            return true;
+    }
+    return false;
+}
+
+// helper function to check if a string contains a colour
+bool hasColour(std::string input){
+    // vector of all accepted colours
+    std::vector<std::string> colours = {
+        "red", "orange", "yellow", "green", "blue", "indigo", "violet",
+        "black", "white", "gray", "grey", "pink", "brown", "purple",
+        "cyan", "magenta", "lime", "olive", "maroon", "navy", "teal",
+        "lavender", "turquoise", "gold", "silver", "bronze", "beige",
+        "salmon", "coral", "orchid", "peru", "khaki", "crimson",
+        "chartreuse", "aqua", "plum", "sienna", "turquoise", "almond",
+        "slate", "sepia", "azure", "ivory", "tan", "sapphire", "ruby",
+        "stone", "jade", "peach", "mauve", "indigo", "mahogany",
+        "lilac", "rose", "wine", "snow", "smoke", "egg", "bronze",
+        "fuchsia", "apricot", "ash", "azure", "blush", "burgundy", 
+        "camel", "charcoal", "chestnut", "chocolate", "copper", "cream",
+        "desert", "ebony", "grape", "lemon", "maroon", "moss", 
+        "mustard", "onyx", "crayola", "pantone", "bud", "pine", "puce",
+        "berry", "rust", "sand", "shell", "sky", "vanilla", "tuscan"
+    };
+    // convert input to lowercase
+    std::transform(input.begin(), input.end(), input.begin(), [](unsigned char c) { return std::tolower(c); });
+    // iterate through colours and check if they are in the string
+    for (std::string colour : colours){
+        if (input.find(colour) != std::string::npos)
             return true;
     }
     return false;

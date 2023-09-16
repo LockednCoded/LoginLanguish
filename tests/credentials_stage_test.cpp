@@ -62,7 +62,7 @@ TEST_F(CredentialsStageTest, NoLowercasePW) {
     EXPECT_TRUE(result == expected);
 }
 
-TEST_F(CredentialsStageTest, NoSpecialPW) {
+TEST_F(CredentialsStageTest, NoSpecialCharPW) {
     std::string password = "Password123";
     std::vector<std::string> expected = {stage->missingSpecialError};
     std::vector<std::string> result = stage->getStageErrors({"password", password});
