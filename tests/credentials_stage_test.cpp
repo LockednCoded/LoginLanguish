@@ -1,3 +1,10 @@
+/*!
+    @file credentials_stage_test.cpp
+    @brief the unit tests for the CredentialsStage class
+    @author Jack Searle, Cameron Bruce
+    @copyright 2023 Locked & Coded
+*/
+
 #include <gtest/gtest.h>
 #include <string>
 #include <vector>
