@@ -47,7 +47,7 @@ int main()
 {
 #endif
 
-  resourcesPath = getResourcesPath();
+  resourcesPath = compatibility_utils::getResourcesPath();
   std::cout << "Resources path: " << resourcesPath << std::endl;
 
   srand(time(NULL)); // Seed random number generator

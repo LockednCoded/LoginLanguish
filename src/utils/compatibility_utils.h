@@ -20,6 +20,7 @@
 #include <windows.h>
 #endif
 
-std::string getResourcesPath();
-
-char getSeparator();
+namespace compatibility_utils {
+    std::string getResourcesPath();
+    char getSeparator();
+}

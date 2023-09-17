@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@iconify-json/pajamas": "^1.1.31",
+    "@iconify/react": "^4.1.1",
     "@svgr/core": "^8.0.0",
     "@svgr/plugin-jsx": "^8.0.1",
     "@types/react": "^18.2.18",

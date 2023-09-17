@@ -10,6 +10,10 @@
 #include "stage.h"
 #include "../game_manager.h"
 
+#include <filesystem>
+
+namespace fs = std::filesystem;
+
 /*!
     @brief the ImageCaptchaStage class is a class that represents a image captcha stage in the game
     @details contains concrete stage implementions for the image captcha stage in the game
@@ -24,7 +28,7 @@ public:
     
 private:
     void updateErrors(std::string field);
-    void initialiseCaptchaImages(std::string dataset_path);
+    void initialiseCaptchaImages(fs::path dataset_path);
 
     GameManager* gm;
     std::vector<std::string> image_urls;
