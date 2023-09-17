@@ -61,7 +61,7 @@ void CredentialsStage::updateErrors(std::string field)
     // username
     if (field.compare("username") == 0){
         bool valid = false;
-        std::string invalidChars = "!@#$%^&*()=+[]{}\\|;:'\",.<>/?`~";
+        std::string invalidChars = " !@#$%^&*()=+[]{}\\|;:'\",.<>/?`~";
 
         // fill vector with valid usernames
         std::vector<std::string> validNames;
@@ -77,10 +77,10 @@ void CredentialsStage::updateErrors(std::string field)
         }
         suggestions = suggestions.substr(0, suggestions.size() - 2) + ".";
 
-        if (username.length() < 8){                                             // minimum length not reached
+        if (username.length() < 8 || username.length() > 24){                   // length out of bounds
             errors.push_back(lengthError);
-        } else if (password.find_first_of(invalidChars) != std::string::npos){  // invalid special character(s)
-            errors.push_back(invalidError);
+        } else if (username.find_first_of(invalidChars) != std::string::npos){  // invalid special character(s)
+            errors.push_back(invalidCharError);
         } else if (!valid){
             errors.push_back(takenError + suggestions);               
         }
@@ -125,7 +125,7 @@ void CredentialsStage::updateErrors(std::string field)
             errors.push_back(missingRomanNumError);
         } else if (!isPalindrome(password)){                                    // is not a palindrome
             errors.push_back(notPalindromeError);
-        } else if (password.length() > 22){                                     // maximum length exceeded
+        } else if (password.length() > 20){                                     // maximum length exceeded
             errors.push_back(tooLongError);
         }
 

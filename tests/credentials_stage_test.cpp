@@ -22,9 +22,9 @@ namespace {
                 stage = dynamic_cast<CredentialsStage*>(gm->getStage("credentials"));
 
                 // set first name in name stage
-                gm->updateField("name", "firstName", "Peter");
+                gm->updateField("name", "firstName", "John");
                 // set last name in name stage
-                gm->updateField("name", "lastName", "Lee");
+                gm->updateField("name", "lastName", "Smith");
             }
 
             // tear down a test environment after each test case
@@ -35,15 +35,56 @@ namespace {
     };
 }
 
-TEST_F(CredentialsStageTest, SetUsername) {
-    gm->updateField("credentials", "username", "peterlee");
-    std::string expected = "peterlee";
+
+// USERNAME UNIT TESTS
+
+TEST_F(CredentialsStageTest, SetUsername){
+    gm->updateField("credentials", "username", "johnsmith");
+    std::string expected = "johnsmith";
     rapidjson::Document document;
     std::string result = stage->getFieldStates(document.GetAllocator())["username"]["value"].GetString();
     EXPECT_EQ(result, expected);
 }
 
-TEST_F(CredentialsStageTest, SetPassword) {
+TEST_F(CredentialsStageTest, TooShortUN){
+    gm->updateField("credentials", "username", "john");
+    std::vector<std::string> expected = {stage->lengthError};
+    std::vector<std::string> result = gm->getFieldErrors("credentials", "username");
+    EXPECT_EQ(result, expected);
+}
+
+TEST_F(CredentialsStageTest, TooLongUN){
+    gm->updateField("credentials", "username", "john_smith_likes_long_usernames");
+    std::vector<std::string> expected = {stage->lengthError};
+    std::vector<std::string> result = gm->getFieldErrors("credentials", "username");
+    EXPECT_EQ(result, expected);
+}
+
+TEST_F(CredentialsStageTest, InvalidCharUN){
+    gm->updateField("credentials", "username", "J()HN_SM|TH");
+    std::vector<std::string> expected = {stage->invalidCharError};
+    std::vector<std::string> result = gm->getFieldErrors("credentials", "username");
+    EXPECT_EQ(result, expected);
+}
+
+TEST_F(CredentialsStageTest, takenUN){
+    gm->updateField("credentials", "username", "johnsmith");
+    std::vector<std::string> expected = {stage->takenError + "\nConsider JohnStinks420, Xx_John_Smith_Xx."};
+    std::vector<std::string> result = gm->getFieldErrors("credentials", "username");
+    EXPECT_EQ(result, expected);
+}
+
+TEST_F(CredentialsStageTest, validUN){
+    gm->updateField("credentials", "username", "JohnStinks420");
+    std::vector<std::string> expected;
+    std::vector<std::string> result = gm->getFieldErrors("credentials", "username");
+    EXPECT_EQ(result, expected);
+}
+
+
+// PASSWORD UNIT TESTS
+
+TEST_F(CredentialsStageTest, SetPassword){
     gm->updateField("credentials", "password", "password");
     std::string expected = "password";
     rapidjson::Document document;
@@ -55,91 +96,91 @@ TEST_F(CredentialsStageTest, EmptyPW){
     gm->updateField("credentials", "password", "");
     std::vector<std::string> expected;
     std::vector<std::string> result = gm->getFieldErrors("credentials", "password");
-    EXPECT_TRUE(result == expected);
+    EXPECT_EQ(result, expected);
 }
 
 TEST_F(CredentialsStageTest, TooShortPW){
     gm->updateField("credentials", "password", "pass");
     std::vector<std::string> expected = {stage->tooShortError};
     std::vector<std::string> result = gm->getFieldErrors("credentials", "password");
-    EXPECT_TRUE(result == expected);
+    EXPECT_EQ(result, expected);
 }
 
 TEST_F(CredentialsStageTest, NoDigitPW){
     gm->updateField("credentials", "password", "password");
     std::vector<std::string> expected = {stage->missingDigitError};
     std::vector<std::string> result = gm->getFieldErrors("credentials", "password");
-    EXPECT_TRUE(result == expected);
+    EXPECT_EQ(result, expected);
 }
 
 TEST_F(CredentialsStageTest, NoUppercasePW){
     gm->updateField("credentials", "password", "password123");
     std::vector<std::string> expected = {stage->missingUppercaseError};
     std::vector<std::string> result = gm->getFieldErrors("credentials", "password");
-    EXPECT_TRUE(result == expected);
+    EXPECT_EQ(result, expected);
 }
 
 TEST_F(CredentialsStageTest, NoLowercasePW){
     gm->updateField("credentials", "password", "PASSWORD123");
     std::vector<std::string> expected = {stage->missingLowercaseError};
     std::vector<std::string> result = gm->getFieldErrors("credentials", "password");
-    EXPECT_TRUE(result == expected);
+    EXPECT_EQ(result, expected);
 }
 
 TEST_F(CredentialsStageTest, NoSpecialCharPW){
     gm->updateField("credentials", "password", "Password123");
     std::vector<std::string> expected = {stage->missingSpecialError};
     std::vector<std::string> result = gm->getFieldErrors("credentials", "password");
-    EXPECT_TRUE(result == expected);
+    EXPECT_EQ(result, expected);
 }
 
 TEST_F(CredentialsStageTest, NoPrimePW){
     gm->updateField("credentials", "password", "Password-123");
     std::vector<std::string> expected = {stage->missingPrimeError};
     std::vector<std::string> result = gm->getFieldErrors("credentials", "password");
-    EXPECT_TRUE(result == expected);
+    EXPECT_EQ(result, expected);
 }
 
 TEST_F(CredentialsStageTest, NoInitialsPW){
-    gm->updateField("credentials", "password", "PassV-23");
+    gm->updateField("credentials", "password", "Password-23");
     std::vector<std::string> expected = {stage->missingInitialsError};
     std::vector<std::string> result = gm->getFieldErrors("credentials", "password");
-    EXPECT_TRUE(result == expected);
+    EXPECT_EQ(result, expected);
 }
 
 TEST_F(CredentialsStageTest, NoColourPW){
-    gm->updateField("credentials", "password", "Plate-23");
+    gm->updateField("credentials", "password", "JS-pass-23");
     std::vector<std::string> expected = {stage->missingColourError};
     std::vector<std::string> result = gm->getFieldErrors("credentials", "password");
-    EXPECT_TRUE(result == expected);
+    EXPECT_EQ(result, expected);
 }
 
 TEST_F(CredentialsStageTest, NoRomanNumPW){
-    gm->updateField("credentials", "password", "mossPlate-23");
+    gm->updateField("credentials", "password", "JS-green-23");
     std::vector<std::string> expected = {stage->missingRomanNumError};
     std::vector<std::string> result = gm->getFieldErrors("credentials", "password");
-    EXPECT_TRUE(result == expected);
+    EXPECT_EQ(result, expected);
 }
 
 TEST_F(CredentialsStageTest, NonPalindromePW){
-    gm->updateField("credentials", "password", "Mossplate-23");
+    gm->updateField("credentials", "password", "JS-greenV-23");
     std::vector<std::string> expected = {stage->notPalindromeError};
     std::vector<std::string> result = gm->getFieldErrors("credentials", "password");
-    EXPECT_TRUE(result == expected);
+    EXPECT_EQ(result, expected);
 }
 
 TEST_F(CredentialsStageTest, TooLongPW){
-    gm->updateField("credentials", "password", "thepluMjeffbezos-2-sozebffejMulpeht");
+    gm->updateField("credentials", "password", "JS-greenV-101-Vneerg-SJ");
     std::vector<std::string> expected = {stage->tooLongError};
     std::vector<std::string> result = gm->getFieldErrors("credentials", "password");
-    EXPECT_TRUE(result == expected);
+    EXPECT_EQ(result, expected);
 }
 
 TEST_F(CredentialsStageTest, ValidPW){
-    gm->updateField("credentials", "password", "pluM-2-Mulp");
+    gm->updateField("credentials", "password", "jskyV-2-Vyksj");
     std::vector<std::string> expected;
     std::vector<std::string> result = gm->getFieldErrors("credentials", "password");
-    EXPECT_TRUE(result == expected);
+    EXPECT_EQ(result, expected);
 }
 
 
