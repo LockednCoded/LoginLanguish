@@ -58,9 +58,9 @@ void ImageCaptchaStage::update(const rapidjson::Value &req)
     std::string field = req[REQ_FIELD_INDEX].GetString();
     if (field.compare("selected") == 0) {
         const rapidjson::Value& valueArray = req[REQ_VALUE_INDEX].GetArray();
-        std::vector<int> new_selection;
-        for (int i = 0; i < (int) valueArray.Size(); i++) {
-            new_selection.push_back(valueArray[i].GetInt());
+        std::vector<std::string> new_selection;
+        for (size_t i = 0; i < valueArray.Size(); i++) {
+            new_selection.push_back(valueArray[i].GetString());
         }
         selected = new_selection;
     }
@@ -88,9 +88,9 @@ rapidjson::Value ImageCaptchaStage::getFieldStates(rapidjson::Document::Allocato
     fieldStates.AddMember("challengeText", challengeTextValue, allocator);
 
     rapidjson::Value selectedValue(rapidjson::kArrayType);
-    for (int i : selected) {
-        rapidjson::Value intValue(i);
-        selectedValue.PushBack(intValue, allocator);
+    for (std::string str : selected) {
+        rapidjson::Value strValue(str.c_str(), allocator);
+        selectedValue.PushBack(strValue, allocator);
     }
     fieldStates.AddMember("selected", selectedValue, allocator);
 

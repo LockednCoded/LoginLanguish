@@ -34,5 +34,5 @@ private:
     std::vector<std::string> image_urls;
     std::vector<std::string> correct_images;
     std::string challenge_text = "";
-    std::vector<int> selected;
+    std::vector<std::string> selected;
 };
