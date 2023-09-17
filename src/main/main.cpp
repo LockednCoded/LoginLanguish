@@ -76,7 +76,7 @@ int main()
   Fields *fields = new Fields();
   GameManager *gameManager = new GameManager();
 
-  w.bind("cpp_setFieldState", [fields, gameManager](std::string req) -> std::string
+  w.bind("cpp_setFieldState", [fields, gameManager](const std::string &req) -> std::string
          {
           std::cout << "cpp_setFieldState (raw): " << req << std::endl;
     rapidjson::Document document;
@@ -102,18 +102,18 @@ int main()
     gameManager->updateField(reqArray);
     return ""; });
 
-  w.bind("cpp_getGameState", [gameManager](std::string req) -> std::string
+  w.bind("cpp_getGameState", [gameManager](const std::string &req) -> std::string
          {
           rapidjson::Document doc = gameManager->getGameState();
           const std::string gameStateString = JSONToString(doc);
           std::cout << "cpp_getGameState result: " << gameStateString << std::endl;
           return JSEncode(gameStateString); });
-  w.bind("cpp_setNextStage", [gameManager](std::string req) -> std::string
+  w.bind("cpp_setNextStage", [gameManager](const std::string &req) -> std::string
          {
           std::cout << "Getting next stage" << std::endl;
           gameManager->getNextStage();
           return ""; });
-  w.bind("cpp_stageProgress", [gameManager](std::string req) -> std::string
+  w.bind("cpp_stageProgress", [gameManager](const std::string &req) -> std::string
          {
           std::cout << "cpp_stageProgress: " << req << std::endl;
           rapidjson::Document document;
