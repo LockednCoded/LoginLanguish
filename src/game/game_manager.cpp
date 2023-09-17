@@ -97,7 +97,7 @@ void GameManager::updateField(std::string stage, std::string field, std::string 
     document.PushBack(rapidjson::Value(field.c_str(), allocator), allocator);
     document.PushBack(rapidjson::Value(value.c_str(), allocator), allocator);
 
-    rapidjson::Value req = document.GetArray();
+    rapidjson::Value &req = document.GetArray();
     updateField(req);
 }
 
