@@ -56,15 +56,15 @@ Stage* GameManager::getStage(std::string stage)
 }
 
 /*!
-    @brief gets the next stage
-    @return name of the next stage
+    @brief progresses to the next stage is current stage is validated
+    @return "no" if current stage is not validated, "end" if it is the end, or the name of the new stage
 */
 std::string GameManager::getNextStage()
-{
+{   
+    if (!current_stage->validateStage())
+        return "no";
     if (stage_index == stages.size() - 1)
-    {
         return "end";
-    }
     current_stage = stages[++stage_index];
     return current_stage->getStageName();
 }
@@ -124,14 +124,17 @@ std::vector<std::string> GameManager::getFieldErrors(std::string stage, std::str
 */
 rapidjson::Document GameManager::getGameState()
 {
+    bool canProgress = false;
+    if (current_stage->validateStage())
+        canProgress = true;
+
     rapidjson::Document document;
     document.SetObject();
 
     rapidjson::Value currentStage(current_stage->getStageName().c_str(), document.GetAllocator());
     document.AddMember("stage", currentStage, document.GetAllocator());
 
-    // TODO: check if stage can progress
-    document.AddMember("canProgress", true, document.GetAllocator());
+    document.AddMember("canProgress", canProgress, document.GetAllocator());
 
     rapidjson::Value stagesArray(rapidjson::kArrayType);
     for (auto stage : stages)

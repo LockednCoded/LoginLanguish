@@ -27,7 +27,10 @@ NameStage::NameStage(GameManager *gameManager){
 */
 bool NameStage::validateStage()
 {
-    return true;
+    int numErrors = field_errors["firstName"].size() + field_errors["lastName"].size();
+    if (numErrors == 0 && first_name.length() > 0 && last_name.length() > 0)
+        return true;
+    return false;
 }
 
 /*!

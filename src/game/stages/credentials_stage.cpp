@@ -34,10 +34,10 @@ CredentialsStage::CredentialsStage(GameManager *gameManager){
 */
 bool CredentialsStage::validateStage()
 {
-    // if (field_errors["username"].size() == 0 && field_errors["password"].size() == 0)
-    //     return true;
-    // return false;
-    return true;
+    int numErrors = field_errors["username"].size() + field_errors["password"].size();
+    if (numErrors == 0 && username.length() > 0 && password.length() > 0)
+        return true;
+    return false;
 }
 
 /*!
