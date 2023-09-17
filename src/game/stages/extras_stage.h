@@ -21,6 +21,11 @@ public:
     bool validateStage();
     void update(const rapidjson::Value &req);
     rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator);
+
+    // error messages
+    std::string missingDobError = "Please enter your date of birth before continuing.";
+    std::string invalidDobError = "Incorrect date of birth. Please review our terms & conditions before continuing.";
+    std::string uncheckedTCsError = "Please review and accept our terms & conditions before continuing.";
 private:
     void updateErrors(std::string field);
 

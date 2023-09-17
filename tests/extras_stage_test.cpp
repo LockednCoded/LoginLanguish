@@ -1,7 +1,7 @@
 /*!
     @file extras_stage_test.cpp
     @brief the unit tests for the ExtrasStage class
-    @author Cameron Bruce
+    @author Cameron Bruce, Jack Searle
     @copyright 2023 Locked & Coded
 */
 
@@ -37,13 +37,26 @@ namespace {
     };
 }
 
+
+// DOB UNIT TESTS
+
 TEST_F(ExtrasStageTest, SetDob) {
-    gm->updateField("extras", "dob", "2023-12-12");
-    std::string expected = "2023-12-12";
+    rapidjson::Document req;
+    req.Parse("[\"extras\", \"dob\", {12, 12, 2023}]");
+    rapidjson::Value &reqArray = req.GetArray();
+    gm->updateField(reqArray);
     rapidjson::Document document;
-    std::string result = stage->getFieldStates(document.GetAllocator())["dob"]["value"].GetString();
+    std::vector<int> result;
+    rapidjson::Value &resultArray = stage->getFieldStates(document.GetAllocator())["selected"].GetArray();
+    for (int i = 0; i < (int)resultArray.Size(); i++) {
+        result.push_back(resultArray[i].GetInt());
+    }
+    std::vector<int> expected = {12, 12, 2023};
     EXPECT_EQ(result, expected);
 }
+
+
+// T&CS UNIT TESTS
 
 TEST_F(ExtrasStageTest, SetTsAndCs) {
     rapidjson::Document req;

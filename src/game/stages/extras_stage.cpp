@@ -27,7 +27,10 @@ ExtrasStage::ExtrasStage(GameManager *gameManager){
 */
 bool ExtrasStage::validateStage()
 {
-    return true;
+    int numErrors = field_errors["dob"].size() + field_errors["tsAndCs"].size();
+    if (numErrors == 0 && dob.size() == 3 && ts_and_cs)
+        return true;
+    return false;
 }
 
 /*!
@@ -40,15 +43,15 @@ void ExtrasStage::updateErrors(std::string field)
     std::vector<std::string> errors;
     if (field.compare("dob") == 0){
         if (dob.size() == 0)
-            errors.push_back("Please enter your date of birth before continuing.");
+            errors.push_back(missingDobError);
         else if (dob[0] != solstice[0] || dob[1] != solstice[1] || dob[2] != solstice[2])
-            errors.push_back("Incorrect date of birth. Please review our terms & conditions before continuing.");
+            errors.push_back(invalidDobError);
 
         field_errors["dob"] = errors;
     }
     else if (field.compare("tsAndCs") == 0){
         if (!ts_and_cs)
-            errors.push_back("Please review and accept our terms & conditions before continuing.");
+            errors.push_back(uncheckedTCsError);
 
         field_errors["tsAndCs"] = errors;
     }
@@ -70,7 +73,7 @@ void ExtrasStage::update(const rapidjson::Value &req)
         }
         dob = new_dob;
     }
-    else if (field.compare("tsAndCs") == 0) {
+    else if (field.compare("tsAndCs") == 0)
         ts_and_cs = req[REQ_VALUE_INDEX].GetBool();
 
     updateErrors(field);

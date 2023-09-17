@@ -1,7 +1,7 @@
 /*!
     @file name_stage_test.cpp
     @brief the unit tests for the NameStage class
-    @author Cameron Bruce
+    @author Cameron Bruce, Jack Searle
     @copyright 2023 Locked & Coded
 */
 
