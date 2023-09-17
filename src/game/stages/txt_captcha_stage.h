@@ -9,6 +9,7 @@
 
 #include "stage.h"
 #include "../game_manager.h"
+#include <set>
 
 /*!
     @brief the TxtCaptchaStage class is a class that represents a txt captcha stage in the game
@@ -20,6 +21,8 @@ public:
     bool validateStage();
     void update(const rapidjson::Value &req);
     rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator);
+    bool setNewChallenge();
+
 private:
     void updateErrors(std::string field);
 
@@ -28,4 +31,6 @@ private:
     std::string txt_captcha = "";
     std::string challenge_text = "";
     std::string image_url = "";
+    std::set<char> challenges_remaining = {0, 1, 2};
+    std::string challenge_answer = "";
 };

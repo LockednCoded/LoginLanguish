@@ -6,17 +6,73 @@
 */
 
 #include "txt_captcha_stage.h"
+#include <filesystem>
+#include <iostream>
+#include "utils.h"
 
 /*!
     @brief constructor for TxtCaptchaStage
     @param gameManager the game manager object owning this stage
 */
-TxtCaptchaStage::TxtCaptchaStage(GameManager *gameManager){
+TxtCaptchaStage::TxtCaptchaStage(GameManager *gameManager)
+{
     name = "txtcaptcha";
     gm = gameManager;
     field_errors = {
-        {"txtcaptcha", std::vector<std::string>()}
-    };
+        {"txtcaptcha", std::vector<std::string>()}};
+
+    setNewChallenge();
+}
+
+bool TxtCaptchaStage::setNewChallenge()
+{
+    if (challenges_remaining.size() == 0)
+        return false;
+    char x;
+    if (challenges_remaining.size() == 3)
+    {
+        x = 0;
+    }
+    else
+    {
+        std::set<char>::iterator it = challenges_remaining.begin();
+        std::advance(it, rand() % challenges_remaining.size());
+        x = *it;
+    }
+    challenges_remaining.erase(x);
+
+    std::string dir;
+    switch (x)
+    {
+    case 0: // Menacing captchas
+    {
+        challenge_text = "Please type the text you see above";
+        dir = "assets/datasets/menacing";
+        int numFiles = 0;
+        for (const auto &entry : std::filesystem::directory_iterator(dir))
+            numFiles++;
+        int imageIndex = rand() % numFiles;
+        std::filesystem::path imagePath;
+        for (const auto &entry : std::filesystem::directory_iterator(dir))
+        {
+            if (imageIndex == 0)
+            {
+                imagePath = entry.path();
+                break;
+            }
+            imageIndex--;
+        }
+        image_url = "datasets/menacing/" + url_encode(imagePath.filename().string());
+        challenge_answer = imagePath.stem();
+        break;
+    }
+
+    default:
+        challenge_text = "Validated.";
+        image_url = "";
+        break;
+    }
+    return true;
 }
 
 /*!
@@ -35,8 +91,16 @@ bool TxtCaptchaStage::validateStage()
     @param req the request object containing the field to update and the new value
 */
 void TxtCaptchaStage::updateErrors(std::string field)
-{   
-    //TODO: implement this
+{
+    if (field.compare("txtcaptcha") == 0)
+    {
+        if (txt_captcha.compare("") == 0)
+            return;
+        std::vector<std::string> errors;
+        if (txt_captcha.compare(challenge_answer) != 0)
+            errors.push_back("Incorrect answer");
+        field_errors["txtcaptcha"] = errors;
+    }
 }
 
 /*!
@@ -50,7 +114,12 @@ void TxtCaptchaStage::update(const rapidjson::Value &req)
 
     if (field.compare("txtcaptcha") == 0)
         txt_captcha = req[REQ_VALUE_INDEX].GetString();
-    
+    if (txt_captcha.compare("") != 0 && txt_captcha.compare(challenge_answer) == 0)
+    {
+        txt_captcha = "";
+        setNewChallenge();
+    }
+
     updateErrors(field);
 }
 
