@@ -63,7 +63,7 @@ export default function ImageCaptcha({
                 onClick={() =>
                   updateFieldState(
                     "imagecaptcha",
-                    "selectedImage",
+                    "selected",
                     updateVersion
                   )
                 }

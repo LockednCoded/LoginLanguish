@@ -19,8 +19,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # add_compile_options(-Wall)
 
-if (true)
+# if CMAKE_BUILD_TYPE is Debug, add __DEBUG__ to compile definitions
+if (CMAKE_BUILD_TYPE MATCHES Debug)
     add_compile_definitions(__DEBUG__)
+    add_compile_definitions(__CHEAT_MODE__)
 endif ()
 
 if (APPLE)

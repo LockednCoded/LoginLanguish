@@ -25,6 +25,7 @@ private:
     void updateErrors(std::string field);
 
     GameManager* gm;
+
     std::vector<int> dob; // [0]day, [1]month, [2]year
     std::vector<int> solstice = {21, 6, 1984};
     bool ts_and_cs = false;

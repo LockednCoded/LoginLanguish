@@ -62,9 +62,15 @@ void ExtrasStage::updateErrors(std::string field)
 void ExtrasStage::update(const rapidjson::Value &req)
 {
     std::string field = req[REQ_FIELD_INDEX].GetString();
-    if (field.compare("dob") == 0)
-        dob = req[REQ_VALUE_INDEX].GetString();
-    else if (field.compare("tsAndCs") == 0)
+
+    if (field.compare("dob") == 0) {
+        std::vector<int> new_dob;
+        for (size_t i = 0; i < dob.size(); i++) {
+            new_dob[i] = req[REQ_VALUE_INDEX][i].GetInt();
+        }
+        dob = new_dob;
+    }
+    else if (field.compare("tsAndCs") == 0) {
         ts_and_cs = req[REQ_VALUE_INDEX].GetBool();
 
     updateErrors(field);
@@ -81,7 +87,10 @@ rapidjson::Value ExtrasStage::getFieldStates(rapidjson::Document::AllocatorType 
 {
     rapidjson::Value fieldStates(rapidjson::kObjectType);
 
-    rapidjson::Value dobValue(dob.c_str(), allocator);
+    rapidjson::Value dobValue(rapidjson::kArrayType);
+    for (size_t i = 0; i < dob.size(); i++) {
+        dobValue.PushBack(dob[i], allocator);
+    }
     rapidjson::Value dobObj = createFieldState("dob", dobValue, allocator);
     fieldStates.AddMember("dob", dobObj, allocator);
 
