@@ -38,9 +38,8 @@ bool NameStage::validateStage()
     @details updates the error messages for the given field
     @param field the name of the field to update
 */
-void NameStage::updateErrors(std::string field)
+void NameStage::updateErrors(const std::string &field)
 {   
-    //TODO: implement this?
     std::vector<std::string> errors;
 
     std::string invalidChars = "!@#$%^&*()_=+[]{}\\|;:\",.<>/?`~";

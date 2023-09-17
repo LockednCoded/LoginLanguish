@@ -29,7 +29,7 @@ public:
     std::string lNameInvalidCharError = "Invalid characters in last name.";
 
 private:
-    void updateErrors(std::string field);
+    void updateErrors(const std::string &field);
 
     std::string first_name = "";
     std::string last_name = "";
