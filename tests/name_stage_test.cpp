@@ -52,3 +52,32 @@ TEST_F(NameStageTest, SetLastName) {
     std::string result = stage->getFieldStates(document.GetAllocator())["lastName"]["value"].GetString();
     EXPECT_EQ(result, expected);
 }
+
+TEST_F(NameStageTest, EmptyValidation) {
+    bool expected = false;
+    bool result = stage->validateStage();
+    EXPECT_EQ(result, expected);
+}
+
+TEST_F(NameStageTest, FirstOnlyValidation) {
+    gm->updateField("name", "firstName", "Adam");
+    bool expected = false;
+    bool result = stage->validateStage();
+    EXPECT_EQ(result, expected);
+}
+
+TEST_F(NameStageTest, LastOnlyValidation) {
+    gm->updateField("name", "lastName", "Smith");
+    bool expected = false;
+    bool result = stage->validateStage();
+    EXPECT_EQ(result, expected);
+}
+
+TEST_F(NameStageTest, SuccessfulValidation) {
+    gm->updateField("name", "firstName", "Adam");
+    gm->updateField("name", "lastName", "Smith");
+    bool expected = true;
+    bool result = stage->validateStage();
+    EXPECT_EQ(result, expected);
+}
+
