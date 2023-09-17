@@ -42,9 +42,9 @@ bool ImageCaptchaStage::validateStage()
 }
 
 /*!
-    @brief updates the stage
-    @details updates the stage by updating the field values
-    @param req the request object containing the field to update and the new value
+    @brief updates error messages
+    @details updates the error messages for the given field
+    @param field the name of the field to update
 */
 void ImageCaptchaStage::updateErrors(std::string field)
 {   

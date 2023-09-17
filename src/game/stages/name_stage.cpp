@@ -31,13 +31,39 @@ bool NameStage::validateStage()
 }
 
 /*!
-    @brief updates the stage
-    @details updates the stage by updating the field values
-    @param req the request object containing the field to update and the new value
+    @brief updates error messages
+    @details updates the error messages for the given field
+    @param field the name of the field to update
 */
 void NameStage::updateErrors(std::string field)
 {   
     //TODO: implement this?
+    std::vector<std::string> errors;
+
+    std::string invalidChars = "!@#$%^&*()_=+[]{}\\|;:\",.<>/?`~";
+
+    if (field.compare("first_name") == 0){
+        if (first_name.length() == 0){
+            // do nothing
+        } else if (first_name.length() < 2 || first_name.length() > 24){
+            errors.push_back(firstLengthError);
+        } else if (first_name.find_first_of(invalidChars) != std::string::npos){
+            errors.push_back(firstInvalidCharError);
+        }
+
+        field_errors["first_name"] = errors;
+
+    } else if (field.compare("last_name") == 0){
+        if (last_name.length() == 0){
+            // do nothing
+        } else if (last_name.length() < 2 || last_name.length() > 24){
+            errors.push_back(lastLengthError);
+        } else if (last_name.find_first_of(invalidChars) != std::string::npos){
+            errors.push_back(lastInvalidCharError);
+        }
+
+        field_errors["last_name"] = errors;
+    }
 }
 
 /*!
