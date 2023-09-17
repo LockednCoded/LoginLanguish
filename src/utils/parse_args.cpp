@@ -8,6 +8,12 @@
 #include "parse_args.h"
 #include <sstream>
 
+/*!
+    @brief parses argument string
+    @details parses a string representation of args into a vector of strings
+    @param args string representation of args
+    @return vector of parsed args
+*/
 std::vector<std::string> parseArgs(std::string args)
 {
     std::vector<std::string> parsed_args;

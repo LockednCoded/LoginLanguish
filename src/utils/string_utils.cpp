@@ -8,6 +8,11 @@
 #include "string_utils.h"
 
 namespace string_utils {
+    /*!
+        @brief title case string converter
+        @details converts any string to title case (capitalised first letter)
+        @param str string to be converted
+    */
     std::string toTitleCase(std::string str) {
         if (str.length() == 0) {
             return str;

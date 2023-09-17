@@ -14,6 +14,12 @@
 #include <map>
 
 namespace file_utils {
+    /*!
+        @brief lists subdirectories in a directory
+        @details creates and returns a filepath vector of the subdirectories in the directory
+        @param path path of the directory to list subdirectories from
+        @return
+    */
     std::vector<fs::path> listSubdirectories(fs::path path) {
         std::vector<fs::path> subdirectories;
         
@@ -26,7 +32,12 @@ namespace file_utils {
         return subdirectories;
     }
 
-
+    /*!
+        @brief lists files in a directory
+        @details creates and returns a filepath vector of the files in directory
+        @param path path of the directory to list files from
+        @return vector of file paths
+    */
     std::vector<fs::path> listFiles(fs::path path) {
         std::vector<fs::path> files;
         
@@ -39,6 +50,13 @@ namespace file_utils {
         return files;
     }
 
+    /*!
+        @brief retrieves n random files
+        @details creates and returns a filepath vector of n random files in the directory
+        @param n number of random files to return
+        @param directory path of the directory to retrieve files from
+        @return vector of n random file paths
+    */
     std::vector<fs::path> getNRandomFiles(size_t n, fs::path directory) 
     {
         std::vector<fs::path> files = listFiles(directory);
@@ -53,13 +71,25 @@ namespace file_utils {
         return random_files;
     }
 
+    /*!
+        @brief retrieves a random file
+        @details returns the filepath of a random file in the directory
+        @param path path of the directory to retrieve the file from
+        @return a random file's path
+    */
     fs::path getRandomFile(fs::path directory) {
         std::vector<fs::path> files = listFiles(directory);
         size_t random_index = rand_utils::randomSizeT(files.size() - 1);
         return files[random_index];
     }
 
-
+    /*!
+        @brief retrieves n random files from given subdirectories
+        @details creates and returns a file path vector of n random files from the subdirectories
+        @param n number of random files to return
+        @param subdirectories vector of subdirectories to retrieve random files from
+        @return vector of n random file paths
+    */
     std::vector<fs::path> getNRandomFilesFromSubdirectories(
         size_t n, 
         std::vector<fs::path> directories)
@@ -91,12 +121,23 @@ namespace file_utils {
         return random_files;
     }
 
+    /*!
+        @brief retrieves the resource path
+        @param resource string representation of resource
+        @return the resource path
+    */
     fs::path getPathToResource(std::string resource) {
         fs::path resources_path = compatibility_utils::getResourcesPath();
         resources_path = resources_path / resource;
         return resources_path.make_preferred();
     }
 
+    /*!
+        @brief converts file paths to frontend strings
+        @details passes file paths in a given vector to a helper function to convert into strings for the frontend
+        @param paths vector of file paths
+        @return vector of frontend strings
+    */
     std::vector<std::string> convertPathsToFrontendStrings(std::vector<fs::path> paths) {
         std::vector<std::string> strings;
 
@@ -106,6 +147,12 @@ namespace file_utils {
         return strings;
     }
 
+    /*!
+        @brief converts file path to frontend string
+        @details converts the file path to a string relative to the frontend and url encodes it
+        @param path a file path
+        @return a frontend string
+    */
     std::string convertPathToFrontendString(fs::path path) {
         fs::path base = compatibility_utils::getResourcesPath();
         fs::path relative = fs::relative(path, base);

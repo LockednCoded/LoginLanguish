@@ -15,9 +15,9 @@
 #include <string>
 
 /*!
- @brief loads content from specified file to a string
- @param path to file
- @return file content
+	@brief loads content from specified file to a string
+	@param path string representation of file path
+	@return file content
 */
 std::string loadStringFromFile(std::string filepath)
 {
@@ -32,12 +32,22 @@ std::string loadStringFromFile(std::string filepath)
 	return content;
 }
 
+/*!
+	@brief encodes a string in base 64
+	@param message string to be encoded
+	@return the encoded base 64 string
+*/
 std::string JSEncode(const std::string &message)
 {
 	return "\"" + base64_encode(message) + "\"";
 	// return "";
 }
 
+/*!
+	@brief encodes strings in a vector to base 64
+	@param message vector of strings to be encoded
+	@return string representation of an array of base 64 encoded messages
+*/
 std::string JSEncode(const std::vector<std::string> &message)
 {
 	std::string result = "[";
@@ -52,6 +62,12 @@ std::string JSEncode(const std::vector<std::string> &message)
 	result += "]";
 	return result;
 }
+
+/*!
+	@brief converts RapidJSON documents to a string representation
+	@param doc the RapidJSON document to be converted
+	@return string representation JSON
+*/
 std::string JSONToString(const rapidjson::Document &doc)
 {
 	rapidjson::StringBuffer buffer;
@@ -61,13 +77,21 @@ std::string JSONToString(const rapidjson::Document &doc)
 	return result;
 }
 
+/*!
+	@brief decodes a base 64 message
+	@param value message to be decoded
+	@return the decoded message
+*/
 std::string base64Decode(const std::string &value)
 {
 	return base64_decode(value);
 }
 
-/**
- * From https://stackoverflow.com/a/17708801 (xperroni)
+/*!
+	@brief encodes a string into a url
+	@details from https://stackoverflow.com/a/17708801 (xperroni)
+	@param value the string to be encoded
+	@return string representation of the encoded url
  */
 std::string url_encode(const std::string &value)
 {

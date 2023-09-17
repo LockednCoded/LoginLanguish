@@ -8,6 +8,10 @@
 #include "compatibility_utils.h"
 
 namespace compatibility_utils {
+	/*!
+		@brief retrieves the resource path
+		@return string representation of the resource path
+	*/
 	std::string getResourcesPath()
 	{
 	#ifdef __APPLE__
@@ -32,6 +36,10 @@ namespace compatibility_utils {
 	#endif
 	}
 
+	/*!
+		@brief retrieve seperator dependant on system
+		@return the path seperator
+	*/
 	char getSeparator()
 	{
 		#ifdef _WIN32
