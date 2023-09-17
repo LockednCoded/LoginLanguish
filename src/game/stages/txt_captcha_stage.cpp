@@ -114,6 +114,7 @@ void TxtCaptchaStage::update(const rapidjson::Value &req)
 
 void TxtCaptchaStage::progressStage()
 {
+    
 }
 
 /*!

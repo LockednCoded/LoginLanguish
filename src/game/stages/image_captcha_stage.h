@@ -28,7 +28,7 @@ public:
     
 private:
     void updateErrors(std::string field);
-    void initialiseCaptchaImages(fs::path dataset_path);
+    void initialiseCaptchaImages();
     void progressStage();
 
     GameManager* gm;
@@ -36,4 +36,7 @@ private:
     std::vector<std::string> correct_images;
     std::string challenge_text = "";
     std::vector<std::string> selected;
+    std::string last_round_error = "";
+    size_t current_round = 0;
+    std::vector<fs::path> challenge_sets;
 };

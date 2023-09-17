@@ -25,7 +25,12 @@ ImageCaptchaStage::ImageCaptchaStage(GameManager *gameManager){
     name = "imagecaptcha";
     gm = gameManager;
 
-    initialiseCaptchaImages(file_utils::getPathToResource("datasets/celeb-faces"));
+    challenge_sets = {
+        file_utils::getPathToResource("datasets/celeb-faces"),
+        file_utils::getPathToResource("datasets/dogs-muffins"),
+    };
+
+    initialiseCaptchaImages();
 };
 
 /*!
@@ -59,7 +64,7 @@ void ImageCaptchaStage::update(const rapidjson::Value &req)
     if (field.compare("selected") == 0) {
         const rapidjson::Value& valueArray = req[REQ_VALUE_INDEX].GetArray();
         std::vector<std::string> new_selection;
-        for (size_t i = 0; i < valueArray.Size(); i++) {
+        for (rapidjson::SizeType i = 0; i < valueArray.Size(); i++) {
             new_selection.push_back(valueArray[i].GetString());
         }
         selected = new_selection;
@@ -68,7 +73,29 @@ void ImageCaptchaStage::update(const rapidjson::Value &req)
 }
 
 void ImageCaptchaStage::progressStage() {
-    
+    if (current_round == challenge_sets.size()) {
+        return;
+    }
+
+    size_t increment = 1;
+    last_round_error = "";
+
+    if (selected.size() == correct_images.size()) {
+        for (std::string image : selected) {
+            if (std::find(correct_images.begin(), correct_images.end(), image) == correct_images.end()) {
+                last_round_error = "Incorrect selection.";
+                increment = 0;
+                break;
+            }
+        }
+    } else {
+        last_round_error = "Incorrect number of selections.";
+        increment = 0;
+    }
+
+    current_round += increment;
+    if (current_round < challenge_sets.size())
+        initialiseCaptchaImages();
 }
 
 /*!
@@ -98,6 +125,9 @@ rapidjson::Value ImageCaptchaStage::getFieldStates(rapidjson::Document::Allocato
     }
     fieldStates.AddMember("selected", selectedValue, allocator);
 
+    rapidjson::Value errorValue(last_round_error.c_str(), allocator);
+    fieldStates.AddMember("lastRoundError", errorValue, allocator);
+
     return fieldStates;
 };
 
@@ -107,7 +137,8 @@ rapidjson::Value ImageCaptchaStage::getFieldStates(rapidjson::Document::Allocato
     @details the remaining images are selected from the other directories
     @param dataset_path the path to the dataset
 */
-void ImageCaptchaStage::initialiseCaptchaImages(fs::path dataset_path) {
+void ImageCaptchaStage::initialiseCaptchaImages() {
+    fs::path dataset_path = challenge_sets[current_round];
     const size_t MAX_NUM_IMAGES = 9;
     const size_t MAX_NUM_CORRECT = 5;
     const size_t MIN_NUM_CORRECT = 3;
