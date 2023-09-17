@@ -1,6 +1,6 @@
 /*!
     @file name_stage.cpp
-    @brief This file contains the implementation of the NameStage class.
+    @brief the implementation of the NameStage class
     @author Cameron Bruce
     @copyright 2023 Locked & Coded
 */

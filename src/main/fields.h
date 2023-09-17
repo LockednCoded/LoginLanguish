@@ -1,3 +1,10 @@
+/*!
+    @file fields.h
+    @brief the Fields class is the class that manages the field states of the game
+    @author Cameron Bruce
+    @copyright 2023 Locked & Coded
+*/
+
 #pragma once
 
 #include <string>

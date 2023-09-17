@@ -1,6 +1,6 @@
 /*!
  @file compatibility_utils.cpp
- @brief platform compatibility
+ @brief handles platform compatibility
  @author Jeb Nicholson
  @copyright 2023 Locked & Coded
 */

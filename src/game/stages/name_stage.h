@@ -1,6 +1,6 @@
 /*!
     @file name_stage.h
-    @brief The ExtrasStage class is a class that represents the name stage in the game
+    @brief the ExtrasStage class is the class that represents the DOB and T&Cs stage of the game
     @author Cameron Bruce
     @copyright 2023 Locked & Coded
 */
@@ -11,9 +11,8 @@
 #include "../game_manager.h"
 
 /*!
-    @brief The NameStage class is a class that represents a name stage in the game.
-    @details The NameStage class is a class that represents a name stage in the game. It contains
-    concrete stage implementions for the name stage in the game.
+    @brief the NameStage class is a class that represents a name stage in the game
+    @details contains concrete stage implementions for the name stage in the game
 */
 class NameStage : public Stage {
 public:

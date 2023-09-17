@@ -1,6 +1,6 @@
 /*!
     @file txt_captcha_stage.cpp
-    @brief This file contains the implementation of the TxtCaptchaStage class.
+    @brief the implementation of the TxtCaptchaStage class
     @author Cameron Bruce
     @copyright 2023 Locked & Coded
 */
@@ -42,7 +42,7 @@ void TxtCaptchaStage::updateErrors(std::string field)
 /*!
     @brief updates the stage
     @details updates the stage by updating the field values
-    @param req the request object containing the field to update and the new value
+    @param req the rapidjson request object containing the field to update and the new value
 */
 void TxtCaptchaStage::update(const rapidjson::Value &req)
 {
@@ -58,7 +58,7 @@ void TxtCaptchaStage::update(const rapidjson::Value &req)
     @brief gets the field states
     @details gets the field states by returning a rapidjson object containing the field states
     @param allocator the rapidjson allocator
-    @return the rapidjson object containing the field states
+    @return the rapidjson value object containing the field states
 */
 rapidjson::Value TxtCaptchaStage::getFieldStates(rapidjson::Document::AllocatorType &allocator)
 {

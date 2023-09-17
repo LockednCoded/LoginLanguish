@@ -1,6 +1,6 @@
 /*!
     @file extras_stage.h
-    @brief The ExtrasStage class is a class that represents the extras stage in the game
+    @brief the ExtrasStage class is the class that represents the extras stage of the game
     @author Cameron Bruce
     @copyright 2023 Locked & Coded
 */
@@ -11,9 +11,8 @@
 #include "../game_manager.h"
 
 /*!
-    @brief The ExtrasStage class is a class that represents a extras stage in the game.
-    @details The ExtrasStage class is a class that represents a extras stage in the game. It contains
-    concrete stage implementions for the extras stage in the game.
+    @brief the ExtrasStage class is a class that represents a extras stage in the game
+    @details contains concrete stage implementions for the extras stage in the game
 */
 class ExtrasStage : public Stage {
 public:

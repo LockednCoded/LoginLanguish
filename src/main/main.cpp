@@ -6,9 +6,18 @@
 
  @mainpage Login Languish
  Here is an overview of the main files:
- - @ref main.cpp "Loads html and runs webview app"
- - @ref utils.cpp "Utilities"
- - @ref compatibility_utils.cpp "Compatibility utilities"
+ - @ref main.cpp "runs app"
+ - @ref utils.cpp "string load utility"
+ - @ref compatibility_utils.cpp "platform compatibility"
+ - @ref parse_args.cpp "argument parsing utility"
+ - @ref fields.cpp "field state manager"
+ - @ref game_manager.cpp "implementation of the GameManager class"
+ - @ref stage.cpp "implementation of the Stage class"
+ - @ref name_stage.cpp "implementation of the NameStage class"
+ - @ref credentials_stage.cpp "implementation of the CredentialsStage class"
+ - @ref extras_stage.cpp "implementation of the ExtrasStage class"
+ - @ref text_captcha_stage.cpp "implementation of the TextCaptchaStage class"
+ - @ref image_captcha_stage.cpp "implementation of the ImageCaptchaStage class"
 */
 
 #include <fstream>

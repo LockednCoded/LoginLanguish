@@ -1,6 +1,6 @@
 /*!
     @file image_captcha_stage.h
-    @brief The ImageCaptchaStage class is a class that represents the extras stage in the game
+    @brief the ImageCaptchaStage class is the class that represents the image captcha stage of the game
     @author Cameron Bruce
     @copyright 2023 Locked & Coded
 */
@@ -11,9 +11,8 @@
 #include "../game_manager.h"
 
 /*!
-    @brief The ImageCaptchaStage class is a class that represents a image captcha stage in the game.
-    @details The ImageCaptchaStage class is a class that represents a image captcha stage in the game. It contains
-    concrete stage implementions for the image captcha stage in the game.
+    @brief the ImageCaptchaStage class is a class that represents a image captcha stage in the game
+    @details contains concrete stage implementions for the image captcha stage in the game
 */
 class ImageCaptchaStage : public Stage {
 public:

@@ -1,8 +1,8 @@
 /*!
- @file credentials_stage.cpp
- @brief This file contains the implementation of the CredentialsStage class.
- @author Jack Searle, Cameron Bruce
- @copyright 2023 Locked & Coded
+    @file credentials_stage.cpp
+    @brief the implementation of the CredentialsStage class
+    @author Jack Searle, Cameron Bruce
+    @copyright 2023 Locked & Coded
 */
 
 #include "credentials_stage.h"
@@ -68,8 +68,8 @@ void CredentialsStage::updateErrors(std::string field)
         std::transform(lowercasePW.begin(), lowercasePW.end(), lowercasePW.begin(), [](unsigned char c) { return std::tolower(c); });
 
 
-        if (password.length() == 0){  
-            //do nothing                                          // empty password
+        if (password.length() == 0){                                            // empty password
+            //do nothing                                                        
         } else if (password.length() < 8){                                      // minimum length not reached
             errors.push_back(tooShortError);
         } else if (password.find_first_of(digits) == std::string::npos){        // missing digit(s)

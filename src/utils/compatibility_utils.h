@@ -1,8 +1,8 @@
 /*!
- @file
- @brief platform compatibility header file
- @author Jeb Nicholson
- @copyright 2023 Locked & Coded
+    @file compatibility_utils.h
+    @brief handles platform compatibility
+    @author Jeb Nicholson
+    @copyright 2023 Locked & Coded
 */
 
 #pragma once

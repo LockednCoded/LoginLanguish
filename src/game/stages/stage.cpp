@@ -1,6 +1,6 @@
 /*!
-    @file src/game/stages/stage.cpp
-    @brief This file contains the implementation of the Stage class.
+    @file stage.cpp
+    @brief the implementation of the Stage class
     @author Cameron Bruce
     @copyright 2023 Locked & Coded
 */
@@ -8,11 +8,11 @@
 #include "stage.h"
 
 /*!
-    @brief Create the JSON representation of the stage state.
-    @details This function creates rapidjson::Value object containing the stage state including
-    the stage name and the JSON representation of the field states.
-    @param allocator The rapidjson::Document::AllocatorType object used to allocate memory for the JSON objects.
-    @return rapidjson::Value object containing the stage state.
+    @brief creates the JSON representation of the stage state
+    @details this function creates rapidjson::Value object containing the stage state including
+    the stage name and the JSON representation of the field states
+    @param allocator the rapidjson::Document::AllocatorType object used to allocate memory for the JSON objects
+    @return rapidjson value object containing the stage state
     @ref Stage::getFieldStates
 */
 rapidjson::Value Stage::getStageState(rapidjson::Document::AllocatorType &allocator)
@@ -32,13 +32,13 @@ rapidjson::Value Stage::getStageState(rapidjson::Document::AllocatorType &alloca
 }
 
 /*!
-    @brief Create the JSON representation of the field states.
-    @details This function creates rapidjson::Value object containing the field states, this functions is used
-    for standard fields that have a value, errors and disabled property.
-    @param field The name of the field to create the field state for.
-    @param fieldValue The rapidjson::Value object containing the field value (this may be any native type and is created by @ref Stage::getFieldStates).
-    @param allocator The rapidjson::Document::AllocatorType object used to allocate memory for the JSON objects.
-    @return rapidjson::Value object containing the field states.
+    @brief creates the JSON representation of the field states
+    @details this function creates rapidjson::Value object containing the field states, this functions is used
+    for standard fields that have a value, errors and disabled property
+    @param field the name of the field to create the field state for
+    @param fieldValue the rapidjson::Value object containing the field value (this may be any native type and is created by @ref Stage::getFieldStates)
+    @param allocator the rapidjson::Document::AllocatorType object used to allocate memory for the JSON objects
+    @return rapidjson value object containing the field states
 */
 rapidjson::Value Stage::createFieldState(std::string field, rapidjson::Value &fieldValue, rapidjson::Document::AllocatorType &allocator)
 {
@@ -64,10 +64,10 @@ rapidjson::Value Stage::createFieldState(std::string field, rapidjson::Value &fi
 }
 
 /*!
-    @brief Get the field errors for a given field.
-    @details This function returns the field errors for a given field.
-    @param field The field to get the errors for.
-    @return std::vector<std::string> containing the field errors.
+    @brief gets the field errors for a given field
+    @details this function returns the field errors for a given field
+    @param field the field to get the errors for
+    @return string vector containing the field errors
 */
 std::vector<std::string> Stage::getFieldErrors(std::string field)
 {
@@ -75,9 +75,9 @@ std::vector<std::string> Stage::getFieldErrors(std::string field)
 }
 
 /*!
-    @brief Get the stage name.
-    @details This function returns the stage name.
-    @return std::string containing the stage name.
+    @brief gets the stage name
+    @details returns the stage name as a string
+    @return string containing the stage name
 */
 std::string Stage::getStageName()
 {
