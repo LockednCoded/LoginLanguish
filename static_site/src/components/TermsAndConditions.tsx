@@ -68,10 +68,10 @@ export default function TermsAndConditions({
           harmonious identity.
           <br />
           <br />
-          1.7. Please be advised that the cosmic council's decisions are final,
-          and while appeals are not entertained, the virtual carrier pigeons are
-          known to be particularly excellent listeners and can offer words of
-          encouragement during your quest for the perfect username.
+          1.7. Please be advised that the cosmic council{"'"}s decisions are
+          final, and while appeals are not entertained, the virtual carrier
+          pigeons are known to be particularly excellent listeners and can offer
+          words of encouragement during your quest for the perfect username.
           <br />
           <br />
           2. Use of Services:

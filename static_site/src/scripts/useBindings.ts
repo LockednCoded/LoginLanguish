@@ -116,7 +116,7 @@ export function useBindings() {
 
   useEffect(() => {
     getGameState();
-  }, [gameState]);
+  }, [getGameState]);
 
   const setFieldState = (async (
     stage: StageName,
@@ -133,22 +133,27 @@ export function useBindings() {
     await window.cpp_setFieldState(stage, fieldName, value);
   }) as SetFieldStateFunc;
 
-  const updateFieldState = useCallback(
-    (async (stage: StageName, fieldName: string, value: FieldValue) => {
-      await setFieldState(stage, fieldName, value);
-      await getGameState();
-    }) as SetFieldStateFunc,
-    []
-  );
+  const updateFieldState = (async (
+    stage: StageName,
+    fieldName: string,
+    value: FieldValue
+  ) => {
+    await setFieldState(stage, fieldName, value);
+    await getGameState();
+  }) as SetFieldStateFunc;
+
   const nextBtnClick = useCallback(async () => {
     await window.cpp_setNextStage();
     await getGameState();
   }, []);
 
-  const stageProgress = useCallback(async (stageName: StageName) => {
-    await window.cpp_stageProgress(stageName);
-    await getGameState();
-  }, []);
+  const stageProgress = useCallback(
+    async (stageName: StageName) => {
+      await window.cpp_stageProgress(stageName);
+      await getGameState();
+    },
+    [getGameState]
+  );
 
   return {
     gameState,

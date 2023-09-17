@@ -235,6 +235,7 @@ export default function LoginPage() {
 
             <button
               className="bg-neutral-700 text-lg mt-12 text-white font-bold p-1 w-36 box-border rounded-md disabled:text-gray-400"
+              data-test-id="next-button"
               type="button"
               disabled={!gameState.canProgress}
               onClick={() => {
