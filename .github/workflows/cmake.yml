@@ -35,11 +35,13 @@ jobs:
         # Run tests
         run: ctest --test-dir ${{github.workspace}}/build --output-on-failure
 
-      - name: Generate Coverage
+      - name: Install OpenCoverage
         run: |
           choco install opencppcoverage
           echo "C:\Program Files\OpenCppCoverage" >> $env:GITHUB_PATH
-          refreshenv
+
+      - name: Generate Coverage
+        run: |
           OpenCppCoverage.exe --excluded_sources ${{github.workspace}}\static_site --export_type cobertura:${{github.workspace}}\Coverage.xml -- ${{github.workspace}}\build\bin\LoginLanguish_tests
 
       - name: Find and Upload Coverage
