@@ -1,6 +1,6 @@
 /*!
 	@file utils.cpp
-	@brief string load utility
+	@brief handles generic tasks
 	@author Jeb Nicholson
 	@copyright 2023 Locked & Coded
 */

@@ -1,3 +1,10 @@
+/*!
+	@file random_utils.h
+	@brief handles pseudo-random tasks
+	@author Cameron Bruce
+	@copyright 2023 Locked & Coded
+*/
+
 #pragma once
 
 #include <vector>

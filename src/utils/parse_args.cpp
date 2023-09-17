@@ -1,6 +1,6 @@
 /*!
     @file parse_args.cpp
-    @brief argument parsing utility
+    @brief handles argument parsing
     @author Jeb Nicholson
     @copyright 2023 Locked & Coded
 */

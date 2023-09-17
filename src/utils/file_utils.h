@@ -1,3 +1,10 @@
+/*!
+	@file file_utils.h
+	@brief handles file related tasks
+	@author Cameron Bruce
+	@copyright 2023 Locked & Coded
+*/
+
 #pragma once
 
 #include <vector>

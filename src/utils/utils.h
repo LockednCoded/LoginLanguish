@@ -1,6 +1,6 @@
 /*!
     @file utils.h
-    @brief string load utility header file
+    @brief handles generic tasks
     @author Jeb Nicholson
     @copyright 2023 Locked & Coded
 */

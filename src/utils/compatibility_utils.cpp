@@ -1,8 +1,8 @@
 /*!
- @file compatibility_utils.cpp
- @brief handles platform compatibility
- @author Jeb Nicholson
- @copyright 2023 Locked & Coded
+	@file compatibility_utils.cpp
+	@brief handles platform compatibility
+	@author Jeb Nicholson
+	@copyright 2023 Locked & Coded
 */
 
 #include "compatibility_utils.h"
