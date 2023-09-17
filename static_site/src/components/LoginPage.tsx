@@ -1,3 +1,4 @@
+import React from "react";
 import TextField from "./TextField";
 // import { useLoginFlow } from "../scripts/login-flow";
 import { ValidationBox } from "./ValidationBox";
@@ -27,7 +28,9 @@ export default function LoginPage() {
     return null;
   }
 
-  return StageMap[gameState.stage] >= EndStage ? <End /> : (
+  return StageMap[gameState.stage] >= EndStage ? (
+    <End />
+  ) : (
     <main className="flex flex-col justify-center w-full h-full bg-white rounded-sm select-none">
       <div className="overflow-y-scroll">
         <div className="py-14 flex flex-col items-center box-border">
@@ -50,6 +53,7 @@ export default function LoginPage() {
                 <ImageCaptcha bindings={bindings} />
               )}
               <TextField
+                data-test-id="text-field-first-name"
                 type="text"
                 name="First Name"
                 value={gameState.stages[NameStage].state.firstName.value}
@@ -60,6 +64,7 @@ export default function LoginPage() {
                 className="mt-3"
               />
               <TextField
+                data-test-id="text-field-last-name"
                 type="text"
                 name="Last Name"
                 value={gameState.stages[NameStage].state.lastName.value}
@@ -86,6 +91,7 @@ export default function LoginPage() {
               }`}
             >
               <TextField
+                data-test-id="text-field-username"
                 type="text"
                 name="Username"
                 value={gameState.stages[CredentialsStage].state.username.value}
@@ -107,6 +113,7 @@ export default function LoginPage() {
                 <TextField
                   type="password"
                   name="Password"
+                  data-test-id="text-field-password"
                   value={
                     gameState.stages[CredentialsStage].state.password.value
                   }
@@ -133,6 +140,7 @@ export default function LoginPage() {
             >
               <div className="flex flex-row justify-between items-end ">
                 <TextField
+                  data-test-id="text-field-dob"
                   type="date"
                   name="Date of Birth"
                   value={gameState.stages[ExtrasStage].state.dob.value
@@ -160,6 +168,7 @@ export default function LoginPage() {
                     type="checkbox"
                     name="terms"
                     id="terms"
+                    data-test-id="terms-checkbox"
                     checked={gameState.stages[ExtrasStage].state.tsAndCs.value}
                     disabled={
                       gameState.stages[ExtrasStage].state.tsAndCs.disabled
@@ -174,6 +183,7 @@ export default function LoginPage() {
                   >
                     I agree to the{" "}
                     <button
+                      data-test-id="terms-and-conditions-button"
                       className="text-blue-400"
                       type="button"
                       onClick={() => setTsAndCsOpen(true)}
@@ -191,6 +201,7 @@ export default function LoginPage() {
                     type="checkbox"
                     name="terms"
                     id="marketing"
+                    data-test-id="marketing-check-box"
                     checked
                     onChange={(e) => e.preventDefault()}
                   />

@@ -1,12 +1,5 @@
-import {
-  GameState,
-  ImageCaptchaStage,
-  SetFieldStateFunc,
-  Stage,
-  StageMap,
-  StageName,
-  useBindings,
-} from "../scripts/useBindings";
+import React from "react";
+import { ImageCaptchaStage, useBindings } from "../scripts/useBindings";
 
 const CaptchaTile = ({
   source,
@@ -23,6 +16,7 @@ const CaptchaTile = ({
         selected ? "scale-95 border-blue-600 border-[5px]" : ""
       }`}
       onClick={onClick}
+      data-test-id="image-captcha-tile-div-${source}"
     >
       <div className="absolute bg-white opacity-0 transition-opacity duration-100 hover:opacity-50 w-full h-full" />
       <img src={source} alt="Image" className="w-full h-full aspect-square" />
@@ -37,7 +31,7 @@ export default function ImageCaptcha({
 }) {
   const { gameState, updateFieldState, stageProgress } = bindings;
   return (
-    <div className="bg-opacity-25 bg-gray-950 fixed z-10 h-full w-full top-0 left-0 flex items-center justify-center">
+    <div className="bg-gray-950/25 fixed z-10 h-full w-full top-0 left-0 flex items-center justify-center">
       <div className="bg-white p-1">
         <div className="text-white bg-blue-600 p-3 mb-1 flex flex-col">
           {gameState.stages[ImageCaptchaStage].state.lastRoundError ==
@@ -51,7 +45,7 @@ export default function ImageCaptcha({
           </h1>
         </div>
         <div className="grid grid-cols-3 gap-1 w-[400px] h-[400px]">
-          {gameState.stages[ImageCaptchaStage].state.images.map((image, i) => {
+          {gameState.stages[ImageCaptchaStage].state.images.map((image) => {
             const selected =
               gameState.stages[ImageCaptchaStage].state.selected.includes(
                 image
@@ -64,6 +58,7 @@ export default function ImageCaptcha({
 
             return (
               <CaptchaTile
+                data-test-id="image-captcha-tile-${image}"
                 source={image}
                 onClick={() =>
                   updateFieldState("imagecaptcha", "selected", updateVersion)
@@ -78,6 +73,7 @@ export default function ImageCaptcha({
             className="bg-blue-600 text-lg text-white font-bold p-1 w-36"
             type="button"
             disabled={false}
+            data-test-id="image-captcha-verify-btn"
             onClick={() => {
               stageProgress("imagecaptcha");
             }}

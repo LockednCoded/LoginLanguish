@@ -6,7 +6,7 @@ export default function TextField(props: {
   type: "text" | "password" | "date";
   name: string;
   value: string;
-  onChange: (val: string) => void;
+  onChange: (_val: string) => void;
   disabled?: boolean;
   className?: string;
 }) {
@@ -55,7 +55,8 @@ export default function TextField(props: {
           />
           {props.type == "password" && (
             <div
-              className="absolute top-1/2 transform -translate-y-1/2 right-2 text-lg cursor-pointer"
+              className="absolute top-1/2 -translate-y-1/2 right-2 text-lg cursor-pointer"
+              data-test-id={`text-field-${props.name}-show-password`}
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? (

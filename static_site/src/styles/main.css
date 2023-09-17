@@ -13,6 +13,7 @@
 	transition: all 300ms ease-in-out;
 	overflow: hidden;
 }
+
 .height-hidable > * {
 	overflow: hidden;
 	height: 100%;
@@ -41,7 +42,6 @@
     height: 700px;
     margin: auto;
 }
-
 
 body {
 	max-height: 100vh;

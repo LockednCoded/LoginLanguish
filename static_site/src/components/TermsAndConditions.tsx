@@ -1,27 +1,35 @@
+import React from "react";
 export default function TermsAndConditions({
   onRequestClose,
 }: {
   onRequestClose: () => void;
 }) {
   return (
-    <div className="bg-opacity-25 bg-gray-950 fixed h-full w-full top-0 left-0 flex items-center justify-center">
+    <div className="bg-gray-950/25 fixed h-full w-full top-0 left-0 flex items-center justify-center">
       <div className="bg-white p-1 h-[90%] w-[600px] rounded-md flex flex-col">
         <div className="flex justify-between p-4 align-top">
           <h2 className="text-xl">Terms and Conditions</h2>
-          <button className="text-lg" type="button" onClick={onRequestClose}>
+          <button
+            className="text-lg"
+            type="button"
+            onClick={onRequestClose}
+            data-test-id="tsAndCs-close"
+          >
             x
           </button>
         </div>
         <div className="overflow-y-scroll p-4 text-sm font-serif">
           Terms and Conditions for Generic Account Creation <br />
           <br />
-          These Terms and Conditions ("Terms") govern the use of the account
-          creation and authentication login services ("Services") provided by
-          Login Languish ("Company," "We," "Us," or "Our"), as well as the
-          participation in any associated games, applications, and platforms
-          ("Games"). By creating a generic account and accessing the Services,
-          you ("User," "Player," "You," or "Your") agree to be bound by these
-          Terms. Please read these Terms carefully before proceeding.
+          These Terms and Conditions ({'"'}Terms{'"'}) govern the use of the
+          account creation and authentication login services ({'"'}Services{'"'}
+          ) provided by Login Languish ({'"'}Company,{'"'} {'"'}We,{'"'} {'"'}
+          Us,{'"'} or {'"'}Our{'"'}), as well as the participation in any
+          associated games, applications, and platforms ({'"'}Games{'"'}). By
+          creating a generic account and accessing the Services, you ({'"'}User,
+          {'"'} {'"'}Player,{'"'} {'"'}You,{'"'} or {'"'}Your{'"'}) agree to be
+          bound by these Terms. Please read these Terms carefully before
+          proceeding.
           <br />
           <br />
           1. Account Creation:
@@ -45,7 +53,8 @@ export default function TermsAndConditions({
           <br />
           1.5. Your password and username may be temporarily granted upon
           account creation for a 10-day period, during which they shall undergo
-          rigorous inspection by the esteemed "Council of Cosmic Creativity."
+          rigorous inspection by the esteemed {'"'}Council of Cosmic Creativity.
+          {'"'}
           This council, composed of a motley crew of pixel artisans, code
           sorcerers, and virtual philosophers, shall assess the harmony of your
           chosen username with the celestial tapestry of our digital realm.
@@ -138,8 +147,8 @@ export default function TermsAndConditions({
           6. Disclaimer of Warranty:
           <br />
           <br />
-          6.1. The Services are provided "as is" and "as available," without any
-          warranties of any kind, either express or implied.
+          6.1. The Services are provided {'"'}as is{'"'} and {'"'}as available,
+          {'"'} without any warranties of any kind, either express or implied.
           <br />
           <br />
           6.2. The Company does not guarantee the accuracy, reliability, or
@@ -150,7 +159,7 @@ export default function TermsAndConditions({
           <br />
           7.1. To the extent permitted by law, the Company shall not be liable
           for any direct, indirect, incidental, consequential, or punitive
-          damages arising out of or in connection with your use of the Services.{" "}
+          damages arising out of or in connection with your use of the Services.
           <br />
           <br />
           7.2. In no event shall the total liability of the Company exceed the

@@ -1,12 +1,5 @@
-import { useEffect } from "react";
-import {
-  GameState,
-  SetFieldStateFunc,
-  Stage,
-  StageName,
-  TxtCaptchaStage,
-  useBindings,
-} from "../scripts/useBindings";
+import React from "react";
+import { TxtCaptchaStage, useBindings } from "../scripts/useBindings";
 import useSmoothUpdate from "../scripts/useSmoothUpdate";
 
 export default function TextCaptcha({

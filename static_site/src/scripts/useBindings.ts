@@ -1,18 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars (Because Window is actually used)
   interface Window {
     cpp_getGameState(): Promise<string>;
     cpp_setFieldState: SetFieldStateFunc;
     cpp_setNextStage(): Promise<void>;
-    cpp_stageProgress(sn: StageName): Promise<void>;
+    cpp_stageProgress(_sn: StageName): Promise<void>;
   }
 }
 
 export type SetFieldStateFunc = (
-  stage: StageName,
-  fieldName: string,
-  value: FieldValue
+  _stage: StageName,
+  _fieldName: string,
+  _value: FieldValue
 ) => Promise<void>;
 
 type FieldValue = string | boolean | string[] | number[];
@@ -37,7 +38,7 @@ export const StageMap = {
   extras: ExtrasStage,
   txtcaptcha: TxtCaptchaStage,
   imagecaptcha: ImageCaptchaStage,
-  end: EndStage
+  end: EndStage,
 };
 
 type Field = {
@@ -108,32 +109,29 @@ export type GameState = {
 export function useBindings() {
   const [gameState, setGameState] = useState<GameState>(null);
 
-  useEffect(() => {
-    getGameState();
-  }, []);
-
   const getGameState = useCallback(async () => {
     const newGameState = atob(await window.cpp_getGameState());
     setGameState(JSON.parse(newGameState) as GameState);
-  }, []);
+  }, [setGameState]);
 
-  const setFieldState = useCallback(
-    (async (
-      stage: StageName,
-      fieldName: string,
-      value: string | boolean | string[]
-    ) => {
-      // const encodedValue =
-      //   typeof value === "string"
-      //     ? encodeURIComponent(value)
-      //     : typeof value == "object"
-      //     ? value.map((val) => encodeURIComponent(val))
-      //     : value;
+  useEffect(() => {
+    getGameState();
+  }, [gameState]);
 
-      await window.cpp_setFieldState(stage, fieldName, value);
-    }) as SetFieldStateFunc,
-    []
-  );
+  const setFieldState = (async (
+    stage: StageName,
+    fieldName: string,
+    value: string | boolean | string[]
+  ) => {
+    // const encodedValue =
+    //   typeof value === "string"
+    //     ? encodeURIComponent(value)
+    //     : typeof value == "object"
+    //     ? value.map((val) => encodeURIComponent(val))
+    //     : value;
+
+    await window.cpp_setFieldState(stage, fieldName, value);
+  }) as SetFieldStateFunc;
 
   const updateFieldState = useCallback(
     (async (stage: StageName, fieldName: string, value: FieldValue) => {
