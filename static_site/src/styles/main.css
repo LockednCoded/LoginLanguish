@@ -3,12 +3,17 @@
 @tailwind utilities;
 
 
+/* * {
+	border: 1px black solid;
+} */
+
 .height-hidable {
 	display: grid;
 	grid-template-rows: 1fr;
 	transition: all 300ms ease-in-out;
 	overflow: hidden;
 }
+
 .height-hidable > * {
 	overflow: hidden;
 	height: 100%;
@@ -22,11 +27,22 @@
 }
 
 .height-hidden {
-		grid-template-rows: 0fr;
-		opacity: 0;
-		margin-top: 0;
-		margin-bottom: 0;
-		padding-top: 0;
-		padding-bottom: 0;
-		border-width: 0;
+	grid-template-rows: 0fr;
+	opacity: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+	border-width: 0;
+	max-height: 0;
+}
+
+#img-captcha {
+	width: 550px;
+    height: 700px;
+    margin: auto;
+}
+
+body {
+	max-height: 100vh;
 }

@@ -2,9 +2,9 @@ name: CMake
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "dev-WIP"]
   pull_request:
-    branches: ["main"]
+    branches: ["main", "dev-WIP"]
 
 jobs:
   build:
@@ -12,6 +12,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Cache deps
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{github.workspace}}/vcpkg
+            ${{github.workspace}}/static_site/node_modules
+          key: ${{ runner.os }}-dependencies-${{ hashFiles('**/package-lock.json', '**/vcpkg.json') }}
+          restore-keys: |
+            ${{ runner.os }}-dependencies-
 
       - name: Configure CMake
         # Configure CMake with the DEBUG build type and code coverage enabled

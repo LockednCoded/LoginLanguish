@@ -7,19 +7,23 @@
     "dev": "vite serve",
     "build": "vite build --emptyOutDir",
     "preview_build": "vite preview",
-    "install_and_build": "npm install && npm run build"
+    "install_and_build": "npm install && npm run build",
+    "install_and_build_bun": "bun install && bun run build"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/react-modal": "^3.16.0",
     "@vitejs/plugin-react": "^4.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-modal": "^3.16.1",
     "vite": "^4.4.9",
     "vite-plugin-singlefile": "^0.13.5"
   },
   "devDependencies": {
     "@iconify-json/pajamas": "^1.1.31",
+    "@iconify/react": "^4.1.1",
     "@svgr/core": "^8.0.0",
     "@svgr/plugin-jsx": "^8.0.1",
     "@types/react": "^18.2.18",
