@@ -42,12 +42,12 @@ namespace {
 
 TEST_F(ExtrasStageTest, SetDob) {
     rapidjson::Document req;
-    req.Parse("[\"extras\", \"dob\", {12, 12, 2023}]");
+    req.Parse("[\"extras\", \"dob\", [12, 12, 2023]]");
     rapidjson::Value &reqArray = req.GetArray();
     gm->updateField(reqArray);
     rapidjson::Document document;
     std::vector<int> result;
-    rapidjson::Value &resultArray = stage->getFieldStates(document.GetAllocator())["selected"].GetArray();
+    rapidjson::Value &resultArray = stage->getFieldStates(document.GetAllocator())["dob"].GetArray();
     for (int i = 0; i < (int)resultArray.Size(); i++) {
         result.push_back(resultArray[i].GetInt());
     }
