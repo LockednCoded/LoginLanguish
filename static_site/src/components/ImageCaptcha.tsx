@@ -79,7 +79,7 @@ export default function ImageCaptcha({
             type="button"
             disabled={false}
             onClick={() => {
-              stageProgress(StageMap[ImageCaptchaStage]);
+              stageProgress(StageMap[ImageCaptchaStage].name);
             }}
           >
             Verify
