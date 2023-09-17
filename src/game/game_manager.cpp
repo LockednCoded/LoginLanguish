@@ -94,7 +94,7 @@ void GameManager::updateField(const rapidjson::Value &req)
     @param value the new value of the field
     @ref GameManager::updateField
 */
-void GameManager::updateField(std::string stage, std::string field, std::string value)
+void GameManager::updateField(const std::string &stage, const std::string &field, const std::string &value)
 {
     rapidjson::Document document;
     document.SetArray();
@@ -116,7 +116,7 @@ void GameManager::updateField(std::string stage, std::string field, std::string 
     @return a vector of strings containing the errors for the field
     @ref Stage::getFieldErrors
 */
-std::vector<std::string> GameManager::getFieldErrors(std::string stage, std::string field)
+std::vector<std::string> GameManager::getFieldErrors(const std::string &stage, const std::string &field)
 {
     return stages_map[stage]->getFieldErrors(field);
 }

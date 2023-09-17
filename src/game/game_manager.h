@@ -25,10 +25,10 @@ public:
     GameManager();
     Stage* getStage(std::string stage);
     void updateField(const rapidjson::Value &req);
-    void updateField(std::string stage, std::string field, std::string value);
+    void updateField(const std::string &stage, const std::string &field, const std::string &value);
     // std::string getStage();
     std::string getNextStage();
-    std::vector<std::string> getFieldErrors(std::string stage, std::string field);
+    std::vector<std::string> getFieldErrors(const std::string &stage, const std::string &field);
     rapidjson::Document getGameState();
     void progressStage(const rapidjson::Value &req);
     std::string getCurrentStageName();
