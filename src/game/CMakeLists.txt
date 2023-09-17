@@ -18,5 +18,7 @@ add_library(game STATIC ${source_list})
 
 target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
+target_link_libraries(game PRIVATE utils)
+
 find_package(RapidJSON CONFIG REQUIRED)
 target_link_libraries(game PRIVATE rapidjson)

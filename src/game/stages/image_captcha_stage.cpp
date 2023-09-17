@@ -5,7 +5,16 @@
     * @copyright 2023 Locked & Coded
 */
 
+#include <filesystem>
+#include <algorithm>
+#include <random>
+#include <iterator>
+#include <iostream>
+
+#include "compatibility_utils.h"
 #include "image_captcha_stage.h"
+
+namespace fs = std::filesystem;
 
 /*!
     @brief constructor for ImageCaptchaStage
@@ -14,6 +23,41 @@
 ImageCaptchaStage::ImageCaptchaStage(GameManager *gameManager){
     name = "imagecaptcha";
     gm = gameManager;
+;
+    std::string path = getResourcesPath() +   "/datasets/celeb-faces/";
+    std::vector<std::string> celebrities = listSubdirectories(path);
+
+
+    int random_celeb = randomInt(0, celebrities.size() - 1);
+    std::string selected_celebrity = celebrities[random_celeb];
+    celebrities.erase(celebrities.begin() + random_celeb);
+
+    int num_celebrity_images = listFiles(selected_celebrity).size();
+    int num_correct = std::min(randomInt(3, 5), num_celebrity_images);
+    
+    std::vector<std::string> selected_celebrity_files = getNRandomFiles(num_correct, selected_celebrity);
+    std::vector<std::string> incorrect_celebrity_files = getNRandomFilesFromSubdirectories(9 - num_correct, celebrities);
+
+    std::vector<std::string> all_files;
+    all_files.insert(all_files.end(), selected_celebrity_files.begin(), selected_celebrity_files.end());
+    all_files.insert(all_files.end(), incorrect_celebrity_files.begin(), incorrect_celebrity_files.end());
+
+    auto rng = std::default_random_engine {};
+    std::shuffle(std::begin(all_files), std::end(all_files), rng);
+    
+    image_urls = all_files;
+    correct_images = selected_celebrity_files;
+    std::string celebrity_name = selected_celebrity.substr(selected_celebrity.find_last_of("/\\") + 1);
+    std::replace(celebrity_name.begin(), celebrity_name.end(), '_', ' ');
+
+    //convery celebrity name to title case
+    celebrity_name[0] = toupper(celebrity_name[0]);
+    for (int i = 1; i < celebrity_name.size(); i++) {
+        if (celebrity_name[i - 1] == ' ') {
+            celebrity_name[i] = toupper(celebrity_name[i]);
+        }
+    }
+    challenge_text = "Select all images of " + celebrity_name + ".";
 };
 
 /*!
@@ -84,3 +128,76 @@ rapidjson::Value ImageCaptchaStage::getFieldStates(rapidjson::Document::Allocato
 
     return fieldStates;
 };
+
+std::vector<std::string> ImageCaptchaStage::listSubdirectories(std::string path) {
+    std::vector<std::string> subdirectories;
+    
+    for (const auto & entry : fs::directory_iterator(path)) {
+        if (entry.is_directory()) {
+            subdirectories.push_back(entry.path().string());
+        }
+    }
+
+    return subdirectories;
+}
+
+std::vector<std::string> ImageCaptchaStage::listFiles(std::string path) {
+    std::vector<std::string> files;
+    
+    for (const auto & entry : fs::directory_iterator(path)) {
+        if (entry.is_regular_file()) {
+            files.push_back(entry.path().string());
+        }
+    }
+
+    return files;
+}
+
+int ImageCaptchaStage::randomInt(int min, int max) {
+    return rand() % (max - min + 1) + min;
+}
+
+std::vector<std::string> ImageCaptchaStage::getNRandomFiles(int n, std::string directory) 
+{
+    std::vector<std::string> files = listFiles(directory);
+    std::vector<std::string> random_files;
+
+    for (int i = 0; i < n; i++) {
+        int random_index = randomInt(0, files.size() - 1);
+        random_files.push_back(files[random_index]);
+        files.erase(files.begin() + random_index);
+    }
+
+    return random_files;
+}
+
+std::vector<std::string> ImageCaptchaStage::getNRandomFilesFromSubdirectories(
+    int n, 
+    std::vector<std::string> directories)
+{
+    std::map<std::string, std::vector<std::string>> files_map;
+    for (auto directory : directories) {
+        files_map[directory] = listFiles(directory);
+    }
+
+    std::vector<std::string> directories_available = directories;
+    std::vector<std::string> random_files;
+
+    for (int i = 0; i < n; i++) {
+        int random_subdirectory = randomInt(0, directories_available.size() - 1);
+
+        std::vector<std::string> files = files_map[directories_available[random_subdirectory]];
+
+        if (files.size() == 0) {
+            directories_available.erase(directories_available.begin() + random_subdirectory);
+            i--;
+            continue;
+        }
+
+        int random_file = randomInt(0, files.size() - 1);
+        random_files.push_back(files[random_file]);
+        files.erase(files.begin() + random_file);
+    }
+
+    return random_files;
+}
