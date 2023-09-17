@@ -112,6 +112,10 @@ void TxtCaptchaStage::update(const rapidjson::Value &req)
     updateErrors(field);
 }
 
+void TxtCaptchaStage::progressStage()
+{
+}
+
 /*!
     @brief gets the field states
     @details gets the field states by returning a rapidjson object containing the field states

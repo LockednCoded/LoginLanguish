@@ -29,6 +29,7 @@ public:
 private:
     void updateErrors(std::string field);
     void initialiseCaptchaImages(fs::path dataset_path);
+    void progressStage();
 
     GameManager* gm;
     std::vector<std::string> image_urls;

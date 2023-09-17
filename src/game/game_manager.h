@@ -27,6 +27,7 @@ public:
     std::string getNextStage();
     std::vector<std::string> getFieldErrors(std::string stage, std::string field);
     rapidjson::Document getGameState();
+    void progressStage(const rapidjson::Value &req);
 
 private:
     std::map<std::string, Stage *> stages_map;

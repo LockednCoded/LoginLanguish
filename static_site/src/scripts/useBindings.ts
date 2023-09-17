@@ -5,14 +5,17 @@ declare global {
     cpp_getGameState(): Promise<string>;
     cpp_setFieldState: SetFieldStateFunc;
     cpp_setNextStage(): Promise<void>;
+    cpp_stageProgress(sn: StageName): Promise<void>;
   }
 }
 
 export type SetFieldStateFunc = (
   stage: StageName,
   fieldName: string,
-  value: string | boolean | string[]
+  value: FieldValue
 ) => Promise<void>;
+
+type FieldValue = string | boolean | string[] | number[];
 
 export type Stage = 0 | 1 | 2 | 3 | 4;
 export type StageName =
@@ -61,7 +64,11 @@ export type GameState = {
     {
       name: "extras";
       state: {
-        dob: Field;
+        dob: {
+          value: number[]; //[Day, Month, Year]
+          errors: string[];
+          disabled: boolean;
+        };
         tsAndCs: {
           value: boolean;
           errors: string[];
@@ -81,6 +88,7 @@ export type GameState = {
       name: "imagecaptcha";
       state: {
         selected: string[];
+        lastRoundError: string;
         images: string[];
         challengeText: string;
       };
@@ -119,11 +127,7 @@ export function useBindings() {
   );
 
   const updateFieldState = useCallback(
-    (async (
-      stage: StageName,
-      fieldName: string,
-      value: string | boolean | string[]
-    ) => {
+    (async (stage: StageName, fieldName: string, value: FieldValue) => {
       await setFieldState(stage, fieldName, value);
       await getGameState();
     }) as SetFieldStateFunc,
@@ -134,10 +138,16 @@ export function useBindings() {
     await getGameState();
   }, []);
 
+  const stageProgress = useCallback(async (stageName: StageName) => {
+    await window.cpp_stageProgress(stageName);
+    await getGameState();
+  }, []);
+
   return {
     gameState,
     setFieldState,
     updateFieldState,
+    stageProgress,
     nextBtnClick,
   };
 }

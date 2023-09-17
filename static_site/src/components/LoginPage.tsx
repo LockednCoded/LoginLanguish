@@ -17,7 +17,8 @@ import { useState } from "react";
 import TermsAndConditions from "./TermsAndConditions";
 
 export default function LoginPage() {
-  const { gameState, updateFieldState, nextBtnClick } = useBindings();
+  const bindings = useBindings();
+  const { gameState, updateFieldState, nextBtnClick, stageProgress } = bindings;
   const [tsAndCsOpen, setTsAndCsOpen] = useState(false);
 
   return gameState == null ? null : (
@@ -40,11 +41,7 @@ export default function LoginPage() {
               }`}
             >
               {StageMap[gameState.stage] == ImageCaptchaStage && (
-                <ImageCaptcha
-                  gameState={gameState}
-                  updateFieldState={updateFieldState}
-                  nextBtnClick={nextBtnClick}
-                />
+                <ImageCaptcha bindings={bindings} />
               )}
               <TextField
                 type="text"
@@ -124,10 +121,17 @@ export default function LoginPage() {
                 <TextField
                   type="date"
                   name="Date of Birth"
-                  value={gameState.stages[ExtrasStage].state.dob.value}
-                  onChange={(newVal) =>
-                    updateFieldState("extras", "dob", newVal)
-                  }
+                  value={gameState.stages[ExtrasStage].state.dob.value
+                    .reverse()
+                    .map((n) => n.toString().padStart(2, "0"))
+                    .join("-")}
+                  onChange={(newVal) => {
+                    const dateArray = newVal
+                      .split("-")
+                      .reverse()
+                      .map((num) => Number.parseInt(num));
+                    updateFieldState("extras", "dob", dateArray);
+                  }}
                   disabled={gameState.stages[ExtrasStage].state.dob.disabled}
                   className="mt-3 w-1/3"
                 />
@@ -188,12 +192,7 @@ export default function LoginPage() {
                   : "height-hidden"
               }`}
             >
-              <TextCaptcha
-                gameState={gameState}
-                updateFieldState={updateFieldState}
-                nextBtnClick={nextBtnClick}
-                className="mt-3"
-              />
+              <TextCaptcha bindings={bindings} className="mt-3" />
             </div>
 
             <button
