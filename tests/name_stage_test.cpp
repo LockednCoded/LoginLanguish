@@ -37,6 +37,9 @@ namespace {
     };
 }
 
+
+// NAME UNIT TESTS
+
 TEST_F(NameStageTest, SetFirstName) {
     gm->updateField("name", "firstName", "John");
     std::string expected = "John";
@@ -52,6 +55,37 @@ TEST_F(NameStageTest, SetLastName) {
     std::string result = stage->getFieldStates(document.GetAllocator())["lastName"]["value"].GetString();
     EXPECT_EQ(result, expected);
 }
+
+TEST_F(NameStageTest, TooLongFirstName) {
+    gm->updateField("name", "firstName", "Johnathankyouverymuch");
+    std::vector<std::string> expected = {stage->fNameLengthError};
+    std::vector<std::string> result = gm->getFieldErrors("name", "firstName");
+    EXPECT_EQ(result, expected);
+}
+
+TEST_F(NameStageTest, TooLongLastName) {
+    gm->updateField("name", "lastName", "Smithsonianterramantis");
+    std::vector<std::string> expected = {stage->lNameLengthError};
+    std::vector<std::string> result = gm->getFieldErrors("name", "lastName");
+    EXPECT_EQ(result, expected);
+}
+
+TEST_F(NameStageTest, InvalidCharFirstName) {
+    gm->updateField("name", "firstName", "J*hn");
+    std::vector<std::string> expected = {stage->fNameInvalidCharError};
+    std::vector<std::string> result = gm->getFieldErrors("name", "firstName");
+    EXPECT_EQ(result, expected);
+}
+
+TEST_F(NameStageTest, InvalidCharLastName) {
+    gm->updateField("name", "lastName", "Sm!th");
+    std::vector<std::string> expected = {stage->lNameInvalidCharError};
+    std::vector<std::string> result = gm->getFieldErrors("name", "lastName");
+    EXPECT_EQ(result, expected);
+}
+
+
+// VALIDATION UNIT TESTS
 
 TEST_F(NameStageTest, EmptyValidation) {
     bool expected = false;

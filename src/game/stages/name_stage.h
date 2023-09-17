@@ -23,10 +23,10 @@ public:
     rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator);
 
     // name error messages
-    std::string firstLengthError = "First name must be between 2 and 24 characters in length.";
-    std::string firstInvalidCharError = "Invalid characters in first name.";
-    std::string lastLengthError = "Last name must be between 2 and 24 characters in length.";
-    std::string lastInvalidCharError = "Invalid characters in last name.";
+    std::string fNameLengthError = "First name must be less than 16 characters.";
+    std::string fNameInvalidCharError = "Invalid characters in first name.";
+    std::string lNameLengthError = "Last name must be less than 16 characters.";
+    std::string lNameInvalidCharError = "Invalid characters in last name.";
 
 private:
     void updateErrors(std::string field);

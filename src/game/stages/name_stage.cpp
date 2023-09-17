@@ -48,10 +48,10 @@ void NameStage::updateErrors(std::string field)
     if (field.compare("firstName") == 0){
         if (first_name.length() == 0){
             // do nothing
-        } else if (first_name.length() < 2 || first_name.length() > 24){
-            errors.push_back(firstLengthError);
+        } else if (first_name.length() > 16){
+            errors.push_back(fNameLengthError);
         } else if (first_name.find_first_of(invalidChars) != std::string::npos){
-            errors.push_back(firstInvalidCharError);
+            errors.push_back(fNameInvalidCharError);
         }
 
         field_errors["firstName"] = errors;
@@ -59,10 +59,10 @@ void NameStage::updateErrors(std::string field)
     } else if (field.compare("lastName") == 0){
         if (last_name.length() == 0){
             // do nothing
-        } else if (last_name.length() < 2 || last_name.length() > 24){
-            errors.push_back(lastLengthError);
+        } else if (last_name.length() > 16){
+            errors.push_back(lNameLengthError);
         } else if (last_name.find_first_of(invalidChars) != std::string::npos){
-            errors.push_back(lastInvalidCharError);
+            errors.push_back(lNameInvalidCharError);
         }
 
         field_errors["lastName"] = errors;

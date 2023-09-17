@@ -27,6 +27,5 @@ std::vector<std::string> parseArgs(std::string args)
         parsed_args.push_back(arg);
     }
 
-    
     return parsed_args;
 }
