@@ -25,6 +25,8 @@ CredentialsStage::CredentialsStage(GameManager *gameManager) : Stage(gameManager
         {"username", std::vector<std::string>()},
         {"password", std::vector<std::string>()}
     };
+
+    nameStage = dynamic_cast<NameStage *>(gm->getStage("name"));
 }
 
 /*!
@@ -50,7 +52,6 @@ void CredentialsStage::updateErrors(std::string field)
     std::vector<std::string> errors;
 
     // retrieve name fields
-    Stage* nameStage = gm->getStage("name");
     rapidjson::Document doc;
     doc.SetObject();
     rapidjson::Value fieldStates = nameStage->getFieldStates(doc.GetAllocator());
