@@ -82,7 +82,7 @@ void CredentialsStage::updateErrors(std::string field)
         }
         suggestions = suggestions.substr(0, suggestions.size() - 2) + ".";
 
-        if (username.length()){
+        if (username.length() == 0){
             // do nothing
         } else if (username.length() < 8 || username.length() > 24){            // length out of bounds
             errors.push_back(lengthError);
