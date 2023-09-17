@@ -8,15 +8,29 @@ if (PLATFORM MATCHES "WIN")
     list(APPEND ASSETS_PATHES "$<TARGET_FILE_DIR:${APP_NAME}>")
 endif()
 
-add_custom_target(generate_static_site
-    COMMAND npm run install_and_build 
-    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/static_site"
-    COMMENT "Building static site"
-    VERBATIM
-)
-
+add_custom_target(generate_static_site)
 add_custom_target(copy_static_site ALL DEPENDS generate_static_site)
 add_custom_target(copy_assets ALL)
+
+find_program(BUN_EXECUTABLE bun)
+if (BUN_EXECUTABLE)
+    message(STATUS "Found bun: ${BUN_EXECUTABLE}")
+    add_custom_command(TARGET generate_static_site
+        COMMAND bun run install_and_build_bun
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/static_site"
+        COMMENT "Building static site"
+        VERBATIM
+    )
+else()
+    message(STATUS "bun not found")
+    add_custom_command(TARGET generate_static_site
+        COMMAND npm run install_and_build
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/static_site"
+        COMMENT "Building static site"
+        VERBATIM
+    )
+endif()
+
 
 foreach(ASSETS_PATH IN LISTS ASSETS_PATHES)
 

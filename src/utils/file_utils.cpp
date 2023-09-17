@@ -75,17 +75,17 @@ namespace file_utils {
         for (size_t i = 0; i < n; i++) {
             size_t random_subdirectory = rand_utils::randomSizeT(directories_available.size() - 1);
 
-            std::vector<fs::path> files = files_map[directories_available[random_subdirectory]];
+            std::vector<fs::path> *files = &files_map[directories_available[random_subdirectory]];
 
-            if (files.size() <= 0) {
+            if (files->size() <= 0) {
                 directories_available.erase(directories_available.begin() + random_subdirectory);
                 i--;
                 continue;
             }
 
-            size_t random_file = rand_utils::randomSizeT(files.size() - 1);
-            random_files.push_back(files[random_file]);
-            files.erase(files.begin() + random_file);
+            size_t random_file = rand_utils::randomSizeT(files->size() - 1);
+            random_files.push_back((*files)[random_file]);
+            files->erase(files->begin() + random_file);
         }
 
         return random_files;
