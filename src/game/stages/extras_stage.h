@@ -25,6 +25,6 @@ private:
     void updateErrors(std::string field);
 
     GameManager* gm;
-    std::string dob = "";
+    std::vector<int> dob;
     bool ts_and_cs = false;
 };
