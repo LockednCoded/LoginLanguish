@@ -24,12 +24,7 @@ public:
     
 private:
     void updateErrors(std::string field);
-
-    std::vector<std::string> listSubdirectories(std::string path);
-    std::vector<std::string> listFiles(std::string path);
-    int randomInt(int min, int max);
-    std::vector<std::string> getNRandomFiles(int n, std::string directory);
-    std::vector<std::string> getNRandomFilesFromSubdirectories(int n, std::vector<std::string> directories);
+    void initialiseCaptchaImages(std::string dataset_path);
 
     GameManager* gm;
     std::vector<std::string> image_urls;
