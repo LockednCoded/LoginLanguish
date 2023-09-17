@@ -38,7 +38,7 @@ namespace {
 }
 
 TEST_F(NameStageTest, SetFirstName) {
-    gm->updateField("name", "firstName", "peter");
+    gm->updateField("name", "firstName", "John");
     std::string expected = "peter";
     rapidjson::Document document;
     std::string result = stage->getFieldStates(document.GetAllocator())["firstName"]["value"].GetString();
@@ -46,7 +46,7 @@ TEST_F(NameStageTest, SetFirstName) {
 }
 
 TEST_F(NameStageTest, SetLastName) {
-    gm->updateField("name", "lastName", "lee");
+    gm->updateField("name", "lastName", "Smith");
     std::string expected = "lee";
     rapidjson::Document document;
     std::string result = stage->getFieldStates(document.GetAllocator())["lastName"]["value"].GetString();

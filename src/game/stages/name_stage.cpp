@@ -42,7 +42,7 @@ void NameStage::updateErrors(std::string field)
 
     std::string invalidChars = "!@#$%^&*()_=+[]{}\\|;:\",.<>/?`~";
 
-    if (field.compare("first_name") == 0){
+    if (field.compare("firstName") == 0){
         if (first_name.length() == 0){
             // do nothing
         } else if (first_name.length() < 2 || first_name.length() > 24){
@@ -51,9 +51,9 @@ void NameStage::updateErrors(std::string field)
             errors.push_back(firstInvalidCharError);
         }
 
-        field_errors["first_name"] = errors;
+        field_errors["firstName"] = errors;
 
-    } else if (field.compare("last_name") == 0){
+    } else if (field.compare("lastName") == 0){
         if (last_name.length() == 0){
             // do nothing
         } else if (last_name.length() < 2 || last_name.length() > 24){
@@ -62,7 +62,7 @@ void NameStage::updateErrors(std::string field)
             errors.push_back(lastInvalidCharError);
         }
 
-        field_errors["last_name"] = errors;
+        field_errors["lastName"] = errors;
     }
 }
 
