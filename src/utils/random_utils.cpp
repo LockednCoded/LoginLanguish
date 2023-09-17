@@ -10,4 +10,16 @@ namespace rand_utils {
 
         return dis(gen);
     }
+
+    size_t randomSizeT(size_t min, size_t max) {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<size_t> dis(min, max);
+
+        return dis(gen);
+    }
+
+    size_t randomSizeT(size_t max) {
+        return randomSizeT(0, max);
+    }
 }

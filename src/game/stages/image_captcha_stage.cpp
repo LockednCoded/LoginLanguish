@@ -107,21 +107,21 @@ rapidjson::Value ImageCaptchaStage::getFieldStates(rapidjson::Document::Allocato
     @param dataset_path the path to the dataset
 */
 void ImageCaptchaStage::initialiseCaptchaImages(std::string dataset_path) {
-    const int MAX_NUM_IMAGES = 9;
-    const int MAX_NUM_CORRECT = 5;
-    const int MIN_NUM_CORRECT = 3;
+    const size_t MAX_NUM_IMAGES = 9;
+    const size_t MAX_NUM_CORRECT = 5;
+    const size_t MIN_NUM_CORRECT = 3;
 
     //get all directories in path
     std::vector<std::string> available_dirs =  file_utils::listSubdirectories(dataset_path);
 
     //select a directory at random and remove it from the list
-    int random_index = rand_utils::randomInt(0, available_dirs.size() - 1);
+    size_t random_index = rand_utils::randomSizeT(available_dirs.size() - 1);
     std::string selected_dir = available_dirs[random_index];
     available_dirs.erase(available_dirs.begin() + random_index);
 
     //select a random number of images from the selected directory
-    int selected_dir_size = file_utils::listFiles(selected_dir).size();
-    int num_correct_images = std::min(rand_utils::randomInt(MIN_NUM_CORRECT, MAX_NUM_CORRECT), selected_dir_size);
+    size_t selected_dir_size = file_utils::listFiles(selected_dir).size();
+    size_t num_correct_images = std::min(rand_utils::randomSizeT(MIN_NUM_CORRECT, MAX_NUM_CORRECT), selected_dir_size);
     correct_images = file_utils::getNRandomFiles(num_correct_images, selected_dir);
     image_urls = correct_images;
 
