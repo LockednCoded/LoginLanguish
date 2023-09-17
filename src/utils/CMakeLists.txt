@@ -21,9 +21,6 @@ if (PLATFORM MATCHES "MAC")
     )
 endif()
 
-find_package(CURL REQUIRED)
-target_link_libraries(utils PRIVATE CURL::libcurl)
-
 target_include_directories(utils PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 find_package(RapidJSON CONFIG REQUIRED)

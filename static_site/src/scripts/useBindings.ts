@@ -112,7 +112,6 @@ export function useBindings() {
       //     : typeof value == "object"
       //     ? value.map((val) => encodeURIComponent(val))
       //     : value;
-      console.log(value);
 
       await window.cpp_setFieldState(stage, fieldName, value);
     }) as SetFieldStateFunc,
