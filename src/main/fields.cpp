@@ -1,17 +1,32 @@
+/*!
+	@file fields.cpp
+	@brief field state manager
+	@author Jeb Nicholson
+	@copyright 2023 Locked & Coded
+*/
+
 #include "fields.h"
 #include <iostream>
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 
+/*!
+	@brief constructor for Fields
+*/
 Fields::Fields()
 {
 	d.SetObject();
 }
 
+/*!
+	@brief updates field states
+	@param args JSON string to update field states with
+	@return "true" as a string to indicate update was successful
+*/
 std::string Fields::updateFieldState(std::string args)
 {
-	// Do some work
+	// do some work
 	rapidjson::Document di;
 	di.Parse(args.c_str());
 	const std::string fieldName = di[0].GetString();
@@ -36,14 +51,22 @@ std::string Fields::updateFieldState(std::string args)
 	return "true";
 }
 
+/*!
+	@brief obtains and prints field states
+	@return field states as a JSON string
+*/
 std::string Fields::getFieldStates()
 {
-
 	std::cout << "Getting field states" << std::endl;
-
-	std::cout << getJSONString() << std::endl;
-	return getJSONString();
+	std::string jsonStr = getJSONString();
+	std::cout << jsonStr << std::endl;
+	return jsonStr;
 }
+
+/*!
+	@brief converts a RapidJSON document into a string
+	@return string representation of JSON
+*/
 std::string Fields::getJSONString()
 {
 	rapidjson::StringBuffer buffer;

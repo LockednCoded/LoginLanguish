@@ -1,8 +1,8 @@
 /*!
-    * @file extras_stage.cpp
-    * @brief This file contains the implementation of the ExtrasStage class.
-    * @author Cameron Brue
-    * @copyright 2023 Locked & Coded
+    @file extras_stage.cpp
+    @brief the implementation of the ExtrasStage class
+    @author Cameron Brue
+    @copyright 2023 Locked & Coded
 */
 
 #include "extras_stage.h"

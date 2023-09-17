@@ -1,8 +1,8 @@
 /*!
- @file credentials_stage.cpp
- @brief The CredentialsStage class is a class that represents the credentials stage in the game
- @author Jack Searle, Cameron Bruce
- @copyright 2023 Locked & Coded
+    @file credentials_stage.cpp
+    @brief the CredentialsStage class is the class that represents the credentials stage of the game
+    @author Jack Searle, Cameron Bruce
+    @copyright 2023 Locked & Coded
 */
 
 #pragma once
@@ -13,9 +13,8 @@
 #include <vector>
 
 /*!
-    @brief The CredetialsStage class is a class that represents the credentials stage in the game.
-    @details The CredetialsStage class is a class that represents a credentials stage in the game. It contains
-    concrete stage implementions for the credentials stage in the game.
+    @brief the CredetialsStage class is a class that represents the credentials stage in the game
+    @details contains concrete stage implementions for the credentials stage in the game
 */
 class CredentialsStage : public Stage {
 public:
@@ -25,7 +24,11 @@ public:
     void update(const rapidjson::Value &req);
     rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator);
 
-    // error messages
+    // username error messages
+    std::string lengthError = "Username must be between 8 and 16 characters long.";
+    std::string invalidError = "Invalid characters in username.";
+    std::string takenError = "Username is already taken.";
+    // password error messages
     std::string tooShortError = "Password must include 8 or more characters."; // "Minimum password length not yet reached"?
     std::string missingDigitError = "Password must include atleast one digit (0-9).";
     std::string missingUppercaseError = "Password must include atleast one uppercase character (A-Z).";

@@ -1,8 +1,8 @@
 /*!
- @file credentials_stage.cpp
- @brief This file contains the implementation of the CredentialsStage class.
- @author Jack Searle, Cameron Bruce
- @copyright 2023 Locked & Coded
+    @file credentials_stage.cpp
+    @brief the implementation of the CredentialsStage class
+    @author Jack Searle, Cameron Bruce
+    @copyright 2023 Locked & Coded
 */
 
 #include "credentials_stage.h"
@@ -46,39 +46,74 @@ bool CredentialsStage::validateStage()
 void CredentialsStage::updateErrors(std::string field)
 {
     std::vector<std::string> errors;
-    // password puzzles
-    if (field.compare("password") == 0){
+
+    // retrieve name fields
+    Stage* nameStage = gm->getStage("name");
+    rapidjson::Document doc;
+    doc.SetObject();
+    rapidjson::Value fieldStates = nameStage->getFieldStates(doc.GetAllocator());
+    std::string fName = fieldStates["firstName"]["value"].GetString();
+    std::string lName = fieldStates["lastName"]["value"].GetString();
+    // remove whitespace
+    fName.erase(std::remove(fName.begin(), fName.end(), ' '), fName.end());
+    lName.erase(std::remove(lName.begin(), lName.end(), ' '), lName.end());
+
+    // username
+    if (field.compare("username") == 0){
+        bool valid = false;
+        std::string invalidChars = "!@#$%^&*()=+[]{}\\|;:'\",.<>/?`~";
+
+        // fill vector with valid usernames
+        std::vector<std::string> validNames;
+        validNames.push_back(fName + "Stinks" + std::to_string(420));
+        validNames.push_back("xX_" + fName + "_" + lName + "_Xx");
+
+        // build suggestions string and check if username is valid
+        std::string suggestions = "\nConsider ";
+        for (std::string name : validNames){
+            suggestions += name + ", ";
+            if (username.compare(name) == 0)
+                valid = true;
+        }
+        suggestions = suggestions.substr(0, suggestions.size() - 2) + ".";
+
+        if (username.length() < 8){                                             // minimum length not reached
+            errors.push_back(lengthError);
+        } else if (password.find_first_of(invalidChars) != std::string::npos){  // invalid special character(s)
+            errors.push_back(invalidError);
+        } else if (!valid){
+            errors.push_back(takenError + suggestions);               
+        }
+
+        field_errors["username"] = errors;
+
+    // password
+    } else if (field.compare("password") == 0){                                 
         // strings of characters to find in password
         std::string digits = "0123456789";
-        std::string lowercase = "abcdefghijklmnopqrstuvwxyz";
-        std::string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        std::string special = "!@#$%^&*()-_=+[]{}\\|;:'\",.<>/?`~";
-        std::string roman = "IVXLCDM";
-        // get initials
-        Stage* nameStage = gm->getStage("name");
-        rapidjson::Document doc;
-        doc.SetObject();
-        rapidjson::Value fieldStates = nameStage->getFieldStates(doc.GetAllocator());
-        std::string fName = fieldStates["firstName"]["value"].GetString();
-        std::string lName = fieldStates["lastName"]["value"].GetString();
+        std::string lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+        std::string uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        std::string specialChars = "!@#$%^&*()-_=+[]{}\\|;:'\",.<>/?`~";
+        std::string romanNumerals = "IVXLCDM";
+        // get initials from names
         std::string initials = std::string(1, fName[0]) + std::string(1, lName[0]);
         std::transform(initials.begin(), initials.end(), initials.begin(), [](unsigned char c) { return std::tolower(c); });
         // create a lowercase copy of password to test against initials
         std::string lowercasePW = password;
         std::transform(lowercasePW.begin(), lowercasePW.end(), lowercasePW.begin(), [](unsigned char c) { return std::tolower(c); });
 
-
-        if (password.length() == 0){  
-            //do nothing                                          // empty password
+        // password puzzles
+        if (password.length() == 0){                                            // empty password
+            //do nothing                                                        
         } else if (password.length() < 8){                                      // minimum length not reached
             errors.push_back(tooShortError);
         } else if (password.find_first_of(digits) == std::string::npos){        // missing digit(s)
             errors.push_back(missingDigitError);
-        } else if (password.find_first_of(uppercase) == std::string::npos){     // missing uppercase letter(s)
+        } else if (password.find_first_of(uppercaseChars) == std::string::npos){// missing uppercase letter(s)
             errors.push_back(missingUppercaseError);
-        } else if (password.find_first_of(lowercase) == std::string::npos){     // missing lowercase letter(s)
+        } else if (password.find_first_of(lowercaseChars) == std::string::npos){// missing lowercase letter(s)
             errors.push_back(missingLowercaseError);
-        } else if (password.find_first_of(special) == std::string::npos){       // missing special character(s)
+        } else if (password.find_first_of(specialChars) == std::string::npos){  // missing special character(s)
             errors.push_back(missingSpecialError);
         } else if (!hasPrime(password)){                                        // missing prime number(s)
             errors.push_back(missingPrimeError);
@@ -86,7 +121,7 @@ void CredentialsStage::updateErrors(std::string field)
             errors.push_back(missingInitialsError);
         } else if (!hasColour(password)){                                       // missing colour
             errors.push_back(missingColourError);
-        } else if (password.find_first_of(roman) == std::string::npos){         // missing Roman numeral(s)
+        } else if (password.find_first_of(romanNumerals) == std::string::npos){ // missing Roman numeral(s)
             errors.push_back(missingRomanNumError);
         } else if (!isPalindrome(password)){                                    // is not a palindrome
             errors.push_back(notPalindromeError);
@@ -171,7 +206,7 @@ bool isPrime(int n){
 
 /*!
     @brief checks if a string contains a prime number
-    @details this checks entire numbers; 15 will be read as 15, not 1 and 5.
+    @details this checks entire numbers; 15 will be read as 15, not 1 and 5
 */
 bool hasPrime(std::string input){
     std::vector<int> numbers;

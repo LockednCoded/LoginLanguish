@@ -1,6 +1,6 @@
 /*!
     @file stage.h
-    @brief The Stage class is an abstract class that represents a stage in the game.
+    @brief the Stage class is an abstract class that represents a stage of the game
     @author Cameron Bruce
     @copyright 2023 Locked & Coded
 */
@@ -13,9 +13,8 @@
 #include "rapidjson/document.h"
 
 /*!
-    @brief The Stage class is an abstract class that represents a stage in the game.
-    @details The Stage class is an abstract class that represents a stage in the game. It contains
-    functions that are implemented by all stages in the game.
+    @brief the Stage class is an abstract class that represents a stage in the game
+    @details contains functions that are implemented by all stages in the game
 */
 class Stage
 {

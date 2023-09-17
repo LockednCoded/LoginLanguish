@@ -1,8 +1,8 @@
 /*!
-    * @file image_captcha_stage.cpp
-    * @brief This file contains the implementation of the ImageCaptchaStage class.
-    * @author Cameron Brue
-    * @copyright 2023 Locked & Coded
+    @file image_captcha_stage.cpp
+    @brief the implementation of the ImageCaptchaStage class
+    @author Cameron Brue
+    @copyright 2023 Locked & Coded
 */
 
 #include <filesystem>

@@ -1,8 +1,8 @@
 /*!
- @file game_manager.cpp
- @brief This file contains the implementation of the GameManager class.
- @author Cameron Bruce
- @copyright 2023 Locked & Coded
+    @file game_manager.cpp
+    @brief the implementation of the GameManager class
+    @author Cameron Bruce
+    @copyright 2023 Locked & Coded
 */
 
 #include "game_manager.h"
@@ -47,6 +47,8 @@ GameManager::GameManager()
 
 /*!
     @brief gets the current stage
+    @param stage name of stage requested
+    @return pointer to stage
 */
 Stage* GameManager::getStage(std::string stage)
 {
@@ -55,6 +57,7 @@ Stage* GameManager::getStage(std::string stage)
 
 /*!
     @brief gets the next stage
+    @return name of the next stage
 */
 std::string GameManager::getNextStage()
 {
@@ -97,7 +100,7 @@ void GameManager::updateField(std::string stage, std::string field, std::string 
     document.PushBack(rapidjson::Value(field.c_str(), allocator), allocator);
     document.PushBack(rapidjson::Value(value.c_str(), allocator), allocator);
 
-    rapidjson::Value req = document.GetArray();
+    rapidjson::Value &req = document.GetArray();
     updateField(req);
 }
 

@@ -1,8 +1,8 @@
 /*!
- @file utils.h
- @brief string load utility header file
- @author Jeb Nicholson
- @copyright 2023 Locked & Coded
+    @file utils.h
+    @brief string load utility header file
+    @author Jeb Nicholson
+    @copyright 2023 Locked & Coded
 */
 
 #include <iostream>

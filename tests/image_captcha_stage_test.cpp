@@ -33,12 +33,12 @@ namespace {
 TEST_F(ImageCaptchaStageTest, SetSelected) {
     rapidjson::Document req;
     req.Parse("[\"image_captcha\", \"selected\", [1, 2, 3]]");
-    rapidjson::Value reqArray = req.GetArray();
+    rapidjson::Value &reqArray = req.GetArray();
     gm->updateField(reqArray);
     std::vector<int> expected = {1, 2, 3};
     rapidjson::Document document;
     std::vector<int> result;
-    rapidjson::Value resultArray = stage->getFieldStates(document.GetAllocator())["selected"].GetArray();
+    rapidjson::Value &resultArray = stage->getFieldStates(document.GetAllocator())["selected"].GetArray();
     for (int i = 0; i < (int) resultArray.Size(); i++) {
         result.push_back(resultArray[i].GetInt());
     }

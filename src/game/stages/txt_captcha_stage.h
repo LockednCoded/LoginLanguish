@@ -1,6 +1,6 @@
 /*!
     @file txt_captcha_stage.h
-    @brief The TxtCaptchaStage class is a class that represents the name stage in the game
+    @brief the TxtCaptchaStage class is the class that represents the text captcha stage of the game
     @author Cameron Bruce
     @copyright 2023 Locked & Coded
 */
@@ -11,9 +11,8 @@
 #include "../game_manager.h"
 
 /*!
-    @brief The TxtCaptchaStage class is a class that represents a txt captcha stage in the game.
-    @details The TxtCaptchaStage class is a class that represents a txt captcha stage in the game. It contains
-    concrete stage implementions for the txt captcha stage in the game.
+    @brief the TxtCaptchaStage class is a class that represents a txt captcha stage in the game
+    @details contains concrete stage implementions for the txt captcha stage in the game
 */
 class TxtCaptchaStage : public Stage {
 public:
