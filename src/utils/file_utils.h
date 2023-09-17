@@ -17,10 +17,10 @@ namespace file_utils
 {
     std::vector<fs::path> listSubdirectories(fs::path path);
     std::vector<fs::path> listFiles(fs::path path);
-    std::vector<fs::path> getNRandomFilesFromSubdirectories(size_t n, std::vector<fs::path> directories);
+    std::vector<fs::path> getNRandomFilesFromSubdirectories(size_t n, const std::vector<fs::path> &directories);
     std::vector<fs::path> getNRandomFiles(size_t n, fs::path directory);
     fs::path getRandomFile(fs::path directory);
-    fs::path getPathToResource(std::string resource);
-    std::vector<std::string> convertPathsToFrontendStrings(std::vector<fs::path> paths);
+    fs::path getPathToResource(const std::string &resource);
+    std::vector<std::string> convertPathsToFrontendStrings(const std::vector<fs::path> &paths);
     std::string convertPathToFrontendString(fs::path paths);
 }

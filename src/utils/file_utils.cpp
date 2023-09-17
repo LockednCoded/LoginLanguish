@@ -92,7 +92,7 @@ namespace file_utils {
     */
     std::vector<fs::path> getNRandomFilesFromSubdirectories(
         size_t n, 
-        std::vector<fs::path> directories)
+        const std::vector<fs::path> &directories)
     {
         std::map<fs::path, std::vector<fs::path>> files_map;
         for (auto directory : directories) {
@@ -107,7 +107,7 @@ namespace file_utils {
 
             std::vector<fs::path> *files = &files_map[directories_available[random_subdirectory]];
 
-            if (files->size() <= 0) {
+            if (files->size() == 0) {
                 directories_available.erase(directories_available.begin() + random_subdirectory);
                 i--;
                 continue;
@@ -126,7 +126,7 @@ namespace file_utils {
         @param resource string representation of resource
         @return the resource path
     */
-    fs::path getPathToResource(std::string resource) {
+    fs::path getPathToResource(const std::string &resource) {
         fs::path resources_path = compatibility_utils::getResourcesPath();
         resources_path = resources_path / resource;
         return resources_path.make_preferred();
@@ -138,7 +138,7 @@ namespace file_utils {
         @param paths vector of file paths
         @return vector of frontend strings
     */
-    std::vector<std::string> convertPathsToFrontendStrings(std::vector<fs::path> paths) {
+    std::vector<std::string> convertPathsToFrontendStrings(const std::vector<fs::path> &paths) {
         std::vector<std::string> strings;
 
         for (fs::path path : paths) {
