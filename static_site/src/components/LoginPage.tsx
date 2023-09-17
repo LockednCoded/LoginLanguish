@@ -63,6 +63,14 @@ export default function LoginPage() {
                 disabled={gameState.stages[NameStage].state.lastName.disabled}
                 className="mt-3"
               />
+              <ValidationBox
+                messages={gameState.stages[NameStage].state.firstName.errors}
+                className="mt-3"
+              />
+              <ValidationBox
+                messages={gameState.stages[NameStage].state.lastName.errors}
+                className="mt-3"
+              />
             </div>
             <div
               className={`height-hidable  ${
@@ -183,6 +191,14 @@ export default function LoginPage() {
                   </label>
                 </div>
               </div>
+              <ValidationBox
+                messages={gameState.stages[ExtrasStage].state.dob.errors}
+                className="mt-3"
+              />
+              <ValidationBox
+                messages={gameState.stages[ExtrasStage].state.tsAndCs.errors}
+                className="mt-3"
+              />
             </div>
 
             <div

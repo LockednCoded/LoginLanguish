@@ -38,7 +38,10 @@ export default function TextField(props: {
             name={props.name}
             id={props.name}
             onBlur={() => setFieldIsActive(false)}
-            onFocus={() => setFieldIsActive(true)}
+            onFocus={() => {
+              setFieldIsActive(true);
+              setShowPassword(false);
+            }}
             autoComplete="off"
             autoCorrect="off"
             autoCapitalize="off"

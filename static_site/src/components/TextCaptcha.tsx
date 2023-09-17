@@ -61,7 +61,7 @@ export default function TextCaptcha({
               }
             />
             <button
-              className="text-sm rounded-md bg-white px-2 ml-2 font-bold h-7 box-border disabled:opacity-75"
+              className="text-sm rounded-md bg-white px-2 ml-2 font-bold h-7 box-border disabled:opacity-75 disabled:bg-ne"
               disabled={stableValue.length == 0}
               type="button"
             >
