@@ -17,24 +17,27 @@ export type SetFieldStateFunc = (
 
 type FieldValue = string | boolean | string[] | number[];
 
-export type Stage = 0 | 1 | 2 | 3 | 4;
+export type Stage = 0 | 1 | 2 | 3 | 4 | 5;
 export type StageName =
   | "name"
   | "credentials"
   | "extras"
   | "txtcaptcha"
-  | "imagecaptcha";
+  | "imagecaptcha"
+  | "end";
 export const NameStage = 0;
 export const CredentialsStage = 1;
 export const ExtrasStage = 2;
 export const TxtCaptchaStage = 3;
 export const ImageCaptchaStage = 4;
+export const EndStage = 5;
 export const StageMap = {
   name: NameStage,
   credentials: CredentialsStage,
   extras: ExtrasStage,
   txtcaptcha: TxtCaptchaStage,
   imagecaptcha: ImageCaptchaStage,
+  end: EndStage
 };
 
 type Field = {
@@ -94,6 +97,10 @@ export type GameState = {
         images: string[];
         challengeText: string;
       };
+    },
+    {
+      name: "end";
+      state: {};
     }
   ];
 };

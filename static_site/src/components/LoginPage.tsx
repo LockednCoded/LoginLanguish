@@ -10,18 +10,24 @@ import {
   TxtCaptchaStage,
   ImageCaptchaStage,
   StageMap,
+  EndStage,
 } from "../scripts/useBindings";
 import ImageCaptcha from "./ImageCaptcha";
 import TextCaptcha from "./TextCaptcha";
 import { useState } from "react";
 import TermsAndConditions from "./TermsAndConditions";
+import End from "./End";
 
 export default function LoginPage() {
   const bindings = useBindings();
   const { gameState, updateFieldState, nextBtnClick, stageProgress } = bindings;
   const [tsAndCsOpen, setTsAndCsOpen] = useState(false);
 
-  return gameState == null ? null : (
+  if (gameState == null) {
+    return null;
+  }
+
+  return StageMap[gameState.stage] >= EndStage ? <End /> : (
     <main className="flex flex-col justify-center w-full h-full bg-white rounded-sm select-none">
       <div className="overflow-y-scroll">
         <div className="py-14 flex flex-col items-center box-border">
