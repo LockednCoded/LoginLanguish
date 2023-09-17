@@ -49,6 +49,9 @@ export default function TextCaptcha({
             name="textCaptcha"
             id="textCaptchaField"
             autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck="false"
             placeholder="Enter answer"
             value={stableValue}
             onBlur={() => setFieldIsActive(false)}

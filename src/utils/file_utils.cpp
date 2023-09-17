@@ -8,6 +8,8 @@
 #include "file_utils.h"
 #include "random_utils.h"
 #include "compatibility_utils.h"
+#include "utils.h"
+#include <iostream>
 
 #include <map>
 
@@ -107,7 +109,8 @@ namespace file_utils {
     std::string convertPathToFrontendString(fs::path path) {
         fs::path base = compatibility_utils::getResourcesPath();
         fs::path relative = fs::relative(path, base);
-        std::string string = relative.u8string();
+        std::string filenameSafe = url_encode(relative.filename().u8string());
+        std::string string = relative.parent_path().u8string() + "/" + filenameSafe;
         std::replace(string.begin(), string.end(), '\\', '/');
         return string;
     }
