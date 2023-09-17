@@ -44,8 +44,24 @@ void ExtrasStage::updateErrors(std::string field)
     if (field.compare("dob") == 0){
         if (dob.size() == 0)
             errors.push_back(missingDobError);
-        else if (dob[0] != solstice[0] || dob[1] != solstice[1] || dob[2] != solstice[2])
-            errors.push_back(invalidDobError);
+        else if (dob[2] == solstice[2]){                // check year
+            if (dob[1] == solstice[1]){                 // check month
+                if (dob[0] == solstice[0]){             // check date
+                    // do nothing
+                } else if (dob[0] > solstice[0])
+                    errors.push_back(tooYoungError);
+                else if (dob[0] < solstice[0])
+                    errors.push_back(tooOldError);
+            }
+            else if (dob[1] > solstice[1])
+                errors.push_back(tooYoungError);
+            else if (dob[1] < solstice[1])
+                errors.push_back(tooOldError);
+        }
+        else if (dob[2] > solstice[2])
+            errors.push_back(tooYoungError);
+        else if (dob[2] < solstice[2])
+            errors.push_back(tooOldError);
 
         field_errors["dob"] = errors;
     }
