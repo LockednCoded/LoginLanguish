@@ -123,6 +123,7 @@ export default function LoginPage() {
                   name="Date of Birth"
                   value={gameState.stages[ExtrasStage].state.dob.value
                     .reverse()
+                    .map((n) => n.toString().padStart(2, "0"))
                     .join("-")}
                   onChange={(newVal) => {
                     const dateArray = newVal
