@@ -38,7 +38,7 @@ export default function ImageCaptcha({
   nextBtnClick: () => Promise<void>;
 }) {
   return (
-    <div className="bg-opacity-25 bg-gray-950 fixed h-full w-full top-0 left-0 flex items-center justify-center">
+    <div className="bg-opacity-25 bg-gray-950 fixed z-10 h-full w-full top-0 left-0 flex items-center justify-center">
       <div className="bg-white p-1">
         <div className="text-white bg-blue-600 p-3 mb-1">
           <h1 className="font-bold text-xl">

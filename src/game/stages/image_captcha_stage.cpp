@@ -133,8 +133,7 @@ void ImageCaptchaStage::initialiseCaptchaImages(fs::path dataset_path) {
     rand_utils::shuffle(image_urls);
 
     //create challenge string
-    std::string dir_string = selected_dir.string();
-    std::string dir_name = dir_string.substr(dir_string.find_last_of("/\\") + 1); //get the name of the directory
+    std::string dir_name = selected_dir.filename().u8string(); //get the name of the directory
     std::replace(dir_name.begin(), dir_name.end(), '_', ' '); //replace underscores with spaces
     dir_name = string_utils::toTitleCase(dir_name); //convert to title case
     challenge_text = "Select all images of " + dir_name + ".";
