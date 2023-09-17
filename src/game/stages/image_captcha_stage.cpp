@@ -73,10 +73,6 @@ void ImageCaptchaStage::update(const rapidjson::Value &req)
 }
 
 void ImageCaptchaStage::progressStage() {
-    if (current_round == challenge_sets.size()) {
-        return;
-    }
-
     size_t increment = 1;
     last_round_error = "";
 
@@ -97,6 +93,8 @@ void ImageCaptchaStage::progressStage() {
     selected.clear();
     if (current_round < challenge_sets.size())
         initialiseCaptchaImages();
+    else if (current_round == challenge_sets.size())
+        gm->getNextStage();
 }
 
 /*!

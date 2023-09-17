@@ -11,6 +11,7 @@
 #include "stages/txt_captcha_stage.h"
 #include "stages/extras_stage.h"
 #include "stages/image_captcha_stage.h"
+#include "stages/end_stage.h"
 #include "rapidjson/document.h"
 #include "rapidjson/stringbuffer.h"
 #include <rapidjson/writer.h>
@@ -30,18 +31,21 @@ GameManager::GameManager()
     Stage *extras_stage = new ExtrasStage(this);
     Stage *txt_captcha_stage = new TxtCaptchaStage(this);
     Stage *image_captcha_stage = new ImageCaptchaStage(this);
+    Stage *end_stage = new EndStage(this);
 
     stages.push_back(name_stage);
     stages.push_back(credentials_stage);
     stages.push_back(extras_stage);
     stages.push_back(txt_captcha_stage);
     stages.push_back(image_captcha_stage);
+    stages.push_back(end_stage);
 
     stages_map["name"] = name_stage;
     stages_map["credentials"] = credentials_stage;
     stages_map["extras"] = extras_stage;
     stages_map["txtcaptcha"] = txt_captcha_stage;
     stages_map["imagecaptcha"] = image_captcha_stage;
+    stages_map["end"] = end_stage;
 
     current_stage = stages[stage_index];
 }
