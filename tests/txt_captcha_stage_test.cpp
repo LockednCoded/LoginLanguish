@@ -37,9 +37,12 @@ namespace {
     };
 }
 
+
+// TEXT CAPTCHA UNIT TESTS
+
 TEST_F(TxtCaptchaStageTest, SetTxtCaptcha) {
-    gm->updateField("txt_captcha", "txtcaptcha", "peter");
-    std::string expected = "peter";
+    gm->updateField("txt_captcha", "txtcaptcha", "John");
+    std::string expected = "John";
     rapidjson::Document document;
     std::string result = stage->getFieldStates(document.GetAllocator())["txtcaptcha"]["value"].GetString();
     EXPECT_EQ(result, expected);

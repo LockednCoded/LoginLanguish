@@ -1,6 +1,6 @@
 /*!
     @file extras_stage.cpp
-    @brief the implementation of the ExtrasStage class
+    @brief the implementation of the ExtrasStage class.
     @author Cameron Brue
     @copyright 2023 Locked & Coded
 */
@@ -27,7 +27,10 @@ ExtrasStage::ExtrasStage(GameManager *gameManager){
 */
 bool ExtrasStage::validateStage()
 {
-    return true;
+    int numErrors = field_errors["dob"].size() + field_errors["tsAndCs"].size();
+    if (numErrors == 0 && dob.size() == 3 && ts_and_cs)
+        return true;
+    return false;
 }
 
 /*!
@@ -37,7 +40,21 @@ bool ExtrasStage::validateStage()
 */
 void ExtrasStage::updateErrors(std::string field)
 {   
-    //TODO: implement this
+    std::vector<std::string> errors;
+    if (field.compare("dob") == 0){
+        if (dob.size() == 0)
+            errors.push_back(missingDobError);
+        else if (dob[0] != solstice[0] || dob[1] != solstice[1] || dob[2] != solstice[2])
+            errors.push_back(invalidDobError);
+
+        field_errors["dob"] = errors;
+    }
+    else if (field.compare("tsAndCs") == 0){
+        if (!ts_and_cs)
+            errors.push_back(uncheckedTCsError);
+
+        field_errors["tsAndCs"] = errors;
+    }
 }
 
 /*!
@@ -48,6 +65,7 @@ void ExtrasStage::updateErrors(std::string field)
 void ExtrasStage::update(const rapidjson::Value &req)
 {
     std::string field = req[REQ_FIELD_INDEX].GetString();
+
     if (field.compare("dob") == 0) {
         std::vector<int> new_dob = {0, 0, 0};
         for (size_t i = 0; i < 3; i++)
@@ -56,9 +74,8 @@ void ExtrasStage::update(const rapidjson::Value &req)
         }
         dob = new_dob;
     }
-    else if (field.compare("tsAndCs") == 0) {
+    else if (field.compare("tsAndCs") == 0)
         ts_and_cs = req[REQ_VALUE_INDEX].GetBool();
-    }
 
     updateErrors(field);
 }
