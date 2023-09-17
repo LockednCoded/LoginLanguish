@@ -60,7 +60,7 @@ TEST_F(NameStageTest, EmptyValidation) {
 }
 
 TEST_F(NameStageTest, FirstOnlyValidation) {
-    gm->updateField("name", "firstName", "Adam");
+    gm->updateField("name", "firstName", "John");
     bool expected = false;
     bool result = stage->validateStage();
     EXPECT_EQ(result, expected);
@@ -74,7 +74,7 @@ TEST_F(NameStageTest, LastOnlyValidation) {
 }
 
 TEST_F(NameStageTest, SuccessfulValidation) {
-    gm->updateField("name", "firstName", "Adam");
+    gm->updateField("name", "firstName", "John");
     gm->updateField("name", "lastName", "Smith");
     bool expected = true;
     bool result = stage->validateStage();

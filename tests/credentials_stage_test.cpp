@@ -191,6 +191,36 @@ TEST_F(CredentialsStageTest, ValidPW){
 }
 
 
+// VALIDATION UNIT TESTS
+
+TEST_F(CredentialsStageTest, EmptyValidation) {
+    bool expected = false;
+    bool result = stage->validateStage();
+    EXPECT_EQ(result, expected);
+}
+
+TEST_F(CredentialsStageTest, UsernameOnlyValidation) {
+    gm->updateField("credentials", "username", "JohnStinks420");
+    bool expected = false;
+    bool result = stage->validateStage();
+    EXPECT_EQ(result, expected);
+}
+
+TEST_F(CredentialsStageTest, PasswordOnlyValidation) {
+    gm->updateField("credentials", "password", "jskyV-2-Vyksj");
+    bool expected = false;
+    bool result = stage->validateStage();
+    EXPECT_EQ(result, expected);
+}
+
+TEST_F(CredentialsStageTest, SuccessfulValidation) {
+    gm->updateField("credentials", "username", "JohnStinks420");
+    gm->updateField("credentials", "password", "jskyV-2-Vyksj");
+    bool expected = true;
+    bool result = stage->validateStage();
+    EXPECT_EQ(result, expected);
+}
+
 
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
