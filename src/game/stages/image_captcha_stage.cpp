@@ -40,7 +40,7 @@ ImageCaptchaStage::ImageCaptchaStage(GameManager *gameManager){
 */
 bool ImageCaptchaStage::validateStage()
 {
-    return true;
+    return current_round >= challenge_sets.size();
 }
 
 /*!
