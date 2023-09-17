@@ -28,7 +28,6 @@
 #include "compatibility_utils.h"
 #include "utils.h"
 #include "main.h"
-#include "fields.h"
 #include "game_manager.h"
 #include "parse_args.h"
 
@@ -73,10 +72,9 @@ int main()
 
   w.bind("documentLoadCallback", onDocumentLoadCallback, &w);
 
-  Fields *fields = new Fields();
   GameManager *gameManager = new GameManager();
 
-  w.bind("cpp_setFieldState", [fields, gameManager](const std::string &req) -> std::string
+  w.bind("cpp_setFieldState", [gameManager](const std::string &req) -> std::string
          {
           std::cout << "cpp_setFieldState (raw): " << req << std::endl;
     rapidjson::Document document;

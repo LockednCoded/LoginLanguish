@@ -1,5 +1,4 @@
-set(source_list "main.cpp"
-                "fields.cpp")
+set(source_list "main.cpp")
 
 add_executable(${APP_NAME} WIN32 MACOSX_BUNDLE ${source_list})
 
