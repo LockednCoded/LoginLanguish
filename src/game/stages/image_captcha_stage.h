@@ -28,7 +28,6 @@ public:
     virtual void progressStage();
     
 private:
-    void updateErrors(std::string field);
     void initialiseCaptchaImages();
 
     std::vector<std::string> image_urls;

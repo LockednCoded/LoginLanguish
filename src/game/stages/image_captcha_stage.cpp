@@ -21,14 +21,13 @@
     @brief constructor for ImageCaptchaStage
     @param gameManager the game manager object owning this stage
 */
-ImageCaptchaStage::ImageCaptchaStage(GameManager *gameManager) : Stage(gameManager)
-{
-    name = "imagecaptcha";
-
-    challenge_sets = {
+ImageCaptchaStage::ImageCaptchaStage(GameManager *gameManager) : Stage(gameManager), 
+    challenge_sets {
         file_utils::getPathToResource("datasets/celeb-faces"),
         file_utils::getPathToResource("datasets/dogs-muffins"),
-    };
+    }
+{
+    name = "imagecaptcha";
 
     initialiseCaptchaImages();
 };
@@ -41,16 +40,6 @@ ImageCaptchaStage::ImageCaptchaStage(GameManager *gameManager) : Stage(gameManag
 bool ImageCaptchaStage::validateStage()
 {
     return current_round >= challenge_sets.size();
-}
-
-/*!
-    @brief updates error messages
-    @details updates the error messages for the given field
-    @param field the name of the field to update
-*/
-void ImageCaptchaStage::updateErrors(std::string field)
-{   
-    //TODO: implement this?
 }
 
 /*!
@@ -69,7 +58,6 @@ void ImageCaptchaStage::update(const rapidjson::Value &req)
         }
         selected = new_selection;
     }
-    updateErrors(field);
 }
 
 void ImageCaptchaStage::progressStage() {
