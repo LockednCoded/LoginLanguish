@@ -25,11 +25,11 @@ public:
     bool validateStage();
     void update(const rapidjson::Value &req);
     rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator);
+    virtual void progressStage();
     
 private:
     void updateErrors(std::string field);
     void initialiseCaptchaImages();
-    void progressStage();
 
     GameManager* gm;
     std::vector<std::string> image_urls;

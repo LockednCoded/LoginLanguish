@@ -25,7 +25,7 @@ public:
     std::string getStageName();
     rapidjson::Value getStageState(rapidjson::Document::AllocatorType &allocator);
     virtual rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator) = 0;
-    void progressStage() {};
+    virtual void progressStage() {};
     //TODO: implement this
     bool isFieldDisabled(std::string field) { return false; };
     // virtual void setFieldDisabled(std::string field, bool disabled) = 0;
