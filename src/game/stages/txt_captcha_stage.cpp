@@ -9,6 +9,7 @@
 #include <filesystem>
 #include <iostream>
 #include "utils.h"
+#include "file_utils.h"
 
 /*!
     @brief constructor for TxtCaptchaStage
@@ -47,22 +48,9 @@ bool TxtCaptchaStage::setNewChallenge()
     case 0: // Menacing captchas
     {
         challenge_text = "Please type the text you see above";
-        dir = "assets/datasets/menacing";
-        int numFiles = 0;
-        for (const auto &entry : std::filesystem::directory_iterator(dir))
-            numFiles++;
-        int imageIndex = rand() % numFiles;
-        std::filesystem::path imagePath;
-        for (const auto &entry : std::filesystem::directory_iterator(dir))
-        {
-            if (imageIndex == 0)
-            {
-                imagePath = entry.path();
-                break;
-            }
-            imageIndex--;
-        }
-        image_url = "datasets/menacing/" + url_encode(imagePath.filename().string());
+        dir = "datasets/menacing";
+        fs::path imagePath = file_utils::getRandomFile(file_utils::getPathToResource(dir));
+        image_url = imagePath.u8string();
         challenge_answer = imagePath.stem().u8string();
         break;
     }
