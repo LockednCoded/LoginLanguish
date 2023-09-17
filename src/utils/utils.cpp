@@ -13,6 +13,7 @@
 #include <iomanip>
 #include <sstream>
 #include <string>
+#include <curl/curl.h>
 
 /*!
  @brief loads content from specified file to a string
@@ -61,31 +62,18 @@ std::string JSONToString(const rapidjson::Document &doc)
 	return result;
 }
 
-/**
- * From https://stackoverflow.com/a/17708801 (xperroni)
- */
 std::string url_encode(const std::string &value)
 {
-	std::ostringstream escaped;
-	escaped.fill('0');
-	escaped << std::hex;
+	CURL *curl = curl_easy_init();
+	return curl_easy_escape(curl, value.c_str(), value.length());
+}
+std::string url_decode(const std::string &value)
+{
+	CURL *curl = curl_easy_init();
+	return curl_easy_unescape(curl, value.c_str(), value.length(), NULL);
+}
 
-	for (std::string::const_iterator i = value.begin(), n = value.end(); i != n; ++i)
-	{
-		std::string::value_type c = (*i);
-
-		// Keep alphanumeric and other accepted characters intact
-		if (isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~')
-		{
-			escaped << c;
-			continue;
-		}
-
-		// Any other characters are percent-encoded
-		escaped << std::uppercase;
-		escaped << '%' << std::setw(2) << int((unsigned char)c);
-		escaped << std::nouppercase;
-	}
-
-	return escaped.str();
+std::string base64Decode(const std::string &value)
+{
+	return base64_decode(value);
 }

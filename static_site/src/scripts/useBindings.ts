@@ -106,6 +106,14 @@ export function useBindings() {
       fieldName: string,
       value: string | boolean | string[]
     ) => {
+      // const encodedValue =
+      //   typeof value === "string"
+      //     ? encodeURIComponent(value)
+      //     : typeof value == "object"
+      //     ? value.map((val) => encodeURIComponent(val))
+      //     : value;
+      console.log(value);
+
       await window.cpp_setFieldState(stage, fieldName, value);
     }) as SetFieldStateFunc,
     []

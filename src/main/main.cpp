@@ -83,8 +83,24 @@ int main()
          {
     rapidjson::Document document;
     document.Parse(req.c_str());
-    const rapidjson::Value &reqArray = document.GetArray();
-    std::cout << "cpp_setFieldState: " << req << std::endl;
+    rapidjson::Value &reqArray = document.GetArray();
+
+    // if (reqArray[2].IsString())
+    // {
+    //   const std::string decoded = url_decode(reqArray[2].GetString());
+    //   reqArray[2].SetString(decoded.c_str(), decoded.length());
+    // }
+    // else if (reqArray[2].IsArray())
+    // {
+    //   for (rapidjson::SizeType i = 0; i < reqArray[2].Size(); i++)
+    //   {
+    //     const std::string decoded = url_decode(reqArray[2][i].GetString());
+    //     reqArray[2][i].SetString(decoded.c_str(), decoded.length());
+    //   }
+    // }
+
+    std::cout << "cpp_setFieldState: " << JSONToString(document) << std::endl;
+
     gameManager->updateField(reqArray);
     return ""; });
 
