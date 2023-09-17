@@ -7,6 +7,7 @@
 
 #include "txt_captcha_stage.h"
 #include <filesystem>
+#include "compatibility_utils.h"
 #include <iostream>
 #include "utils.h"
 
@@ -41,13 +42,12 @@ bool TxtCaptchaStage::setNewChallenge()
     }
     challenges_remaining.erase(x);
 
-    std::string dir;
     switch (x)
     {
     case 0: // Menacing captchas
     {
         challenge_text = "Please type the text you see above";
-        dir = "assets/datasets/menacing";
+        std::string dir = getResourcesPath() + "/datasets/menacing";
         int numFiles = 0;
         for (const auto &entry : std::filesystem::directory_iterator(dir))
             numFiles++;

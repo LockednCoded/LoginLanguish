@@ -8,6 +8,7 @@
 #pragma once
 
 #include <vector>
+#include <random>
 
 namespace rand_utils {
     int randomInt(int min, int max);

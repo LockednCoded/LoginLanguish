@@ -5,6 +5,7 @@ import {
   StageName,
   TxtCaptchaStage,
 } from "../scripts/useBindings";
+import useSmoothUpdate from "../scripts/useSmoothUpdate";
 
 export default function TextCaptcha({
   gameState,
@@ -17,6 +18,10 @@ export default function TextCaptcha({
   nextBtnClick: () => Promise<void>;
   className?: string;
 }) {
+  const [stableValue, updateValue, setFieldIsActive] = useSmoothUpdate(
+    gameState.stages[TxtCaptchaStage].state.txtcaptcha.value,
+    (val) => updateFieldState("txtcaptcha", "txtcaptcha", val)
+  );
   return (
     <div className={className}>
       <label
@@ -44,10 +49,10 @@ export default function TextCaptcha({
             id="textCaptchaField"
             autoComplete="off"
             placeholder="Enter answer"
-            value={gameState.stages[TxtCaptchaStage].state.txtcaptcha.value}
-            onChange={(e) =>
-              updateFieldState("txtcaptcha", "txtcaptcha", e.target.value)
-            }
+            value={stableValue}
+            onBlur={() => setFieldIsActive(false)}
+            onFocus={() => setFieldIsActive(true)}
+            onChange={updateValue}
             disabled={
               gameState.stages[TxtCaptchaStage].state.txtcaptcha.disabled
             }

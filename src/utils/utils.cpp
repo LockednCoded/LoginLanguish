@@ -61,6 +61,11 @@ std::string JSONToString(const rapidjson::Document &doc)
 	return result;
 }
 
+std::string base64Decode(const std::string &value)
+{
+	return base64_decode(value);
+}
+
 /**
  * From https://stackoverflow.com/a/17708801 (xperroni)
  */
