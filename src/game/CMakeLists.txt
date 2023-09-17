@@ -16,6 +16,8 @@ set(source_list "game_manager.cpp"
 
 add_library(game STATIC ${source_list})
 
+target_link_libraries(game PRIVATE utils)
+
 target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 find_package(RapidJSON CONFIG REQUIRED)

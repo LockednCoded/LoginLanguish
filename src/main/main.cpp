@@ -50,6 +50,8 @@ int main()
   resourcesPath = getResourcesPath();
   std::cout << "Resources path: " << resourcesPath << std::endl;
 
+  srand(time(NULL)); // Seed random number generator
+
   webview::webview w(__DEBUG__, nullptr);
 
   if (__DEBUG__)
@@ -82,6 +84,7 @@ int main()
     rapidjson::Document document;
     document.Parse(req.c_str());
     const rapidjson::Value &reqArray = document.GetArray();
+    std::cout << "cpp_setFieldState: " << req << std::endl;
     gameManager->updateField(reqArray);
     return ""; });
 

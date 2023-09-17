@@ -24,8 +24,11 @@ public:
     
 private:
     void updateErrors(std::string field);
+    void initialiseCaptchaImages(std::string dataset_path);
+
     GameManager* gm;
     std::vector<std::string> image_urls;
+    std::vector<std::string> correct_images;
     std::string challenge_text = "";
     std::vector<int> selected;
 };
