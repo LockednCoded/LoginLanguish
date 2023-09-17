@@ -10,16 +10,10 @@
 #include <fstream>
 #include <string>
 #include <iostream>
-
+#include "preprocessor_vars.h"
 
 #define WINDOW_WIDTH 1024
 #define WINDOW_HEIGHT 672
-
-#ifdef __DEBUG__
-#define __DEBUG__ 1
-#else
-#define __DEBUG__ 0
-#endif
 
 /*!
  @brief runs the webview
