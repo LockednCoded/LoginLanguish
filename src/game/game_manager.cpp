@@ -14,6 +14,7 @@
 #include "rapidjson/document.h"
 #include "rapidjson/stringbuffer.h"
 #include <rapidjson/writer.h>
+#include "preprocessor_vars.h"
 
 #include <iostream>
 
@@ -60,8 +61,8 @@ Stage* GameManager::getStage(std::string stage)
     @return "no" if current stage is not validated, "end" if it is the end, or the name of the new stage
 */
 std::string GameManager::getNextStage()
-{   
-    if (!current_stage->validateStage())
+{
+    if (!current_stage->validateStage() && !__CHEAT_MODE__)
         return "no";
     if (stage_index == stages.size() - 1)
         return "end";
@@ -125,7 +126,7 @@ std::vector<std::string> GameManager::getFieldErrors(std::string stage, std::str
 rapidjson::Document GameManager::getGameState()
 {
     bool canProgress = false;
-    if (current_stage->validateStage())
+    if (current_stage->validateStage() || __CHEAT_MODE__)
         canProgress = true;
 
     rapidjson::Document document;
