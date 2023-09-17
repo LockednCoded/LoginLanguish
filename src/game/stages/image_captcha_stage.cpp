@@ -40,7 +40,7 @@ ImageCaptchaStage::ImageCaptchaStage(GameManager *gameManager){
 */
 bool ImageCaptchaStage::validateStage()
 {
-    return true;
+    return current_round >= challenge_sets.size();
 }
 
 /*!
@@ -89,11 +89,12 @@ void ImageCaptchaStage::progressStage() {
             }
         }
     } else {
-        last_round_error = "Incorrect number of selections.";
+        last_round_error = "Incorrect selection.";
         increment = 0;
     }
 
     current_round += increment;
+    selected.clear();
     if (current_round < challenge_sets.size())
         initialiseCaptchaImages();
 }
