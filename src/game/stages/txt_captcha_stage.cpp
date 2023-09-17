@@ -50,8 +50,9 @@ bool TxtCaptchaStage::setNewChallenge()
         challenge_text = "Please type the text you see above";
         dir = "datasets/menacing";
         fs::path imagePath = file_utils::getRandomFile(file_utils::getPathToResource(dir));
-        image_url = imagePath.u8string();
+        image_url = file_utils::convertPathToFrontendString(imagePath);
         challenge_answer = imagePath.stem().u8string();
+        std::replace(challenge_answer.begin(), challenge_answer.end(), '_', ' '); 
         break;
     }
 

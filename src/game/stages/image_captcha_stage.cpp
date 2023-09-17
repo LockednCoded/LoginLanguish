@@ -121,12 +121,12 @@ void ImageCaptchaStage::initialiseCaptchaImages(fs::path dataset_path) {
     size_t num_correct_images = std::min(rand_utils::randomSizeT(MIN_NUM_CORRECT, MAX_NUM_CORRECT), selected_dir_size);
     std::vector<fs::path> correct_image_paths = file_utils::getNRandomFiles(num_correct_images, selected_dir);
 
-    correct_images = file_utils::convertPathsToStrings(correct_image_paths);
+    correct_images = file_utils::convertPathsToFrontendStrings(correct_image_paths);
     image_urls = correct_images;
 
     //select the remaining images from the other directories
     std::vector<fs::path> incorrect_dir_files = file_utils::getNRandomFilesFromSubdirectories(MAX_NUM_IMAGES - num_correct_images, available_dirs);
-    std::vector<std::string> incorrect_images = file_utils::convertPathsToStrings(incorrect_dir_files);
+    std::vector<std::string> incorrect_images = file_utils::convertPathsToFrontendStrings(incorrect_dir_files);
     image_urls.insert(image_urls.end(), incorrect_images.begin(), incorrect_images.end());
 
     //shuffle the images

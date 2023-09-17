@@ -83,16 +83,26 @@ namespace file_utils {
     }
 
     fs::path getPathToResource(std::string resource) {
-        fs::path resourcesPath = compatibility_utils::getResourcesPath();
-        return resourcesPath / resource;
+        fs::path resources_path = compatibility_utils::getResourcesPath();
+        resources_path = resources_path / resource;
+        return resources_path.make_preferred();
     }
 
-    std::vector<std::string> convertPathsToStrings(std::vector<fs::path> paths) {
+    std::vector<std::string> convertPathsToFrontendStrings(std::vector<fs::path> paths) {
         std::vector<std::string> strings;
+
         for (fs::path path : paths) {
-            strings.push_back(path.string());
+            strings.push_back(convertPathToFrontendString(path));
         }
         return strings;
+    }
+
+    std::string convertPathToFrontendString(fs::path path) {
+        fs::path base = compatibility_utils::getResourcesPath();
+        fs::path relative = fs::relative(path, base);
+        std::string string = relative.u8string();
+        std::replace(string.begin(), string.end(), '\\', '/');
+        return string;
     }
 
 }
