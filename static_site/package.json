@@ -7,7 +7,8 @@
     "dev": "vite serve",
     "build": "vite build --emptyOutDir",
     "preview_build": "vite preview",
-    "install_and_build": "npm install && npm run build"
+    "install_and_build": "npm install && npm run build",
+    "install_and_build_bun": "bun install && bun run build"
   },
   "author": "",
   "license": "ISC",
