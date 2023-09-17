@@ -7,6 +7,7 @@
 
 #include "txt_captcha_stage.h"
 #include <filesystem>
+#include "compatibility_utils.h"
 #include <iostream>
 #include "utils.h"
 #include "file_utils.h"
@@ -42,13 +43,12 @@ bool TxtCaptchaStage::setNewChallenge()
     }
     challenges_remaining.erase(x);
 
-    std::string dir;
     switch (x)
     {
     case 0: // Menacing captchas
     {
         challenge_text = "Please type the text you see above";
-        dir = "datasets/menacing";
+        std::string dir = "datasets/menacing";
         fs::path imagePath = file_utils::getRandomFile(file_utils::getPathToResource(dir));
         image_url = file_utils::convertPathToFrontendString(imagePath);
         challenge_answer = imagePath.stem().u8string();

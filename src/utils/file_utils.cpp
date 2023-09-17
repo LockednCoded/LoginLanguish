@@ -1,3 +1,10 @@
+/*!
+	@file file_utils.cpp
+	@brief handles file related tasks
+	@author Cameron Bruce
+	@copyright 2023 Locked & Coded
+*/
+
 #include "file_utils.h"
 #include "random_utils.h"
 #include "compatibility_utils.h"

@@ -50,8 +50,8 @@ export default function LoginPage() {
                 type="text"
                 name="First Name"
                 value={gameState.stages[NameStage].state.firstName.value}
-                onChange={(e) =>
-                  updateFieldState("name", "firstName", e.target.value)
+                onChange={(newVal) =>
+                  updateFieldState("name", "firstName", newVal)
                 }
                 disabled={gameState.stages[NameStage].state.firstName.disabled}
                 className="mt-3"
@@ -60,8 +60,8 @@ export default function LoginPage() {
                 type="text"
                 name="Last Name"
                 value={gameState.stages[NameStage].state.lastName.value}
-                onChange={(e) =>
-                  updateFieldState("name", "lastName", e.target.value)
+                onChange={(newVal) =>
+                  updateFieldState("name", "lastName", newVal)
                 }
                 disabled={gameState.stages[NameStage].state.lastName.disabled}
                 className="mt-3"
@@ -78,8 +78,8 @@ export default function LoginPage() {
                 type="text"
                 name="Username"
                 value={gameState.stages[CredentialsStage].state.username.value}
-                onChange={(e) =>
-                  updateFieldState("credentials", "username", e.target.value)
+                onChange={(newVal) =>
+                  updateFieldState("credentials", "username", newVal)
                 }
                 disabled={
                   gameState.stages[CredentialsStage].state.username.disabled
@@ -99,8 +99,8 @@ export default function LoginPage() {
                   value={
                     gameState.stages[CredentialsStage].state.password.value
                   }
-                  onChange={(e) =>
-                    updateFieldState("credentials", "password", e.target.value)
+                  onChange={(newVal) =>
+                    updateFieldState("credentials", "password", newVal)
                   }
                   disabled={
                     gameState.stages[CredentialsStage].state.password.disabled
@@ -125,8 +125,8 @@ export default function LoginPage() {
                   type="date"
                   name="Date of Birth"
                   value={gameState.stages[ExtrasStage].state.dob.value}
-                  onChange={(e) =>
-                    updateFieldState("extras", "dob", e.target.value)
+                  onChange={(newVal) =>
+                    updateFieldState("extras", "dob", newVal)
                   }
                   disabled={gameState.stages[ExtrasStage].state.dob.disabled}
                   className="mt-3 w-1/3"

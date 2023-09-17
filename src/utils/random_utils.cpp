@@ -1,3 +1,10 @@
+/*!
+	@file random_utils.cpp
+	@brief handles pseudo-random tasks
+	@author Cameron Bruce
+	@copyright 2023 Locked & Coded
+*/
+
 #include <random>
 
 #include "random_utils.h"

@@ -1,3 +1,10 @@
+/*!
+    @file extras_stage_test.cpp
+    @brief the unit tests for the ExtrasStage class
+    @author Cameron Bruce
+    @copyright 2023 Locked & Coded
+*/
+
 #include <gtest/gtest.h>
 #include <string>
 #include <vector>

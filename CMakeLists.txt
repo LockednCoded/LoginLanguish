@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 include(cmake/fetching.cmake)
+set(TESTING ON CACHE BOOL "Enable testing")
 
 set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake"
   CACHE STRING "Vcpkg toolchain file")
@@ -29,9 +30,9 @@ elseif (CMAKE_SYSTEM_NAME MATCHES "Windows")
 endif()
 
 include(cmake/assets.cmake)
+if (TESTING)
+    enable_testing()
 
-
-enable_testing()
-
-add_subdirectory(src)
-add_subdirectory(tests)
+    add_subdirectory(src)
+    add_subdirectory(tests)
+endif()

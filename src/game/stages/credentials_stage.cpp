@@ -34,7 +34,9 @@ CredentialsStage::CredentialsStage(GameManager *gameManager){
 */
 bool CredentialsStage::validateStage()
 {
-    //TODO: implement this
+    // if (field_errors["username"].size() == 0 && field_errors["password"].size() == 0)
+    //     return true;
+    // return false;
     return true;
 }
 
@@ -57,11 +59,14 @@ void CredentialsStage::updateErrors(std::string field)
     // remove whitespace
     fName.erase(std::remove(fName.begin(), fName.end(), ' '), fName.end());
     lName.erase(std::remove(lName.begin(), lName.end(), ' '), lName.end());
+    // remove apostrophes
+    fName.erase(std::remove(fName.begin(), fName.end(), '\''), fName.end());
+    lName.erase(std::remove(lName.begin(), lName.end(), '\''), lName.end());
 
     // username
     if (field.compare("username") == 0){
         bool valid = false;
-        std::string invalidChars = "!@#$%^&*()=+[]{}\\|;:'\",.<>/?`~";
+        std::string invalidChars = " !@#$%^&*()=+[]{}\\|;:'\",.<>/?`~";
 
         // fill vector with valid usernames
         std::vector<std::string> validNames;
@@ -77,10 +82,12 @@ void CredentialsStage::updateErrors(std::string field)
         }
         suggestions = suggestions.substr(0, suggestions.size() - 2) + ".";
 
-        if (username.length() < 8){                                             // minimum length not reached
+        if (username.length()){
+            // do nothing
+        } else if (username.length() < 8 || username.length() > 24){            // length out of bounds
             errors.push_back(lengthError);
-        } else if (password.find_first_of(invalidChars) != std::string::npos){  // invalid special character(s)
-            errors.push_back(invalidError);
+        } else if (username.find_first_of(invalidChars) != std::string::npos){  // invalid special character(s)
+            errors.push_back(invalidCharError);
         } else if (!valid){
             errors.push_back(takenError + suggestions);               
         }
@@ -125,7 +132,7 @@ void CredentialsStage::updateErrors(std::string field)
             errors.push_back(missingRomanNumError);
         } else if (!isPalindrome(password)){                                    // is not a palindrome
             errors.push_back(notPalindromeError);
-        } else if (password.length() > 22){                                     // maximum length exceeded
+        } else if (password.length() > 20){                                     // maximum length exceeded
             errors.push_back(tooLongError);
         }
 

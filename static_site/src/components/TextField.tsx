@@ -5,7 +5,7 @@ export default function TextField(props: {
   type: "text" | "password" | "date";
   name: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (val: string) => void;
   disabled?: boolean;
   className?: string;
 }) {

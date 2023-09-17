@@ -1,6 +1,6 @@
 /*!
     @file utils.h
-    @brief string load utility header file
+    @brief handles generic tasks
     @author Jeb Nicholson
     @copyright 2023 Locked & Coded
 */
@@ -21,3 +21,4 @@ std::string JSEncode(const std::string &message);
 std::string JSEncode(const std::vector<std::string> &message);
 std::string JSONToString(const rapidjson::Document &doc);
 std::string url_encode(const std::string &value);
+std::string base64Decode(const std::string &value);

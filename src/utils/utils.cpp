@@ -1,6 +1,6 @@
 /*!
 	@file utils.cpp
-	@brief string load utility
+	@brief handles generic tasks
 	@author Jeb Nicholson
 	@copyright 2023 Locked & Coded
 */
@@ -59,6 +59,11 @@ std::string JSONToString(const rapidjson::Document &doc)
 	doc.Accept(writer);
 	std::string result = buffer.GetString();
 	return result;
+}
+
+std::string base64Decode(const std::string &value)
+{
+	return base64_decode(value);
 }
 
 /**

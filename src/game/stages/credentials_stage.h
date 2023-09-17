@@ -25,11 +25,11 @@ public:
     rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator);
 
     // username error messages
-    std::string lengthError = "Username must be between 8 and 16 characters long.";
-    std::string invalidError = "Invalid characters in username.";
+    std::string lengthError = "Username must be between 8 and 24 characters in length.";
+    std::string invalidCharError = "Invalid characters in username.";
     std::string takenError = "Username is already taken.";
     // password error messages
-    std::string tooShortError = "Password must include 8 or more characters."; // "Minimum password length not yet reached"?
+    std::string tooShortError = "Password must be 8 or more characters."; // "Minimum password length not yet reached"?
     std::string missingDigitError = "Password must include atleast one digit (0-9).";
     std::string missingUppercaseError = "Password must include atleast one uppercase character (A-Z).";
     std::string missingLowercaseError = "Password must include atleast one lowercase character (a-z).";
@@ -39,7 +39,7 @@ public:
     std::string missingColourError = "Password must include a colour.";
     std::string missingRomanNumError = "Pasword must include atleast one Roman numeral.";
     std::string notPalindromeError = "Password must be a palindrome.";
-    std::string tooLongError = "Password must be 22 or less characters."; // "Maximum password length exceeded"?
+    std::string tooLongError = "Password must be 20 or less characters."; // "Maximum password length exceeded"?
 
 private:
     void updateErrors(std::string field);

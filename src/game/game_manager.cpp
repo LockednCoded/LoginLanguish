@@ -40,7 +40,7 @@ GameManager::GameManager()
     stages_map["credentials"] = credentials_stage;
     stages_map["extras"] = extras_stage;
     stages_map["txtcaptcha"] = txt_captcha_stage;
-    stages_map["image_captcha"] = image_captcha_stage;
+    stages_map["imagecaptcha"] = image_captcha_stage;
 
     current_stage = stages[stage_index];
 }

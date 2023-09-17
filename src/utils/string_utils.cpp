@@ -1,3 +1,10 @@
+/*!
+	@file string_utils.cpp
+	@brief handles string-related tasks
+	@author Cameron Bruce
+	@copyright 2023 Locked & Coded
+*/
+
 #include "string_utils.h"
 
 namespace string_utils {
