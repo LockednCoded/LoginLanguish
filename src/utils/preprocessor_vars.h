@@ -10,3 +10,8 @@
 #else
 #define __CHEAT_MODE__ 0
 #endif
+#ifdef _WIN32
+#define __WINDOWS__ 1
+#else
+#define __WINDOWS__ 0
+#endif

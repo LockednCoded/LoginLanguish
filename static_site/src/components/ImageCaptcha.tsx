@@ -3,7 +3,9 @@ import {
   ImageCaptchaStage,
   SetFieldStateFunc,
   Stage,
+  StageMap,
   StageName,
+  useBindings,
 } from "../scripts/useBindings";
 
 const CaptchaTile = ({
@@ -29,18 +31,21 @@ const CaptchaTile = ({
 };
 
 export default function ImageCaptcha({
-  gameState,
-  updateFieldState,
-  nextBtnClick,
+  bindings,
 }: {
-  gameState: GameState;
-  updateFieldState: SetFieldStateFunc;
-  nextBtnClick: () => Promise<void>;
+  bindings: ReturnType<typeof useBindings>;
 }) {
+  const { gameState, updateFieldState, stageProgress } = bindings;
   return (
     <div className="bg-opacity-25 bg-gray-950 fixed z-10 h-full w-full top-0 left-0 flex items-center justify-center">
       <div className="bg-white p-1">
-        <div className="text-white bg-blue-600 p-3 mb-1">
+        <div className="text-white bg-blue-600 p-3 mb-1 flex flex-col">
+          {gameState.stages[ImageCaptchaStage].state.challengeText ==
+          "" ? null : (
+            <h1 className="font-bold text-lg text-red-500">
+              {gameState.stages[ImageCaptchaStage].state.challengeText}
+            </h1>
+          )}
           <h1 className="font-bold text-xl">
             {gameState.stages[ImageCaptchaStage].state.challengeText}
           </h1>
@@ -61,11 +66,7 @@ export default function ImageCaptcha({
               <CaptchaTile
                 source={image}
                 onClick={() =>
-                  updateFieldState(
-                    "imagecaptcha",
-                    "selected",
-                    updateVersion
-                  )
+                  updateFieldState("imagecaptcha", "selected", updateVersion)
                 }
                 selected={selected}
               />
@@ -78,7 +79,7 @@ export default function ImageCaptcha({
             type="button"
             disabled={false}
             onClick={() => {
-              nextBtnClick();
+              stageProgress(StageMap[ImageCaptchaStage]);
             }}
           >
             Verify

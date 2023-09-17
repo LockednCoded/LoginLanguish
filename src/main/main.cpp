@@ -64,14 +64,11 @@ int main()
   }
 
   w.set_title("Login Languish");
-  if (__DEBUG__)
-  {
-    w.set_size(WINDOW_WIDTH, WINDOW_HEIGHT, WEBVIEW_HINT_NONE);
-  }
-  else
-  {
-    w.set_size(WINDOW_WIDTH, WINDOW_HEIGHT, WEBVIEW_HINT_FIXED);
-  }
+  const int winWidth = WINDOW_WIDTH * (__WINDOWS__ ? 2 : 1);
+  const int winHeight = WINDOW_HEIGHT * (__WINDOWS__ ? 2 : 1);
+  const int winHint = __DEBUG__ ? WEBVIEW_HINT_NONE : WEBVIEW_HINT_FIXED;
+  w.set_size(winWidth, winHeight, winHint);
+
   w.navigate("file://" + resourcesPath + "/index.html");
 
   w.bind("documentLoadCallback", onDocumentLoadCallback, &w);
