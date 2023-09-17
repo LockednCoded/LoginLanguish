@@ -31,11 +31,9 @@ public:
     rapidjson::Value getStageState(rapidjson::Document::AllocatorType &allocator);
     virtual rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator) = 0;
     virtual void progressStage() {};
-    //TODO: implement this
-    bool isFieldDisabled(std::string field);
-    // virtual void setFieldDisabled(std::string field, bool disabled) = 0;
+    bool isFieldDisabled(const std::string &field);
 protected:
-    rapidjson::Value createFieldState(std::string field, rapidjson::Value &fieldValue, rapidjson::Document::AllocatorType &allocator);
+    rapidjson::Value createFieldState(const std::string &field, rapidjson::Value &fieldValue, rapidjson::Document::AllocatorType &allocator);
     std::string name = "";
     std::map<std::string, std::vector<std::string>> field_errors;
     const int REQ_FIELD_INDEX = 1;

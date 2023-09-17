@@ -45,7 +45,7 @@ rapidjson::Value Stage::getStageState(rapidjson::Document::AllocatorType &alloca
     @param allocator the rapidjson::Document::AllocatorType object used to allocate memory for the JSON objects
     @return rapidjson value object containing the field states
 */
-rapidjson::Value Stage::createFieldState(std::string field, rapidjson::Value &fieldValue, rapidjson::Document::AllocatorType &allocator)
+rapidjson::Value Stage::createFieldState(const std::string &field, rapidjson::Value &fieldValue, rapidjson::Document::AllocatorType &allocator)
 {
     // create field state object
     rapidjson::Value fieldState(rapidjson::kObjectType);
@@ -89,7 +89,7 @@ std::string Stage::getStageName()
     return name;
 }
 
-bool Stage::isFieldDisabled(std::string field)
+bool Stage::isFieldDisabled(const std::string &field)
 {
     return gm->getCurrentStageName().compare(getStageName()) != 0;
 }
