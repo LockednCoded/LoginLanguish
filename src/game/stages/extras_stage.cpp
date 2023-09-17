@@ -84,9 +84,17 @@ void ExtrasStage::update(const rapidjson::Value &req)
 
     if (field.compare("dob") == 0) {
         std::vector<int> new_dob = {0, 0, 0};
-        for (size_t i = 0; i < 3; i++)
+        int inputSize = req[REQ_VALUE_INDEX].Size();
+        if (inputSize != 3)
         {
-            new_dob[i] = req[REQ_VALUE_INDEX][i].GetInt();
+            new_dob = std::vector<int>();
+        }
+        else
+        {
+            for (size_t i = 0; i < 3; i++)
+            {
+                new_dob[i] = req[REQ_VALUE_INDEX][i].GetInt();
+            }
         }
         dob = new_dob;
     }

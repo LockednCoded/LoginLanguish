@@ -78,6 +78,7 @@ int main()
 
   w.bind("cpp_setFieldState", [fields, gameManager](std::string req) -> std::string
          {
+          std::cout << "cpp_setFieldState (raw): " << req << std::endl;
     rapidjson::Document document;
     document.Parse(req.c_str());
     rapidjson::Value &reqArray = document.GetArray();

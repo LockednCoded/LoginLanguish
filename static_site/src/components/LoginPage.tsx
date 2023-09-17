@@ -20,7 +20,7 @@ import End from "./End";
 
 export default function LoginPage() {
   const bindings = useBindings();
-  const { gameState, updateFieldState, nextBtnClick, stageProgress } = bindings;
+  const { gameState, updateFieldState, nextBtnClick } = bindings;
   const [tsAndCsOpen, setTsAndCsOpen] = useState(false);
 
   if (gameState == null) {
@@ -140,7 +140,11 @@ export default function LoginPage() {
                     .map((n) => n.toString().padStart(2, "0"))
                     .join("-")}
                   onChange={(newVal) => {
-                    // TODO //BUG: Fix NULL problem
+                    if (!newVal.match(/^\d\d\d\d-\d\d-\d\d$/g)) {
+                      console.log("Date is bad.");
+                      updateFieldState("extras", "dob", []);
+                      return;
+                    }
                     const dateArray = newVal
                       .split("-")
                       .reverse()
