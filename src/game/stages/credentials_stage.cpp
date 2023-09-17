@@ -9,7 +9,7 @@
 #include <vector>
 #include <algorithm>
 
-bool isPalindrome(std::string str);
+bool isPalindrome(const std::string &str);
 bool isPrime(int n);
 bool hasPrime(std::string input);
 bool hasColour(std::string input);
@@ -25,8 +25,6 @@ CredentialsStage::CredentialsStage(GameManager *gameManager) : Stage(gameManager
         {"username", std::vector<std::string>()},
         {"password", std::vector<std::string>()}
     };
-
-    nameStage = dynamic_cast<NameStage *>(gm->getStage("name"));
 }
 
 /*!
@@ -47,8 +45,9 @@ bool CredentialsStage::validateStage()
     @details updates the error messages for the given field
     @param field the name of the field to update
 */
-void CredentialsStage::updateErrors(std::string field)
+void CredentialsStage::updateErrors(const std::string &field)
 {
+    Stage* nameStage = gm->getStage("name");
     std::vector<std::string> errors;
 
     // retrieve name fields
@@ -76,12 +75,14 @@ void CredentialsStage::updateErrors(std::string field)
 
         // build suggestions string and check if username is valid
         std::string suggestions = "\nConsider ";
+        std::string sep = "";
         for (std::string name : validNames){
-            suggestions += name + ", ";
+            suggestions += sep + name;
+            sep = ", ";
             if (username.compare(name) == 0)
                 valid = true;
         }
-        suggestions = suggestions.substr(0, suggestions.size() - 2) + ".";
+        suggestions += ".";
 
         if (username.length() == 0){
             // do nothing
@@ -183,7 +184,7 @@ rapidjson::Value CredentialsStage::getFieldStates(rapidjson::Document::Allocator
 /*!
     @brief checks if a string is a palindrome
 */
-bool isPalindrome(std::string input){
+bool isPalindrome(const std::string &input){
     // find midpoint of the password
     int midpoint = input.length() / 2;
     

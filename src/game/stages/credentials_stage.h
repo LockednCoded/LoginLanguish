@@ -42,8 +42,7 @@ public:
     std::string tooLongError = "Password must be 20 or less characters."; // "Maximum password length exceeded"?
 
 private:
-    void updateErrors(std::string field);
-    NameStage* nameStage;
+    void updateErrors(const std::string &field);
     std::string username = "";
     std::string password = "";
 };
