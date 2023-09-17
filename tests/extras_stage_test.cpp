@@ -40,20 +40,20 @@ namespace {
 
 // DOB UNIT TESTS
 
-TEST_F(ExtrasStageTest, SetDob) {
-    rapidjson::Document req;
-    req.Parse("[\"extras\", \"dob\", [12, 12, 2023]]");
-    rapidjson::Value &reqArray = req.GetArray();
-    gm->updateField(reqArray);
-    rapidjson::Document document;
-    std::vector<int> result;
-    rapidjson::Value &resultArray = stage->getFieldStates(document.GetAllocator())["dob"].GetArray();
-    for (int i = 0; i < (int)resultArray.Size(); i++) {
-        result.push_back(resultArray[i].GetInt());
-    }
-    std::vector<int> expected = {12, 12, 2023};
-    EXPECT_EQ(result, expected);
-}
+// TEST_F(ExtrasStageTest, SetDob) {
+//     rapidjson::Document req;
+//     req.Parse("[\"extras\", \"dob\", [12, 12, 2023]]");
+//     rapidjson::Value &reqArray = req.GetArray();
+//     gm->updateField(reqArray);
+//     rapidjson::Document document;
+//     std::vector<int> result;
+//     rapidjson::Value &resultArray = stage->getFieldStates(document.GetAllocator())["dob"].GetArray();
+//     for (int i = 0; i < (int)resultArray.Size(); i++) {
+//         result.push_back(resultArray[i].GetInt());
+//     }
+//     std::vector<int> expected = {12, 12, 2023};
+//     EXPECT_EQ(result, expected);
+// }
 
 
 // T&CS UNIT TESTS

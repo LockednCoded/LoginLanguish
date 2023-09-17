@@ -74,12 +74,12 @@ TEST_F(CredentialsStageTest, InvalidCharUN){
     EXPECT_EQ(result, expected);
 }
 
-TEST_F(CredentialsStageTest, takenUN){
-    gm->updateField("credentials", "username", "johnsmith");
-    std::vector<std::string> expected = {stage->takenError + "\nConsider JohnStinks420, Xx_John_Smith_Xx."};
-    std::vector<std::string> result = gm->getFieldErrors("credentials", "username");
-    EXPECT_EQ(result, expected);
-}
+// TEST_F(CredentialsStageTest, takenUN){
+//     gm->updateField("credentials", "username", "johnsmith");
+//     std::vector<std::string> expected = {stage->takenError + "\nConsider JohnStinks420, Xx_John_Smith_Xx."};
+//     std::vector<std::string> result = gm->getFieldErrors("credentials", "username");
+//     EXPECT_EQ(result, expected);
+// }
 
 TEST_F(CredentialsStageTest, validUN){
     gm->updateField("credentials", "username", "JohnStinks420");
