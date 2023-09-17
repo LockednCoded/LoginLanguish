@@ -49,7 +49,7 @@ export default function TextField(props: {
             value={stableValue}
             onChange={(e) => {
               if (showPassword) setShowPassword(false);
-              updateValue(e);
+              updateValue(e.target.value);
             }}
             disabled={props.disabled || false}
           />

@@ -7,8 +7,8 @@ export default function useSmoothUpdate(
   const [isFieldActive, setIsFieldActive] = useState(false);
   const [stableValue, setStableValue] = useState(value);
 
-  const updateValue = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    let cleanValue = e.target.value
+  const updateValue = useCallback((newVal: string) => {
+    let cleanValue = newVal
       .replace(/[\u2014]/g, "--") // emdash
       .replace(/[\u2022]/g, "*") // bullet
       .replace(/[\u2018\u2019]/g, "'") // smart single quotes
@@ -25,7 +25,7 @@ export default function useSmoothUpdate(
 
   return [stableValue, updateValue, setIsFieldActive] as [
     string,
-    (e: React.ChangeEvent<HTMLInputElement>) => void,
+    (newVal: string) => void,
     React.Dispatch<React.SetStateAction<boolean>>
   ];
 }

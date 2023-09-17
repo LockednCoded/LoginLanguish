@@ -134,6 +134,7 @@ export default function LoginPage() {
                     .map((n) => n.toString().padStart(2, "0"))
                     .join("-")}
                   onChange={(newVal) => {
+                    // TODO //BUG: Fix NULL problem
                     const dateArray = newVal
                       .split("-")
                       .reverse()

@@ -29,39 +29,71 @@ TxtCaptchaStage::TxtCaptchaStage(GameManager *gameManager)
 bool TxtCaptchaStage::setNewChallenge()
 {
     if (challenges_remaining.size() == 0)
-        return false;
-    char x;
-    if (challenges_remaining.size() == 3)
     {
-        x = 0;
+        captcha_passed = true;
+        challenge_text = "";
+        image_url = "";
+        current_challenge = -1;
+        return false;
+    }
+    else if (challenges_remaining.size() == 3)
+    {
+        current_challenge = 0;
     }
     else
     {
+        /* Set the current challenge to a random one of the remaining challenges*/
         std::set<char>::iterator it = challenges_remaining.begin();
         std::advance(it, rand() % challenges_remaining.size());
-        x = *it;
+        current_challenge = *it;
     }
-    challenges_remaining.erase(x);
+    challenges_remaining.erase(current_challenge);
+    current_roll_identifier = "";
+    last_round_error = "";
 
-    switch (x)
+    rerollChallenge();
+
+    return true;
+}
+
+void TxtCaptchaStage::rerollChallenge()
+{
+    switch (current_challenge)
     {
-    case 0: // Menacing captchas
+    case MENACING_CAPTCHAS:
     {
         challenge_text = "Please type the text you see above";
         std::string dir = "datasets/menacing";
-        fs::path imagePath = file_utils::getRandomFile(file_utils::getPathToResource(dir));
-        image_url = file_utils::convertPathToFrontendString(imagePath);
+        fs::path imagePath;
+        do
+        {
+            imagePath = file_utils::getRandomFile(file_utils::getPathToResource(dir));
+            image_url = file_utils::convertPathToFrontendString(imagePath);
+        } while (image_url.compare(current_roll_identifier) == 0);
+        current_roll_identifier = image_url;
         challenge_answer = imagePath.stem().u8string();
-        std::replace(challenge_answer.begin(), challenge_answer.end(), '_', ' '); 
+        std::replace(challenge_answer.begin(), challenge_answer.end(), '_', ' ');
         break;
     }
 
     default:
-        challenge_text = "Validated.";
-        image_url = "";
+        std::cout << "Invalid challenge type: " << current_challenge << std::endl;
+        throw std::invalid_argument("Invalid challenge type");
         break;
     }
-    return true;
+}
+
+void TxtCaptchaStage::progressStage()
+{
+    if (txt_captcha.compare(challenge_answer) == 0)
+    {
+        setNewChallenge();
+    }
+    else
+    {
+        last_round_error = "Incorrect answer. Please try again.";
+        rerollChallenge();
+    }
 }
 
 /*!
@@ -71,7 +103,7 @@ bool TxtCaptchaStage::setNewChallenge()
 */
 bool TxtCaptchaStage::validateStage()
 {
-    return true;
+    return captcha_passed;
 }
 
 /*!
@@ -103,18 +135,8 @@ void TxtCaptchaStage::update(const rapidjson::Value &req)
 
     if (field.compare("txtcaptcha") == 0)
         txt_captcha = req[REQ_VALUE_INDEX].GetString();
-    if (txt_captcha.compare("") != 0 && txt_captcha.compare(challenge_answer) == 0)
-    {
-        txt_captcha = "";
-        setNewChallenge();
-    }
 
     updateErrors(field);
-}
-
-void TxtCaptchaStage::progressStage()
-{
-    
 }
 
 /*!
@@ -134,8 +156,13 @@ rapidjson::Value TxtCaptchaStage::getFieldStates(rapidjson::Document::AllocatorT
     rapidjson::Value imageUrlValue(image_url.c_str(), allocator);
     fieldStates.AddMember("imageURL", imageUrlValue, allocator);
 
+    fieldStates.AddMember("captchaPassed", captcha_passed, allocator);
+
     rapidjson::Value challengeTextValue(challenge_text.c_str(), allocator);
     fieldStates.AddMember("challengeText", challengeTextValue, allocator);
+
+    rapidjson::Value errorValue(last_round_error.c_str(), allocator);
+    fieldStates.AddMember("lastRoundError", errorValue, allocator);
 
     return fieldStates;
 };
