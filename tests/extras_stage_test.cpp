@@ -41,7 +41,7 @@ TEST_F(ExtrasStageTest, SetDob) {
 TEST_F(ExtrasStageTest, SetTsAndCs) {
     rapidjson::Document req;
     req.Parse("[\"extras\", \"tsAndCs\", true]");
-    rapidjson::Value reqArray = req.GetArray();
+    rapidjson::Value &reqArray = req.GetArray();
     gm->updateField(reqArray);
     bool expected = true;
     rapidjson::Document document;
