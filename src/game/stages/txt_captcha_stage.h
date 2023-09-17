@@ -26,7 +26,7 @@ public:
     bool setNewChallenge();
 
 private:
-    void updateErrors(std::string field);
+    void updateErrors(const std::string &field);
     void progressStage();
     void rerollChallenge();
 

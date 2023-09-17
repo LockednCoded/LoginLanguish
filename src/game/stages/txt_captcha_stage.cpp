@@ -110,7 +110,7 @@ bool TxtCaptchaStage::validateStage()
     @details updates the stage by updating the field values
     @param req the request object containing the field to update and the new value
 */
-void TxtCaptchaStage::updateErrors(std::string field)
+void TxtCaptchaStage::updateErrors(const std::string &field)
 {
     if (field.compare("txtcaptcha") == 0)
     {
