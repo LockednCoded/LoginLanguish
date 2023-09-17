@@ -147,3 +147,8 @@ rapidjson::Document GameManager::getGameState()
     document.AddMember("stages", stagesArray, document.GetAllocator());
     return document;
 }
+
+void GameManager::progressStage(const rapidjson::Value &req) {
+    const char *index = req[REQ_STAGE_INDEX].GetString();
+    stages_map[index]->progressStage();
+}

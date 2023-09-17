@@ -22,6 +22,7 @@ public:
     void update(const rapidjson::Value &req);
     rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator);
     bool setNewChallenge();
+    void progressStage();
 
 private:
     void updateErrors(std::string field);

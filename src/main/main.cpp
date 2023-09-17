@@ -115,6 +115,13 @@ int main()
           std::cout << "Getting next stage" << std::endl;
           gameManager->getNextStage();
           return ""; });
+  w.bind("cpp_stageProgress", [gameManager](std::string req) -> std::string
+         {
+          rapidjson::Document document;
+          document.Parse(req.c_str());
+          rapidjson::Value &reqArray = document.GetArray();
+          gameManager->progressStage(reqArray);
+          return ""; });
 
   const std::vector<std::string> testArgs = {"test", "test2"};
   const std::string testArgsString = JSEncode(testArgs);
