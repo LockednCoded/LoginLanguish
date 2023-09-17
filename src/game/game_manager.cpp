@@ -12,7 +12,6 @@
 #include "stages/extras_stage.h"
 #include "stages/image_captcha_stage.h"
 #include "stages/end_stage.h"
-#include "rapidjson/document.h"
 #include "rapidjson/stringbuffer.h"
 #include <rapidjson/writer.h>
 #include "preprocessor_vars.h"
@@ -55,7 +54,7 @@ GameManager::GameManager()
     @param stage name of stage requested
     @return pointer to stage
 */
-Stage* GameManager::getStage(std::string stage)
+Stage *GameManager::getStage(std::string stage)
 {
     return stages_map[stage];
 }
@@ -117,8 +116,14 @@ void GameManager::updateField(std::string stage, std::string field, std::string 
     @return a vector of strings containing the errors for the field
     @ref Stage::getFieldErrors
 */
-std::vector<std::string> GameManager::getFieldErrors(std::string stage, std::string field) {
+std::vector<std::string> GameManager::getFieldErrors(std::string stage, std::string field)
+{
     return stages_map[stage]->getFieldErrors(field);
+}
+
+std::string GameManager::getCurrentStageName()
+{
+    return current_stage->getStageName();
 }
 
 /*!
@@ -152,7 +157,8 @@ rapidjson::Document GameManager::getGameState()
     return document;
 }
 
-void GameManager::progressStage(const rapidjson::Value &req) {
+void GameManager::progressStage(const rapidjson::Value &req)
+{
     const char *index = req[REQ_STAGE_INDEX].GetString();
     stages_map[index]->progressStage();
 }

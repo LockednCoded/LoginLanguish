@@ -11,9 +11,9 @@
     @brief constructor for ExtrasStage
     @param gameManager the game manager object owning this stage
 */
-ExtrasStage::ExtrasStage(GameManager *gameManager){
+ExtrasStage::ExtrasStage(GameManager *gameManager) : Stage(gameManager)
+{
     name = "extras";
-    gm = gameManager;
     field_errors = {
         {"dob", std::vector<std::string>()},
         {"tsAndCs", std::vector<std::string>()}

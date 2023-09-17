@@ -10,7 +10,10 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "stages/stage.h"
+#include "rapidjson/document.h"
+// #include "stages/stage.h"
+
+class Stage;
 
 /*!
     @brief the GameManager class is a class that controls the flow of the game
@@ -28,6 +31,7 @@ public:
     std::vector<std::string> getFieldErrors(std::string stage, std::string field);
     rapidjson::Document getGameState();
     void progressStage(const rapidjson::Value &req);
+    std::string getCurrentStageName();
 
 private:
     std::map<std::string, Stage *> stages_map;

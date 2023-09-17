@@ -11,9 +11,9 @@
     @brief constructor for ImageCaptchaStage
     @param gameManager the game manager object owning this stage
 */
-EndStage::EndStage(GameManager *gameManager){
+EndStage::EndStage(GameManager *gameManager) : Stage(gameManager)
+{
     name = "end";
-    gm = gameManager;
 };
 
 /*!

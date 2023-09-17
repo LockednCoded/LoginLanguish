@@ -11,9 +11,9 @@
     @brief constructor for NameStage
     @param gameManager the game manager object owning this stage
 */
-NameStage::NameStage(GameManager *gameManager){
+NameStage::NameStage(GameManager *gameManager) : Stage(gameManager)
+{
     name = "name";
-    gm = gameManager;
     field_errors = {
         {"firstName", std::vector<std::string>()},
         {"lastName", std::vector<std::string>()}

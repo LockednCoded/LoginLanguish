@@ -21,9 +21,9 @@
     @brief constructor for ImageCaptchaStage
     @param gameManager the game manager object owning this stage
 */
-ImageCaptchaStage::ImageCaptchaStage(GameManager *gameManager){
+ImageCaptchaStage::ImageCaptchaStage(GameManager *gameManager) : Stage(gameManager)
+{
     name = "imagecaptcha";
-    gm = gameManager;
 
     challenge_sets = {
         file_utils::getPathToResource("datasets/celeb-faces"),

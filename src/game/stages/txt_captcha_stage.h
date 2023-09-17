@@ -30,8 +30,6 @@ private:
     void progressStage();
     void rerollChallenge();
 
-    GameManager* gm;
-
     std::string txt_captcha = "";
     std::string challenge_text = "";
     std::string image_url = "";

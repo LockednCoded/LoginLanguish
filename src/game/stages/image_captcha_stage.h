@@ -31,7 +31,6 @@ private:
     void updateErrors(std::string field);
     void initialiseCaptchaImages();
 
-    GameManager* gm;
     std::vector<std::string> image_urls;
     std::vector<std::string> correct_images;
     std::string challenge_text = "";

@@ -23,5 +23,4 @@ public:
     rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator);
 
 private:
-    GameManager* gm;
 };

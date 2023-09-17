@@ -16,10 +16,9 @@
     @brief constructor for TxtCaptchaStage
     @param gameManager the game manager object owning this stage
 */
-TxtCaptchaStage::TxtCaptchaStage(GameManager *gameManager)
+TxtCaptchaStage::TxtCaptchaStage(GameManager *gameManager) : Stage(gameManager)
 {
     name = "txtcaptcha";
-    gm = gameManager;
     field_errors = {
         {"txtcaptcha", std::vector<std::string>()}};
 

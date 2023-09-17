@@ -11,6 +11,7 @@
 #include <string>
 #include <map>
 #include "rapidjson/document.h"
+#include "../game_manager.h"
 
 /*!
     @brief the Stage class is an abstract class that represents a stage in the game
@@ -18,6 +19,10 @@
 */
 class Stage
 {
+protected:
+    Stage(GameManager *gameManager);
+    GameManager *gm;
+
 public:
     virtual bool validateStage() = 0;
     std::vector<std::string> getFieldErrors(std::string field);
@@ -27,7 +32,7 @@ public:
     virtual rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator) = 0;
     virtual void progressStage() {};
     //TODO: implement this
-    bool isFieldDisabled(std::string field) { return false; };
+    bool isFieldDisabled(std::string field);
     // virtual void setFieldDisabled(std::string field, bool disabled) = 0;
 protected:
     rapidjson::Value createFieldState(std::string field, rapidjson::Value &fieldValue, rapidjson::Document::AllocatorType &allocator);

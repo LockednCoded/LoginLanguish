@@ -7,6 +7,11 @@
 
 #include "stage.h"
 
+Stage::Stage(GameManager *gameManager)
+{
+    this->gm = gameManager;
+}
+
 /*!
     @brief creates the JSON representation of the stage state
     @details this function creates rapidjson::Value object containing the stage state including
@@ -82,4 +87,9 @@ std::vector<std::string> Stage::getFieldErrors(std::string field)
 std::string Stage::getStageName()
 {
     return name;
+}
+
+bool Stage::isFieldDisabled(std::string field)
+{
+    return gm->getCurrentStageName().compare(getStageName()) != 0;
 }

@@ -31,7 +31,6 @@ public:
 private:
     void updateErrors(std::string field);
 
-    GameManager* gm;
     std::string first_name = "";
     std::string last_name = "";
 };

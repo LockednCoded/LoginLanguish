@@ -18,9 +18,9 @@ bool hasColour(std::string input);
     @brief constructor for CredentialsStage
     @param gameManager the game manager object owning this stage
 */
-CredentialsStage::CredentialsStage(GameManager *gameManager){
+CredentialsStage::CredentialsStage(GameManager *gameManager) : Stage(gameManager)
+{
     name = "credentials";
-    gm = gameManager;
     field_errors = {
         {"username", std::vector<std::string>()},
         {"password", std::vector<std::string>()}

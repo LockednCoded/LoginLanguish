@@ -43,7 +43,6 @@ public:
 
 private:
     void updateErrors(std::string field);
-    GameManager* gm;
     NameStage* nameStage;
     std::string username = "";
     std::string password = "";
