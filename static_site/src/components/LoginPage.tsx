@@ -91,6 +91,7 @@ export default function LoginPage() {
               }`}
             >
               <TextField
+                data-test-id="text-field-username"
                 type="text"
                 name="Username"
                 value={gameState.stages[CredentialsStage].state.username.value}
@@ -112,6 +113,7 @@ export default function LoginPage() {
                 <TextField
                   type="password"
                   name="Password"
+                  data-test-id="text-field-password"
                   value={
                     gameState.stages[CredentialsStage].state.password.value
                   }
@@ -138,6 +140,7 @@ export default function LoginPage() {
             >
               <div className="flex flex-row justify-between items-end ">
                 <TextField
+                  data-test-id="text-field-dob"
                   type="date"
                   name="Date of Birth"
                   value={gameState.stages[ExtrasStage].state.dob.value
@@ -198,6 +201,7 @@ export default function LoginPage() {
                     type="checkbox"
                     name="terms"
                     id="marketing"
+                    data-test-id="marketing-check-box"
                     checked
                     onChange={(e) => e.preventDefault()}
                   />

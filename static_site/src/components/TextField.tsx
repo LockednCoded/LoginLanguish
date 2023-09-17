@@ -6,7 +6,7 @@ export default function TextField(props: {
   type: "text" | "password" | "date";
   name: string;
   value: string;
-  onChange: (val: string) => void;
+  onChange: (_val: string) => void;
   disabled?: boolean;
   className?: string;
 }) {

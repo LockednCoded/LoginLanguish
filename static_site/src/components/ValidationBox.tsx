@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import WarningIcon from "~icons/pajamas/warning-solid";
 
 export function ValidationBox(props: {
