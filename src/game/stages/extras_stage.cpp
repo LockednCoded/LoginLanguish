@@ -38,7 +38,7 @@ bool ExtrasStage::validateStage()
     @details updates the error messages for the given field
     @param field the name of the field to update
 */
-void ExtrasStage::updateErrors(std::string field)
+void ExtrasStage::updateErrors(const std::string &field)
 {   
     std::vector<std::string> errors;
     if (field.compare("dob") == 0){
@@ -50,17 +50,17 @@ void ExtrasStage::updateErrors(std::string field)
                     // do nothing
                 } else if (dob[0] > solstice[0])
                     errors.push_back(tooYoungError);
-                else if (dob[0] < solstice[0])
+                else
                     errors.push_back(tooOldError);
             }
             else if (dob[1] > solstice[1])
                 errors.push_back(tooYoungError);
-            else if (dob[1] < solstice[1])
+            else
                 errors.push_back(tooOldError);
         }
         else if (dob[2] > solstice[2])
             errors.push_back(tooYoungError);
-        else if (dob[2] < solstice[2])
+        else
             errors.push_back(tooOldError);
 
         field_errors["dob"] = errors;

@@ -28,7 +28,7 @@ public:
     std::string tooOldError = "You are too old to sign up. Please review our terms & conditions before continuing.";
     std::string uncheckedTCsError = "Please review and accept our terms & conditions before continuing.";
 private:
-    void updateErrors(std::string field);
+    void updateErrors(const std::string &field);
 
     std::vector<int> dob; // [0]day, [1]month, [2]year
     std::vector<int> solstice = {21, 6, 1984};
