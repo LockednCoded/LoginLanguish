@@ -63,7 +63,7 @@ bool TxtCaptchaStage::setNewChallenge()
             imageIndex--;
         }
         image_url = "datasets/menacing/" + url_encode(imagePath.filename().string());
-        challenge_answer = imagePath.stem();
+        challenge_answer = imagePath.stem().u8string();
         break;
     }
 
