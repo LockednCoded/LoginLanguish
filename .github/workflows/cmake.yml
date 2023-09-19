@@ -35,8 +35,18 @@ jobs:
         # Run tests
         run: ctest --test-dir ${{github.workspace}}/build --output-on-failure
 
+      - name: Install OpenCoverage
+        run: |
+          choco install opencppcoverage
+          echo "C:\Program Files\OpenCppCoverage" >> $env:GITHUB_PATH
+
+      - name: Generate Coverage
+        run: |
+          OpenCppCoverage.exe --excluded_sources ${{github.workspace}}\static_site --export_type cobertura:${{github.workspace}}\Coverage.xml -- ${{github.workspace}}\build\bin\LoginLanguish_tests
+
       - name: Find and Upload Coverage
         # Find and upload coverage report
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v3
         with:
           token: ${{secrets.CODECOV_TOKEN}}
+          files: .\Coverage.xml
