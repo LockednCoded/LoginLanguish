@@ -5,10 +5,12 @@ const CaptchaTile = ({
   source,
   onClick,
   selected,
+  label,
 }: {
   source: string;
   onClick: () => any;
   selected: boolean;
+  label: string;
 }) => {
   return (
     <div
@@ -20,6 +22,7 @@ const CaptchaTile = ({
     >
       <div className="absolute bg-white opacity-0 transition-opacity duration-100 hover:opacity-50 w-full h-full" />
       <img src={source} alt="Image" className="w-full h-full aspect-square" />
+      <div className="absolute bottom-1 font-bold text-sm">{label}</div>
     </div>
   );
 };
@@ -45,7 +48,7 @@ export default function ImageCaptcha({
           </h1>
         </div>
         <div className="grid grid-cols-3 gap-1 w-[400px] h-[400px]">
-          {gameState.stages[ImageCaptchaStage].state.images.map((image) => {
+          {gameState.stages[ImageCaptchaStage].state.images.map((image, i) => {
             const selected =
               gameState.stages[ImageCaptchaStage].state.selected.includes(
                 image
@@ -60,6 +63,9 @@ export default function ImageCaptcha({
               <CaptchaTile
                 data-test-id="image-captcha-tile-${image}"
                 source={image}
+                label={
+                  gameState.stages[ImageCaptchaStage].state.imageLabels[i] ?? ""
+                }
                 onClick={() =>
                   updateFieldState("imagecaptcha", "selected", updateVersion)
                 }
