@@ -9,8 +9,11 @@
 #include <filesystem>
 #include "compatibility_utils.h"
 #include <iostream>
+#include <fstream>
 #include "utils.h"
 #include "file_utils.h"
+#include "random_utils.h"
+#include <algorithm>
 
 /*!
     @brief constructor for TxtCaptchaStage
@@ -35,7 +38,7 @@ bool TxtCaptchaStage::setNewChallenge()
         current_challenge = -1;
         return false;
     }
-    else if (challenges_remaining.size() == 3)
+    else if (challenges_remaining.size() == 2)
     {
         current_challenge = 0;
     }
@@ -72,6 +75,25 @@ void TxtCaptchaStage::rerollChallenge()
         current_roll_identifier = image_url;
         challenge_answer = imagePath.stem().u8string();
         std::replace(challenge_answer.begin(), challenge_answer.end(), '_', ' ');
+        tall_image = false;
+        break;
+    }
+    case COUNTRY_CAPTCHAS:
+    {
+        challenge_text = "Please name the country depicted above";
+        std::string dir = "datasets/countries";
+        std::vector<std::vector<std::string>> countriesData = file_utils::readCSV(file_utils::getPathToResource(dir + "/_country_data.csv"));
+        std::vector<std::string> country;
+        do
+        {
+            country = countriesData[rand_utils::randomSizeT(countriesData.size() - 1)];
+        } while (country[0].compare(current_roll_identifier) == 0);
+        std::string countryName = country[0];
+        current_roll_identifier = countryName;
+        fs::path countryImagePath = file_utils::getPathToResource(dir + "/images/" + countryName + ".png");
+        image_url = file_utils::convertPathToFrontendString(countryImagePath);
+        challenge_answer = countryName;
+        tall_image = true;
         break;
     }
 
@@ -84,7 +106,7 @@ void TxtCaptchaStage::rerollChallenge()
 
 void TxtCaptchaStage::progressStage()
 {
-    if (txt_captcha.compare(challenge_answer) == 0)
+    if (caseInsensitiveEquals(txt_captcha, challenge_answer))
     {
         setNewChallenge();
     }
@@ -117,7 +139,7 @@ void TxtCaptchaStage::updateErrors(const std::string &field)
         if (txt_captcha.compare("") == 0)
             return;
         std::vector<std::string> errors;
-        if (txt_captcha.compare(challenge_answer) != 0)
+        if (!caseInsensitiveEquals(txt_captcha, challenge_answer))
             errors.push_back("Incorrect answer");
         field_errors["txtcaptcha"] = errors;
     }
@@ -159,6 +181,8 @@ rapidjson::Value TxtCaptchaStage::getFieldStates(rapidjson::Document::AllocatorT
 
     rapidjson::Value challengeTextValue(challenge_text.c_str(), allocator);
     fieldStates.AddMember("challengeText", challengeTextValue, allocator);
+
+    fieldStates.AddMember("tallImage", tall_image, allocator);
 
     rapidjson::Value errorValue(last_round_error.c_str(), allocator);
     fieldStates.AddMember("lastRoundError", errorValue, allocator);

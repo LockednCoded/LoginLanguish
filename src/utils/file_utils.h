@@ -23,4 +23,5 @@ namespace file_utils
     fs::path getPathToResource(const std::string &resource);
     std::vector<std::string> convertPathsToFrontendStrings(const std::vector<fs::path> &paths);
     std::string convertPathToFrontendString(fs::path paths);
+    std::vector<std::vector<std::string>> readCSV(fs::path path);
 }

@@ -22,3 +22,4 @@ std::string JSEncode(const std::vector<std::string> &message);
 std::string JSONToString(const rapidjson::Document &doc);
 std::string url_encode(const std::string &value);
 std::string base64Decode(const std::string &value);
+bool caseInsensitiveEquals(const std::string &a, const std::string &b);

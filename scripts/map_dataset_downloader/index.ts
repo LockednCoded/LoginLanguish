@@ -187,11 +187,7 @@ async function saveCountriesCSV(
 ) {
   const csvWriter = createObjectCsvWriter({
     path: Path.resolve(import.meta.dir, "data", "_country_data.csv"),
-    header: [
-      { id: "name", title: "Name" },
-      { id: "link", title: "Link" },
-      { id: "regime", title: "Regime" },
-    ],
+    header: ["name", "link", "regime"],
   });
   await csvWriter.writeRecords(countryListings);
 }

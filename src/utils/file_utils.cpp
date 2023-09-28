@@ -10,6 +10,7 @@
 #include "compatibility_utils.h"
 #include "utils.h"
 #include <iostream>
+#include <sstream>
 
 #include <map>
 
@@ -162,4 +163,22 @@ namespace file_utils {
         return string;
     }
 
+    std::vector<std::vector<std::string>> readCSV(fs::path path)
+    {
+        std::ifstream file(path);
+        std::vector<std::vector<std::string>> data;
+        std::string line;
+        while (std::getline(file, line))
+        {
+            std::vector<std::string> row;
+            std::stringstream lineStream(line);
+            std::string cell;
+            while (std::getline(lineStream, cell, ','))
+            {
+                row.push_back(cell);
+            }
+            data.push_back(row);
+        }
+        return data;
+    }
 }
