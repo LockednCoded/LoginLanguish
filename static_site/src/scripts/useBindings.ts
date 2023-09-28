@@ -98,6 +98,7 @@ export type GameState = {
         lastRoundError: string;
         images: string[];
         challengeText: string;
+        imageLabels: string[];
       };
     },
     {

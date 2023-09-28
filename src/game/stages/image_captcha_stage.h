@@ -11,6 +11,11 @@
 #include "../game_manager.h"
 
 #include <filesystem>
+#include <set>
+
+const char CELEB_CAPTCHAS = 0;
+const char MUFFIN_DOG_CAPTCHAS = 1;
+const char FREEDOM_CAPTCHAS = 2;
 
 namespace fs = std::filesystem;
 
@@ -28,13 +33,18 @@ public:
     virtual void progressStage();
     
 private:
-    void initialiseCaptchaImages();
+    void initialiseDatasetImages(fs::path dataset_path, size_t MAX_NUM_IMAGES, size_t MAX_NUM_CORRECT, size_t MIN_NUM_CORRECT);
+    void initialiseCountryImages(size_t num_correct, size_t total_num);
 
+    char current_challenge = 0;
+    void initialiseChallenge();
+    bool setNewChallenge();
+    std::set<char> challenges_remaining = {CELEB_CAPTCHAS, MUFFIN_DOG_CAPTCHAS, FREEDOM_CAPTCHAS};
     std::vector<std::string> image_urls;
+    std::vector<std::string> image_labels; // The labels for each image, to be displayed to the user. Can be empty.
     std::vector<std::string> correct_images;
     std::string challenge_text = "";
     std::vector<std::string> selected;
     std::string last_round_error = "";
-    size_t current_round = 0;
     std::vector<fs::path> challenge_sets;
 };
