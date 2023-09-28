@@ -41,6 +41,27 @@ public:
     std::string notPalindromeError = "Password must be a palindrome.";
     std::string tooLongError = "Password must be 20 or less characters."; // "Maximum password length exceeded"?
 
+    // strings of characters to find in password
+    std::string digits = "0123456789";
+    std::string lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+    std::string uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    std::string specialChars = "!@#$%^&*()-_=+[]{}\\|;:'\",.<>/?`~";
+    std::string romanNumerals = "IVXLCDM";
+    
+    // booleans to track whether a condition has been previously met
+    bool metTooShort = false;
+    bool metMissingDigit = false;
+    bool metMissingUppercase = false;
+    bool metMissingLowercase = false;
+    bool metMissingSpecialChar = false;
+    bool metMissingPrime = false;
+    bool metMissingInitials = false;
+    bool metMissingColour = false;
+    bool metMissingRomanNumeral = false;
+    bool metNotPalindrome = false;
+    bool metTooLong = false;
+    
+
 private:
     void updateErrors(const std::string &field);
     std::string username = "";

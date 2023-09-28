@@ -98,12 +98,6 @@ void CredentialsStage::updateErrors(const std::string &field)
 
     // password
     } else if (field.compare("password") == 0){                                 
-        // strings of characters to find in password
-        std::string digits = "0123456789";
-        std::string lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
-        std::string uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        std::string specialChars = "!@#$%^&*()-_=+[]{}\\|;:'\",.<>/?`~";
-        std::string romanNumerals = "IVXLCDM";
         // get initials from names
         std::string initials = std::string(1, fName[0]) + std::string(1, lName[0]);
         std::transform(initials.begin(), initials.end(), initials.begin(), [](unsigned char c) { return std::tolower(c); });
@@ -111,31 +105,102 @@ void CredentialsStage::updateErrors(const std::string &field)
         std::string lowercasePW = password;
         std::transform(lowercasePW.begin(), lowercasePW.end(), lowercasePW.begin(), [](unsigned char c) { return std::tolower(c); });
 
+
         // password puzzles
+
         if (password.length() == 0){                                            // empty password
-            //do nothing                                                        
-        } else if (password.length() < 8){                                      // minimum length not reached
+            metTooShort = metMissingDigit = metMissingUppercase = metMissingLowercase = metMissingSpecialChar = 
+                metMissingPrime = metMissingInitials = metMissingColour = metMissingRomanNumeral = metNotPalindrome = metTooLong = false;
+            field_errors["password"] = errors;
+            return;                                                       
+        }
+        if (password.length() < 8){                                             // minimum length not reached
             errors.push_back(tooShortError);
-        } else if (password.find_first_of(digits) == std::string::npos){        // missing digit(s)
+            if (!metTooShort){
+                metTooShort = true;
+                field_errors["password"] = errors;
+                return; 
+            }
+        }
+        if (password.find_first_of(digits) == std::string::npos){        // missing digit(s)
             errors.push_back(missingDigitError);
-        } else if (password.find_first_of(uppercaseChars) == std::string::npos){// missing uppercase letter(s)
+            if (!metMissingDigit){
+                metMissingDigit = true;
+                field_errors["password"] = errors;
+                return; 
+            }
+        }
+        if (password.find_first_of(uppercaseChars) == std::string::npos){// missing uppercase letter(s)
             errors.push_back(missingUppercaseError);
-        } else if (password.find_first_of(lowercaseChars) == std::string::npos){// missing lowercase letter(s)
+            if (!metMissingUppercase){
+                metMissingUppercase = true;
+                field_errors["password"] = errors;
+                return; 
+            }
+        }
+        if (password.find_first_of(lowercaseChars) == std::string::npos){// missing lowercase letter(s)
             errors.push_back(missingLowercaseError);
-        } else if (password.find_first_of(specialChars) == std::string::npos){  // missing special character(s)
+            if (!metMissingLowercase){
+                metMissingLowercase = true;
+                field_errors["password"] = errors;
+                return; 
+            }
+        }
+        if (password.find_first_of(specialChars) == std::string::npos){  // missing special character(s)
             errors.push_back(missingSpecialError);
-        } else if (!hasPrime(password)){                                        // missing prime number(s)
+            if (!metMissingSpecialChar){
+                metMissingSpecialChar = true;
+                field_errors["password"] = errors;
+                return; 
+            }
+        }
+        if (!hasPrime(password)){                                        // missing prime number(s)
             errors.push_back(missingPrimeError);
-        } else if (lowercasePW.find(initials) == std::string::npos){            // missing user initials
+            if (!metMissingPrime){
+                metMissingPrime = true;
+                field_errors["password"] = errors;
+                return; 
+            }
+        }
+        if (lowercasePW.find(initials) == std::string::npos){            // missing user initials
             errors.push_back(missingInitialsError);
-        } else if (!hasColour(password)){                                       // missing colour
+            if (!metMissingInitials){
+                metMissingInitials = true;
+                field_errors["password"] = errors;
+                return; 
+            }
+        }
+        if (!hasColour(password)){                                       // missing colour
             errors.push_back(missingColourError);
-        } else if (password.find_first_of(romanNumerals) == std::string::npos){ // missing Roman numeral(s)
+            if (!metMissingColour){
+                metMissingColour = true;
+                field_errors["password"] = errors;
+                return; 
+            }
+        }
+        if (password.find_first_of(romanNumerals) == std::string::npos){ // missing Roman numeral(s)
             errors.push_back(missingRomanNumError);
-        } else if (!isPalindrome(password)){                                    // is not a palindrome
+            if (!metMissingRomanNumeral){
+                metMissingRomanNumeral = true;
+                field_errors["password"] = errors;
+                return; 
+            }
+        }
+        if (!isPalindrome(password)){                                    // is not a palindrome
             errors.push_back(notPalindromeError);
-        } else if (password.length() > 20){                                     // maximum length exceeded
+            if (!metNotPalindrome){
+                metNotPalindrome = true;
+                field_errors["password"] = errors;
+                return; 
+            }
+        }
+        if (password.length() > 20){                                     // maximum length exceeded
             errors.push_back(tooLongError);
+            if (!metTooLong){
+                metTooLong = true;
+                field_errors["password"] = errors;
+                return; 
+            }
         }
 
         field_errors["password"] = errors;
