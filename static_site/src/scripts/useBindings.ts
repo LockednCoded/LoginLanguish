@@ -88,6 +88,7 @@ export type GameState = {
         challengeText: string;
         captchaPassed: boolean;
         lastRoundError: string;
+        tallImage: boolean;
       };
     },
     {

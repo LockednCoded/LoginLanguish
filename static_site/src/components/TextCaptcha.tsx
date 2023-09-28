@@ -27,9 +27,13 @@ export default function TextCaptcha({
       ) : (
         <div className="border rounded border-black w-full">
           <div
-            className={`h-[125px] bg-center bg-contain bg-no-repeat`}
+            className={`bg-center bg-contain bg-no-repeat`}
             style={{
               backgroundImage: `url('${gameState.stages[TxtCaptchaStage].state.imageURL}')`,
+              height: gameState.stages[TxtCaptchaStage].state.tallImage
+                ? "250px"
+                : "125px",
+              transition: "height 200ms ease-in-out",
             }}
           ></div>
           <div className="bg-neutral-300 px-3 py-2">
