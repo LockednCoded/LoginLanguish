@@ -12,6 +12,7 @@
 #include <set>
 
 const char MENACING_CAPTCHAS = 0;
+const char COUNTRY_CAPTCHAS = 1;
 
 /*!
     @brief the TxtCaptchaStage class is a class that represents a txt captcha stage in the game
@@ -32,8 +33,9 @@ private:
 
     std::string txt_captcha = "";
     std::string challenge_text = "";
+    bool tall_image = false;
     std::string image_url = "";
-    std::set<char> challenges_remaining = {MENACING_CAPTCHAS};
+    std::set<char> challenges_remaining = {MENACING_CAPTCHAS, COUNTRY_CAPTCHAS};
     char current_challenge = 0;
     std::string challenge_answer = "";
     bool captcha_passed = false;

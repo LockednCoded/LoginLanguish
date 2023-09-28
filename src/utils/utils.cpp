@@ -87,6 +87,12 @@ std::string base64Decode(const std::string &value)
 	return base64_decode(value);
 }
 
+bool caseInsensitiveEquals(const std::string &a, const std::string &b)
+{
+	return std::equal(a.begin(), a.end(), b.begin(), b.end(), [](char a, char b)
+										{ return tolower(a) == tolower(b); });
+}
+
 /*!
 	@brief encodes a string into a url
 	@details from https://stackoverflow.com/a/17708801 (xperroni)
