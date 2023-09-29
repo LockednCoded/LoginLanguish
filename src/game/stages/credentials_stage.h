@@ -25,7 +25,7 @@ public:
     rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator);
 
     // username error messages
-    std::string lengthError = "Username must be between 8 and 24 characters in length.";
+    std::string lengthError = "Username must be between 8 and 26 characters in length.";
     std::string invalidCharError = "Invalid characters in username.";
     std::string takenError = "Username is already taken.";
     // password error messages
@@ -47,7 +47,7 @@ public:
     std::string uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     std::string specialChars = "!@#$%^&*()-_=+[]{}\\|;:'\",.<>/?`~";
     std::string romanNumerals = "IVXLCDM";
-    
+
     // booleans to track whether a condition has been previously met
     bool metTooShort = false;
     bool metMissingDigit = false;

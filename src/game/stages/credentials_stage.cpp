@@ -86,7 +86,7 @@ void CredentialsStage::updateErrors(const std::string &field)
 
         if (username.length() == 0){
             // do nothing
-        } else if (username.length() < 8 || username.length() > 24){            // length out of bounds
+        } else if (username.length() < 8 || username.length() > 26){            // length out of bounds
             errors.push_back(lengthError);
         } else if (username.find_first_of(invalidChars) != std::string::npos){  // invalid special character(s)
             errors.push_back(invalidCharError);
