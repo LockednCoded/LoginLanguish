@@ -28,9 +28,11 @@ export default function TextField(props: {
         </label>
         <div className="w-full relative">
           <input
-            className={`border rounded border-black w-full h-9 p-2 box-border outline-none disabled:opacity-75 select-text ${
-              props.type == "password" && !showPassword
-                ? "[-webkit-text-security:disc] tracking-wider"
+            className={`border rounded border-black w-full h-9 p-2 box-border outline-none disabled:opacity-75 select-text${
+              props.type == "password"
+                ? ` font-mono${
+                    !showPassword ? " [-webkit-text-security:disc]" : ""
+                  }`
                 : ""
             }`}
             data-test-id={`text-field-${props.name}`}

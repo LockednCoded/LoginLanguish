@@ -28,7 +28,7 @@ int main();
 
 /*!
  @brief loads html
- @details 
+ @details
 */
 void onDocumentLoadCallback(const std::string /*&seq*/, const std::string &req, void * /*arg*/);
 
