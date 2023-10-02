@@ -120,10 +120,6 @@ int main()
           gameManager->progressStage(reqArray);
           return ""; });
 
-  const std::vector<std::string> testArgs = {"test", "test2"};
-  const std::string testArgsString = JSEncode(testArgs);
-  std::cout << "testArgsString: " << testArgsString << std::endl;
-
   std::cout << "Starting webview" << std::endl;
 
   w.run();

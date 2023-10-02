@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.6)
 
 include(cmake/fetching.cmake)
 set(TESTING ON CACHE BOOL "Enable testing")
@@ -32,9 +32,10 @@ elseif (CMAKE_SYSTEM_NAME MATCHES "Windows")
 endif()
 
 include(cmake/assets.cmake)
+add_subdirectory(src)
+
 if (TESTING)
     enable_testing()
 
-    add_subdirectory(src)
     add_subdirectory(tests)
 endif()
