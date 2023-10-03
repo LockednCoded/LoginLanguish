@@ -20,3 +20,9 @@ TEST(Tests, FindResourcesPath) {
   std::string expected = "bin";
   EXPECT_EQ(resourcesPath.substr(resourcesPath.size() - expected.size()), expected);
 }
+
+
+int main(int argc, char** argv) {
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
