@@ -60,6 +60,7 @@ export default function LoginPage() {
                 onChange={(newVal) =>
                   updateFieldState("name", "firstName", newVal)
                 }
+                onEnter={nextBtnClick}
                 disabled={gameState.stages[NameStage].state.firstName.disabled}
                 className="mt-3"
               />
@@ -67,6 +68,7 @@ export default function LoginPage() {
                 data-test-id="text-field-last-name"
                 type="text"
                 name="Last Name"
+                onEnter={nextBtnClick}
                 value={gameState.stages[NameStage].state.lastName.value}
                 onChange={(newVal) =>
                   updateFieldState("name", "lastName", newVal)
@@ -98,6 +100,7 @@ export default function LoginPage() {
                 onChange={(newVal) =>
                   updateFieldState("credentials", "username", newVal)
                 }
+                onEnter={nextBtnClick}
                 disabled={
                   gameState.stages[CredentialsStage].state.username.disabled
                 }
@@ -120,6 +123,7 @@ export default function LoginPage() {
                   onChange={(newVal) =>
                     updateFieldState("credentials", "password", newVal)
                   }
+                  onEnter={nextBtnClick}
                   disabled={
                     gameState.stages[CredentialsStage].state.password.disabled
                   }
@@ -159,6 +163,7 @@ export default function LoginPage() {
                       .map((num) => Number.parseInt(num));
                     updateFieldState("extras", "dob", dateArray);
                   }}
+                  onEnter={nextBtnClick}
                   disabled={gameState.stages[ExtrasStage].state.dob.disabled}
                   className="mt-3 w-1/3"
                 />

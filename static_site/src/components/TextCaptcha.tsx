@@ -14,6 +14,11 @@ export default function TextCaptcha({
     gameState.stages[TxtCaptchaStage].state.txtcaptcha.value,
     (val) => updateFieldState("txtcaptcha", "txtcaptcha", val)
   );
+  const submitAnswer = () => {
+    if (stableValue.length == 0) return;
+    stageProgress("txtcaptcha");
+    updateValue("");
+  };
   return (
     <div className={className}>
       <label
@@ -65,16 +70,16 @@ export default function TextCaptcha({
                 disabled={
                   gameState.stages[TxtCaptchaStage].state.txtcaptcha.disabled
                 }
+                onKeyDown={(e) => {
+                  if (e.key == "Enter") submitAnswer();
+                }}
               />
               <button
                 data-test-id="text-captcha-submit-btn"
                 className="text-sm rounded-md bg-white px-2 ml-2 font-bold h-7 box-border disabled:opacity-75 disabled:bg-ne"
                 disabled={stableValue.length == 0}
                 type="button"
-                onClick={() => {
-                  stageProgress("txtcaptcha");
-                  updateValue("");
-                }}
+                onClick={submitAnswer}
               >
                 Submit
               </button>

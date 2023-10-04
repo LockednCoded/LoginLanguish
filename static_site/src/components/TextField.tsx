@@ -7,6 +7,7 @@ export default function TextField(props: {
   name: string;
   value: string;
   onChange: (_val: string) => void;
+  onEnter?: () => void;
   disabled?: boolean;
   className?: string;
 }) {
@@ -45,6 +46,9 @@ export default function TextField(props: {
               setShowPassword(false);
             }}
             autoComplete="off"
+            onKeyDown={(e) => {
+              if (e.key == "Enter" && props.onEnter) props.onEnter();
+            }}
             autoCorrect="off"
             autoCapitalize="off"
             spellCheck="false"
