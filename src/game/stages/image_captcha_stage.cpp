@@ -203,7 +203,7 @@ void ImageCaptchaStage::initialiseChallenge()
     {
     case FREEDOM_CAPTCHAS:
     {
-        size_t num_correct = rand_utils::randomSizeT(MIN_NUM_CORRECT, MAX_NUM_CORRECT);
+        int num_correct = rand_utils::randomInt(MIN_NUM_CORRECT, MAX_NUM_CORRECT);
         initialiseCountryImages(num_correct, MAX_NUM_IMAGES);
         break;
     }
@@ -231,12 +231,12 @@ void ImageCaptchaStage::initialiseCountryImages(size_t num_correct, size_t total
     switch (choice)
     {
     case 0: // Authoritarian
-        challenge_text = "Select all of the authoritarian regimes.";
+        challenge_text = num_correct > 1 ? "Select all of the authoritarian regimes." : "Select the authoritarian regime.";
         filter = "Authoritarian";
         antiFilter = "Full democracy";
         break;
     case 1: // Democratic
-        challenge_text = "Select all of the democracies.";
+        challenge_text = num_correct > 1 ? "Select all of the democracies." : "Select the democracy.";
         filter = "Full democracy";
         antiFilter = "Authoritarian";
         break;
@@ -260,7 +260,7 @@ void ImageCaptchaStage::initialiseCountryImages(size_t num_correct, size_t total
                 num_correct_needed--;
             }
         }
-        else if (country[2].compare(antiFilter))
+        else if (country[2].compare(antiFilter) == 0)
         {
             if (num_incorrect_needed > 0)
             {
