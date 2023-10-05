@@ -8,6 +8,7 @@ set(TEST_SOURCES    "test.cpp"
                     "txt_captcha_stage_test.cpp"
                     "password_utils_test.cpp"
                     "random_utils_test.cpp"
+                    "string_utils_test.cpp"
 )
 
 add_executable("${APP_NAME}_tests" ${TEST_SOURCES})
