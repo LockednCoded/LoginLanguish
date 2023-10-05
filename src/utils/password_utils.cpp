@@ -12,8 +12,12 @@
 namespace password_utils {
     /*!
         @brief checks if a string is a palindrome
+        @details iterates through the first half of the string and checks 
+        it is being mirrored in the other half
+        @param input the string to be checked
+        @return true if the string is a palindrome, otherwise false
     */
-    bool isPalindrome(const std::string &input){
+    bool isPalindrome(std::string input){
         // find midpoint of the password
         int midpoint = input.length() / 2;
         
@@ -28,6 +32,10 @@ namespace password_utils {
 
     /*!
         @brief checks if a number is prime
+        @details checks base cases before iterating through all integers up to
+        the square root of the number being checked.
+        @param n the integer to be checked
+        @return true if n is a prime number, otherwise false
     */
     bool isPrime(int n){
         if (n <= 1) return false;
@@ -44,7 +52,10 @@ namespace password_utils {
 
     /*!
         @brief checks if a string contains a prime number
-        @details this checks entire numbers; 15 will be read as 15, not 1 and 5
+        @details checks through strings for entire numbers (15 will be read as 15, not 1 and 5)
+        before checking if any of those numbers are prime.
+        @param input the string to be checked for prime numbers
+        @return true if the string contains a prime number, otherwise false
     */
     bool hasPrime(std::string input){
         std::vector<int> numbers;
@@ -68,6 +79,10 @@ namespace password_utils {
 
     /*!
         @brief checks if a string contains a colour
+        @details iterates through list of colours and checks whether a lowercase copy 
+        of the input string contains the colour.
+        @param input the string to be checked for colours
+        @return true if the string contains a colour, otherwise false
     */
     bool hasColour(std::string input){
         // vector of all accepted colours

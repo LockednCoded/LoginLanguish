@@ -12,7 +12,7 @@
 #include <algorithm>
 
 namespace password_utils {
-    bool isPalindrome(const std::string &input);
+    bool isPalindrome(std::string input);
     bool isPrime(int n);
     bool hasPrime(std::string input);
     bool hasColour(std::string input);
