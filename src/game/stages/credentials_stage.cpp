@@ -9,6 +9,7 @@
 #include <vector>
 #include <algorithm>
 #include "password_utils.h"
+#include "string_utils.h"
 
 bool isPalindrome(const std::string &str);
 bool isPrime(int n);
@@ -99,13 +100,11 @@ void CredentialsStage::updateErrors(const std::string &field)
 
     // password
     } else if (field.compare("password") == 0){                                 
-        // get initials from names
-        std::string initials = std::string(1, fName[0]) + std::string(1, lName[0]);
-        std::transform(initials.begin(), initials.end(), initials.begin(), [](unsigned char c) { return std::tolower(c); });
+        // get lowercase initials from names
+        std::string initials = string_utils::toLowerCase(std::string(1, fName[0]) + std::string(1, lName[0]));
         // create a lowercase copy of password to test against initials
-        std::string lowercasePW = password;
-        std::transform(lowercasePW.begin(), lowercasePW.end(), lowercasePW.begin(), [](unsigned char c) { return std::tolower(c); });
-
+        std::string lowercasePW = string_utils::toLowerCase(password);
+        
 
         // password puzzles
         // empty password

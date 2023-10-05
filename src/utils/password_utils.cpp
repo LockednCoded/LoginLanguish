@@ -7,7 +7,7 @@
 
 #include <string>
 #include <vector>
-#include <algorithm>
+#include "string_utils.h"
 
 /*!
     @brief checks if a string is a palindrome
@@ -87,7 +87,7 @@ bool hasColour(std::string input){
         "berry", "rust", "sand", "shell", "sky", "vanilla", "tuscan"
     };
     // convert input to lowercase
-    std::transform(input.begin(), input.end(), input.begin(), [](unsigned char c) { return std::tolower(c); });
+    input = string_utils::toLowerCase(input);
     // iterate through colours and check if they are in the string
     for (std::string colour : colours){
         if (input.find(colour) != std::string::npos)
