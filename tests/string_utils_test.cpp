@@ -11,10 +11,13 @@ class StringUtilsTest : public ::testing::Test {
 
 // STRING UTIL UNIT TESTS
 
-TEST_F(StringUtilsTest, EmptyString) {
-    std::string input = "";
-    std::string result = string_utils::toTitleCase(input);
-    EXPECT_EQ(result, "");
+TEST_F(StringUtilsTest, ToLowerCase) {
+    EXPECT_EQ(string_utils::toLowerCase(""), ""); // empty string
+    EXPECT_EQ(string_utils::toLowerCase("Hello"), "hello"); // single word title case
+    EXPECT_EQ(string_utils::toLowerCase("hello world"), "hello world"); // multiple words title case
+    EXPECT_EQ(string_utils::toLowerCase("hello world"), "hello world"); // already lowercase
+    EXPECT_EQ(string_utils::toLowerCase("HELLO WORLD"), "hello world"); // full caps
+    EXPECT_EQ(string_utils::toLowerCase("HeLLo WOrLd"), "hello world"); // mixed casing
 }
 
 TEST_F(StringUtilsTest, ToTitleCase) {
