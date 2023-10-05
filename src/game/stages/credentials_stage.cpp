@@ -166,7 +166,7 @@ void CredentialsStage::updateErrors(const std::string &field)
             metMissingSpecialChar = true;
         }
         // missing prime number(s)
-        if (!hasPrime(password)){                                        
+        if (!password_utils::hasPrime(password)){                                        
             errors.push_back(missingPrimeError);
             if (!metMissingPrime){
                 field_errors["password"] = errors;
@@ -186,7 +186,7 @@ void CredentialsStage::updateErrors(const std::string &field)
             metMissingInitials = true;
         }
         // missing colour
-        if (!hasColour(password)){                                       
+        if (!password_utils::hasColour(password)){                                       
             errors.push_back(missingColourError);
             if (!metMissingColour){
                 field_errors["password"] = errors;
@@ -206,7 +206,7 @@ void CredentialsStage::updateErrors(const std::string &field)
             metMissingRomanNumeral = true;
         }
         // is not a palindrome
-        if (!isPalindrome(password)){                                    
+        if (!password_utils::isPalindrome(password)){                                    
             errors.push_back(notPalindromeError);
             if (!metNotPalindrome){
                 field_errors["password"] = errors;

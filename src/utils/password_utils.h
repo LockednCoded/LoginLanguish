@@ -11,7 +11,9 @@
 #include <vector>
 #include <algorithm>
 
-bool isPalindrome(const std::string &input);
-bool isPrime(int n);
-bool hasPrime(std::string input);
-bool hasColour(std::string input);
+namespace password_utils {
+    bool isPalindrome(const std::string &input);
+    bool isPrime(int n);
+    bool hasPrime(std::string input);
+    bool hasColour(std::string input);
+}
