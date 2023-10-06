@@ -8,6 +8,8 @@
 #include "credentials_stage.h"
 #include <vector>
 #include <algorithm>
+#include "password_utils.h"
+#include "string_utils.h"
 
 bool isPalindrome(const std::string &str);
 bool isPrime(int n);
@@ -86,7 +88,7 @@ void CredentialsStage::updateErrors(const std::string &field)
 
         if (username.length() == 0){
             // do nothing
-        } else if (username.length() < 8 || username.length() > 24){            // length out of bounds
+        } else if (username.length() < 8 || username.length() > 26){            // length out of bounds
             errors.push_back(lengthError);
         } else if (username.find_first_of(invalidChars) != std::string::npos){  // invalid special character(s)
             errors.push_back(invalidCharError);
@@ -98,44 +100,130 @@ void CredentialsStage::updateErrors(const std::string &field)
 
     // password
     } else if (field.compare("password") == 0){                                 
-        // strings of characters to find in password
-        std::string digits = "0123456789";
-        std::string lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
-        std::string uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        std::string specialChars = "!@#$%^&*()-_=+[]{}\\|;:'\",.<>/?`~";
-        std::string romanNumerals = "IVXLCDM";
-        // get initials from names
-        std::string initials = std::string(1, fName[0]) + std::string(1, lName[0]);
-        std::transform(initials.begin(), initials.end(), initials.begin(), [](unsigned char c) { return std::tolower(c); });
+        // get lowercase initials from names
+        std::string initials = string_utils::toLowerCase(std::string(1, fName[0]) + std::string(1, lName[0]));
         // create a lowercase copy of password to test against initials
-        std::string lowercasePW = password;
-        std::transform(lowercasePW.begin(), lowercasePW.end(), lowercasePW.begin(), [](unsigned char c) { return std::tolower(c); });
+        std::string lowercasePW = string_utils::toLowerCase(password);
+        
 
         // password puzzles
-        if (password.length() == 0){                                            // empty password
-            //do nothing                                                        
-        } else if (password.length() < 8){                                      // minimum length not reached
+        // empty password
+        if (password.length() == 0){                                            
+            metTooShort = metMissingDigit = metMissingUppercase = metMissingLowercase = metMissingSpecialChar = 
+                metMissingPrime = metMissingInitials = metMissingColour = metMissingRomanNumeral = metNotPalindrome = metTooLong = false;
+            field_errors["password"] = errors;
+            return;                                                       
+        }
+        // minimum length not reached
+        if (password.length() < 8){                                             
             errors.push_back(tooShortError);
-        } else if (password.find_first_of(digits) == std::string::npos){        // missing digit(s)
+            if (!metTooShort){
+                field_errors["password"] = errors;
+                return; 
+            }
+        } else {
+            metTooShort = true;
+        }
+        // missing digit(s)
+        if (password.find_first_of(digits) == std::string::npos){        
             errors.push_back(missingDigitError);
-        } else if (password.find_first_of(uppercaseChars) == std::string::npos){// missing uppercase letter(s)
+            if (!metMissingDigit){
+                field_errors["password"] = errors;
+                return; 
+            }
+        } else {
+            metMissingDigit = true;
+        }
+        // missing uppercase letter(s)
+        if (password.find_first_of(uppercaseChars) == std::string::npos){
             errors.push_back(missingUppercaseError);
-        } else if (password.find_first_of(lowercaseChars) == std::string::npos){// missing lowercase letter(s)
+            if (!metMissingUppercase){
+                field_errors["password"] = errors;
+                return; 
+            }
+        } else {
+            metMissingUppercase = true;
+        }
+        // missing lowercase letter(s)
+        if (password.find_first_of(lowercaseChars) == std::string::npos){
             errors.push_back(missingLowercaseError);
-        } else if (password.find_first_of(specialChars) == std::string::npos){  // missing special character(s)
+            if (!metMissingLowercase){
+                
+                field_errors["password"] = errors;
+                return; 
+            }
+        } else {
+            metMissingLowercase = true;
+        }
+        // missing special character(s)
+        if (password.find_first_of(specialChars) == std::string::npos){  
             errors.push_back(missingSpecialError);
-        } else if (!hasPrime(password)){                                        // missing prime number(s)
+            if (!metMissingSpecialChar){
+                field_errors["password"] = errors;
+                return; 
+            }
+        } else {
+            metMissingSpecialChar = true;
+        }
+        // missing prime number(s)
+        if (!password_utils::hasPrime(password)){                                        
             errors.push_back(missingPrimeError);
-        } else if (lowercasePW.find(initials) == std::string::npos){            // missing user initials
+            if (!metMissingPrime){
+                field_errors["password"] = errors;
+                return; 
+            }
+        } else {
+            metMissingPrime = true;
+        }
+        // missing user initials
+        if (lowercasePW.find(initials) == std::string::npos){            
             errors.push_back(missingInitialsError);
-        } else if (!hasColour(password)){                                       // missing colour
+            if (!metMissingInitials){
+                field_errors["password"] = errors;
+                return; 
+            }
+        } else {
+            metMissingInitials = true;
+        }
+        // missing colour
+        if (!password_utils::hasColour(password)){                                       
             errors.push_back(missingColourError);
-        } else if (password.find_first_of(romanNumerals) == std::string::npos){ // missing Roman numeral(s)
+            if (!metMissingColour){
+                field_errors["password"] = errors;
+                return; 
+            }
+        } else {
+            metMissingColour = true;
+        }
+        // missing Roman numeral(s)
+        if (password.find_first_of(romanNumerals) == std::string::npos){ 
             errors.push_back(missingRomanNumError);
-        } else if (!isPalindrome(password)){                                    // is not a palindrome
+            if (!metMissingRomanNumeral){
+                field_errors["password"] = errors;
+                return; 
+            }
+        } else {
+            metMissingRomanNumeral = true;
+        }
+        // is not a palindrome
+        if (!password_utils::isPalindrome(password)){                                    
             errors.push_back(notPalindromeError);
-        } else if (password.length() > 20){                                     // maximum length exceeded
+            if (!metNotPalindrome){
+                field_errors["password"] = errors;
+                return; 
+            }
+        } else {
+            metNotPalindrome = true;
+        }
+        // maximum length exceeded
+        if (password.length() > 20){                                     
             errors.push_back(tooLongError);
+            if (!metTooLong){
+                field_errors["password"] = errors;
+                return; 
+            }
+        } else {
+            metTooLong = true;
         }
 
         field_errors["password"] = errors;
@@ -178,92 +266,4 @@ rapidjson::Value CredentialsStage::getFieldStates(rapidjson::Document::Allocator
     fieldStates.AddMember("password", passwordObj, allocator);
 
     return fieldStates;
-}
-
-
-/*!
-    @brief checks if a string is a palindrome
-*/
-bool isPalindrome(const std::string &input){
-    // find midpoint of the password
-    int midpoint = input.length() / 2;
-    
-    // check if the first half is the same as the second half reversed
-    for (int i = 0; i < midpoint; i++) {
-        if (input[i] != input[input.length() - i - 1]) {
-            return false;
-        }
-    }
-    return true;
-}
-
-/*!
-    @brief checks if a number is prime
-*/
-bool isPrime(int n){
-    if (n <= 1) return false;
-    if (n <= 3) return true;
-    if (n % 2 == 0 || n % 3 == 0) return false;
-
-    for (int i = 5; i * i <= n; i += 6) {
-        if (n % i == 0 || n % (i + 2) == 0) {
-            return false;
-        }
-    }
-    return true;
-}
-
-/*!
-    @brief checks if a string contains a prime number
-    @details this checks entire numbers; 15 will be read as 15, not 1 and 5
-*/
-bool hasPrime(std::string input){
-    std::vector<int> numbers;
-    std::string numStr;
-    // iterate through string and append any number to nums
-    for (int i = 0; i < input.length(); i++){
-        if (isdigit(input[i]))
-            numStr += input[i];
-        if (numStr.length() > 0 && (!isdigit(input[i]) || i == input.length()-1)){
-            numbers.push_back(std::stoi(numStr));
-            numStr = "";
-        }
-    }
-    // iterate through numbers and check if they are prime
-    for (int num : numbers){
-        if (isPrime(num))
-            return true;
-    }
-    return false;
-}
-
-/*!
-    @brief checks if a string contains a colour
-*/
-bool hasColour(std::string input){
-    // vector of all accepted colours
-    std::vector<std::string> colours = {
-        "red", "orange", "yellow", "green", "blue", "indigo", "violet",
-        "black", "white", "gray", "grey", "pink", "brown", "purple",
-        "cyan", "magenta", "lime", "olive", "maroon", "navy", "teal",
-        "lavender", "turquoise", "gold", "silver", "bronze", "beige",
-        "salmon", "coral", "orchid", "peru", "khaki", "crimson",
-        "chartreuse", "aqua", "plum", "sienna", "turquoise", "almond",
-        "slate", "sepia", "azure", "ivory", "tan", "sapphire", "ruby",
-        "stone", "jade", "peach", "mauve", "indigo", "mahogany",
-        "lilac", "rose", "wine", "snow", "smoke", "egg", "bronze",
-        "fuchsia", "apricot", "ash", "azure", "blush", "burgundy", 
-        "camel", "charcoal", "chestnut", "chocolate", "copper", "cream",
-        "desert", "ebony", "grape", "lemon", "maroon", "moss", 
-        "mustard", "onyx", "crayola", "pantone", "bud", "pine", "puce",
-        "berry", "rust", "sand", "shell", "sky", "vanilla", "tuscan"
-    };
-    // convert input to lowercase
-    std::transform(input.begin(), input.end(), input.begin(), [](unsigned char c) { return std::tolower(c); });
-    // iterate through colours and check if they are in the string
-    for (std::string colour : colours){
-        if (input.find(colour) != std::string::npos)
-            return true;
-    }
-    return false;
 }

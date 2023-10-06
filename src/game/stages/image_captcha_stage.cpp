@@ -1,7 +1,7 @@
 /*!
     @file image_captcha_stage.cpp
     @brief the implementation of the ImageCaptchaStage class
-    @author Cameron Brue
+    @author Cameron Bruce
     @copyright 2023 Locked & Coded
 */
 
@@ -21,15 +21,11 @@
     @brief constructor for ImageCaptchaStage
     @param gameManager the game manager object owning this stage
 */
-ImageCaptchaStage::ImageCaptchaStage(GameManager *gameManager) : Stage(gameManager), 
-    challenge_sets {
-        file_utils::getPathToResource("datasets/celeb-faces"),
-        file_utils::getPathToResource("datasets/dogs-muffins"),
-    }
+ImageCaptchaStage::ImageCaptchaStage(GameManager *gameManager) : Stage(gameManager)
 {
     name = "imagecaptcha";
 
-    initialiseCaptchaImages();
+    setNewChallenge();
 };
 
 /*!
@@ -39,7 +35,7 @@ ImageCaptchaStage::ImageCaptchaStage(GameManager *gameManager) : Stage(gameManag
 */
 bool ImageCaptchaStage::validateStage()
 {
-    return current_round >= challenge_sets.size();
+    return challenges_remaining.size() == 0;
 }
 
 /*!
@@ -60,29 +56,63 @@ void ImageCaptchaStage::update(const rapidjson::Value &req)
     }
 }
 
-void ImageCaptchaStage::progressStage() {
-    size_t increment = 1;
+bool ImageCaptchaStage::setNewChallenge()
+{
+    correct_images.clear();
+    image_urls.clear();
+    image_labels.clear();
+    if (challenges_remaining.size() == 0)
+    {
+        challenge_text = "";
+        current_challenge = -1;
+        return false;
+    }
+    else if (challenges_remaining.size() == 3)
+    {
+        current_challenge = 0;
+    }
+    else
+    {
+        /* Set the current challenge to a random one of the remaining challenges*/
+        std::set<char>::iterator it = challenges_remaining.begin();
+        std::advance(it, rand() % challenges_remaining.size());
+        current_challenge = *it;
+    }
+    challenges_remaining.erase(current_challenge);
     last_round_error = "";
+
+    initialiseChallenge();
+
+    return true;
+}
+
+void ImageCaptchaStage::progressStage()
+{
+    last_round_error = "";
+    bool stagePassed = true;
 
     if (selected.size() == correct_images.size()) {
         for (std::string image : selected) {
             if (std::find(correct_images.begin(), correct_images.end(), image) == correct_images.end()) {
                 last_round_error = "Incorrect selection.";
-                increment = 0;
+                stagePassed = false;
                 break;
             }
         }
     } else {
         last_round_error = "Incorrect selection.";
-        increment = 0;
+        stagePassed = false;
     }
 
-    current_round += increment;
     selected.clear();
-    if (current_round < challenge_sets.size())
-        initialiseCaptchaImages();
-    else if (current_round == challenge_sets.size())
-        gm->getNextStage();
+    if (stagePassed)
+    {
+        if (!setNewChallenge())
+        {
+            gm->getNextStage();
+            return;
+        }
+    }
 }
 
 /*!
@@ -101,6 +131,14 @@ rapidjson::Value ImageCaptchaStage::getFieldStates(rapidjson::Document::Allocato
         imagesValue.PushBack(imageValue, allocator);
     }
     fieldStates.AddMember("images", imagesValue, allocator);
+
+    rapidjson::Value imageLabelsValue(rapidjson::kArrayType);
+    for (std::string image_label : image_labels)
+    {
+        rapidjson::Value imageLabelValue(image_label.c_str(), allocator);
+        imageLabelsValue.PushBack(imageLabelValue, allocator);
+    }
+    fieldStates.AddMember("imageLabels", imageLabelsValue, allocator);
 
     rapidjson::Value challengeTextValue(challenge_text.c_str(), allocator);
     fieldStates.AddMember("challengeText", challengeTextValue, allocator);
@@ -124,12 +162,8 @@ rapidjson::Value ImageCaptchaStage::getFieldStates(rapidjson::Document::Allocato
     @details the remaining images are selected from the other directories
     @param dataset_path the path to the dataset
 */
-void ImageCaptchaStage::initialiseCaptchaImages() {
-    fs::path dataset_path = challenge_sets[current_round];
-    const size_t MAX_NUM_IMAGES = 9;
-    const size_t MAX_NUM_CORRECT = 5;
-    const size_t MIN_NUM_CORRECT = 3;
-
+void ImageCaptchaStage::initialiseDatasetImages(fs::path dataset_path, size_t MAX_NUM_IMAGES, size_t MAX_NUM_CORRECT, size_t MIN_NUM_CORRECT)
+{
     //get all directories in path
     std::vector<fs::path> available_dirs =  file_utils::listSubdirectories(dataset_path);
 
@@ -159,4 +193,86 @@ void ImageCaptchaStage::initialiseCaptchaImages() {
     std::replace(dir_name.begin(), dir_name.end(), '_', ' '); //replace underscores with spaces
     dir_name = string_utils::toTitleCase(dir_name); //convert to title case
     challenge_text = "Select all images of " + dir_name + ".";
+}
+void ImageCaptchaStage::initialiseChallenge()
+{
+    const size_t MAX_NUM_IMAGES = 9;
+    const size_t MAX_NUM_CORRECT = 5;
+    const size_t MIN_NUM_CORRECT = 3;
+    switch (current_challenge)
+    {
+    case FREEDOM_CAPTCHAS:
+    {
+        int num_correct = rand_utils::randomInt(MIN_NUM_CORRECT, MAX_NUM_CORRECT);
+        initialiseCountryImages(num_correct, MAX_NUM_IMAGES);
+        break;
+    }
+    case CELEB_CAPTCHAS:
+    case MUFFIN_DOG_CAPTCHAS:
+    {
+        fs::path dataset_path;
+        dataset_path = file_utils::getPathToResource(current_challenge == CELEB_CAPTCHAS ? "datasets/celeb-faces" : "datasets/dogs-muffins");
+        initialiseDatasetImages(dataset_path, MAX_NUM_IMAGES, MAX_NUM_CORRECT, MIN_NUM_CORRECT);
+        break;
+    }
+    default:
+        std::cout << "Invalid challenge type: " << current_challenge << std::endl;
+        throw std::invalid_argument("Invalid challenge type");
+        break;
+    }
+}
+
+void ImageCaptchaStage::initialiseCountryImages(size_t num_correct, size_t total_num)
+{
+    std::vector<std::vector<std::string>> countriesData = file_utils::readCSV(file_utils::getPathToResource("datasets/countries/_country_data.csv"));
+    int choice = rand_utils::randomInt(0, 1); // 0= Authoritarian, 1= Democratic
+    std::string filter;
+    std::string antiFilter;
+    switch (choice)
+    {
+    case 0: // Authoritarian
+        challenge_text = num_correct > 1 ? "Select all of the authoritarian regimes." : "Select the authoritarian regime.";
+        filter = "Authoritarian";
+        antiFilter = "Full democracy";
+        break;
+    case 1: // Democratic
+        challenge_text = num_correct > 1 ? "Select all of the democracies." : "Select the democracy.";
+        filter = "Full democracy";
+        antiFilter = "Authoritarian";
+        break;
+    }
+    rand_utils::shuffle(countriesData);
+    size_t num_correct_needed = num_correct;
+    size_t num_incorrect_needed = total_num - num_correct_needed;
+    std::vector<std::vector<std::string>> countriesChosen;
+    for (std::vector<std::string> country : countriesData)
+    {
+        if (num_correct_needed == 0 && num_incorrect_needed == 0)
+            break;
+        std::string countryPath = file_utils::convertPathToFrontendString(file_utils::getPathToResource("datasets/countries/images/" + country[0] + ".png"));
+        std::vector<std::string> countryPair = {country[0], countryPath};
+        if (country[2].compare(filter) == 0)
+        {
+            if (num_correct_needed > 0)
+            {
+                correct_images.push_back(countryPath);
+                countriesChosen.push_back(countryPair);
+                num_correct_needed--;
+            }
+        }
+        else if (country[2].compare(antiFilter) == 0)
+        {
+            if (num_incorrect_needed > 0)
+            {
+                countriesChosen.push_back(countryPair);
+                num_incorrect_needed--;
+            }
+        }
+    }
+    rand_utils::shuffle(countriesChosen);
+    for (std::vector<std::string> country : countriesChosen)
+    {
+        image_urls.push_back(country[1]);
+        image_labels.push_back(country[0]);
+    }
 }

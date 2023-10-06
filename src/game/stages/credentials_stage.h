@@ -25,7 +25,7 @@ public:
     rapidjson::Value getFieldStates(rapidjson::Document::AllocatorType &allocator);
 
     // username error messages
-    std::string lengthError = "Username must be between 8 and 24 characters in length.";
+    std::string lengthError = "Username must be between 8 and 26 characters in length.";
     std::string invalidCharError = "Invalid characters in username.";
     std::string takenError = "Username is already taken.";
     // password error messages
@@ -40,6 +40,27 @@ public:
     std::string missingRomanNumError = "Pasword must include atleast one Roman numeral.";
     std::string notPalindromeError = "Password must be a palindrome.";
     std::string tooLongError = "Password must be 20 or less characters."; // "Maximum password length exceeded"?
+
+    // strings of characters to find in password
+    std::string digits = "0123456789";
+    std::string lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+    std::string uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    std::string specialChars = "!@#$%^&*()-_=+[]{}\\|;:'\",.<>/?`~";
+    std::string romanNumerals = "IVXLCDM";
+
+    // booleans to track whether a condition has been previously met
+    bool metTooShort = false;
+    bool metMissingDigit = false;
+    bool metMissingUppercase = false;
+    bool metMissingLowercase = false;
+    bool metMissingSpecialChar = false;
+    bool metMissingPrime = false;
+    bool metMissingInitials = false;
+    bool metMissingColour = false;
+    bool metMissingRomanNumeral = false;
+    bool metNotPalindrome = false;
+    bool metTooLong = false;
+    
 
 private:
     void updateErrors(const std::string &field);

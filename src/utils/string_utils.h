@@ -11,4 +11,5 @@
 
 namespace string_utils {
     std::string toTitleCase(std::string str);
+	std::string toLowerCase(std::string str);
 }

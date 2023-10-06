@@ -10,6 +10,8 @@ set(source_list "compatibility_utils.cpp"
                 "string_utils.cpp"
                 "random_utils.h"
                 "random_utils.cpp"
+                "password_utils.h"
+                "password_utils.cpp"
 )
 
 add_library(utils STATIC ${source_list})

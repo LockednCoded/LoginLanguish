@@ -7,6 +7,7 @@ export default function TextField(props: {
   name: string;
   value: string;
   onChange: (_val: string) => void;
+  onEnter?: () => void;
   disabled?: boolean;
   className?: string;
 }) {
@@ -28,9 +29,11 @@ export default function TextField(props: {
         </label>
         <div className="w-full relative">
           <input
-            className={`border rounded border-black w-full h-9 p-2 box-border outline-none disabled:opacity-75 select-text ${
-              props.type == "password" && !showPassword
-                ? "[-webkit-text-security:disc] tracking-wider"
+            className={`border rounded border-black w-full h-9 p-2 box-border outline-none disabled:opacity-75 select-text${
+              props.type == "password"
+                ? ` font-mono${
+                    !showPassword ? " [-webkit-text-security:disc]" : ""
+                  }`
                 : ""
             }`}
             data-test-id={`text-field-${props.name}`}
@@ -43,6 +46,9 @@ export default function TextField(props: {
               setShowPassword(false);
             }}
             autoComplete="off"
+            onKeyDown={(e) => {
+              if (e.key == "Enter" && props.onEnter) props.onEnter();
+            }}
             autoCorrect="off"
             autoCapitalize="off"
             spellCheck="false"
