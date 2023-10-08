@@ -10,12 +10,15 @@
 #include <random>
 #include <iterator>
 #include <iostream>
+#include <string>
 
 #include "compatibility_utils.h"
 #include "image_captcha_stage.h"
 #include "string_utils.h"
 #include "file_utils.h"
 #include "random_utils.h"
+
+const char *NUM_STRINGS[] = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
 
 /*!
     @brief constructor for ImageCaptchaStage
@@ -228,15 +231,16 @@ void ImageCaptchaStage::initialiseCountryImages(size_t num_correct, size_t total
     int choice = rand_utils::randomInt(0, 1); // 0= Authoritarian, 1= Democratic
     std::string filter;
     std::string antiFilter;
+    std::string num_correct_string = NUM_STRINGS[num_correct];
     switch (choice)
     {
     case 0: // Authoritarian
-        challenge_text = num_correct > 1 ? "Select all of the authoritarian regimes." : "Select the authoritarian regime.";
+        challenge_text = num_correct > 1 ? ("Select all " + num_correct_string + " authoritarian regimes.") : "Select the authoritarian regime.";
         filter = "Authoritarian";
         antiFilter = "Full democracy";
         break;
     case 1: // Democratic
-        challenge_text = num_correct > 1 ? "Select all of the democracies." : "Select the democracy.";
+        challenge_text = num_correct > 1 ? ("Select all " + num_correct_string + " democracies.") : "Select the democracy.";
         filter = "Full democracy";
         antiFilter = "Authoritarian";
         break;
