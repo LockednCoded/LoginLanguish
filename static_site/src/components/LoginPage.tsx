@@ -12,12 +12,14 @@ import {
   ImageCaptchaStage,
   StageMap,
   EndStage,
+  DwayneStage,
 } from "../scripts/useBindings";
 import ImageCaptcha from "./ImageCaptcha";
 import TextCaptcha from "./TextCaptcha";
 import { useState } from "react";
 import TermsAndConditions from "./TermsAndConditions";
 import End from "./End";
+import Dwayne from "./Dwayne";
 
 export default function LoginPage() {
   const bindings = useBindings();
@@ -51,6 +53,13 @@ export default function LoginPage() {
             >
               {StageMap[gameState.stage] == ImageCaptchaStage && (
                 <ImageCaptcha bindings={bindings} />
+              )}
+              {StageMap[gameState.stage] == DwayneStage && (
+                <Dwayne
+                  dwayneState={gameState.stages[DwayneStage].state}
+                  updateFieldState={updateFieldState}
+                  nextBtnClick={nextBtnClick}
+                />
               )}
               <TextField
                 data-test-id="text-field-first-name"

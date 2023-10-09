@@ -37,12 +37,12 @@ Configuring, building and debugging can be done using VSCode tasks. This is the 
 In the cmake configure step, vcpkg will be downloaded and used to install dependencies. This may take a while.
 
 
-Build for debugging:
+Configure for debugging:
 ```bash
 cmake -B build -DCMAKE_BUILD_TYPE=Debug
 ```
 
-Build for release:
+Configure for release:
 ```bash
 cmake -B build -DCMAKE_BUILD_TYPE=Release
 ```
@@ -50,7 +50,7 @@ cmake -B build -DCMAKE_BUILD_TYPE=Release
 **Building:**
 
 ```bash
-cmake --build build --clean-first
+cmake --build build
 ```
 
 **Running tests:**

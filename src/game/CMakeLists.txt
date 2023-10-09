@@ -12,6 +12,8 @@ set(source_list "game_manager.cpp"
                 "stages/extras_stage.h"
                 "stages/image_captcha_stage.cpp"
                 "stages/image_captcha_stage.h"
+                "stages/dwayne_stage.cpp"
+                "stages/dwayne_stage.h"
                 "stages/end_stage.cpp"
                 "stages/end_stage.h"
 )

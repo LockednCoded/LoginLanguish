@@ -11,10 +11,10 @@
 #include "password_utils.h"
 #include "string_utils.h"
 
-bool isPalindrome(const std::string &str);
-bool isPrime(int n);
-bool hasPrime(std::string input);
-bool hasColour(std::string input);
+// bool isPalindrome(const std::string &str);
+// bool isPrime(int n);
+// bool hasPrime(std::string input);
+// bool hasColour(std::string input);
 
 /*!
     @brief constructor for CredentialsStage
