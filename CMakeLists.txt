@@ -7,8 +7,8 @@ set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems
   CACHE STRING "Vcpkg toolchain file")
 
 include(cmake/configuration.cmake)
-
 project(LoginLanguish)
+find_package(RapidJSON CONFIG REQUIRED)
 
 set(APP_NAME "LoginLanguish")
 set(ASSETS_DIR ${CMAKE_SOURCE_DIR}/assets)
