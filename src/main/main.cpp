@@ -9,7 +9,6 @@
  - @ref main.cpp "runs app"
  - @ref utils.cpp "string load utility"
  - @ref compatibility_utils.cpp "platform compatibility"
- - @ref parse_args.cpp "argument parsing utility"
  - @ref fields.cpp "field state manager"
  - @ref game_manager.cpp "implementation of the GameManager class"
  - @ref stage.cpp "implementation of the Stage class"
@@ -18,6 +17,7 @@
  - @ref extras_stage.cpp "implementation of the ExtrasStage class"
  - @ref text_captcha_stage.cpp "implementation of the TextCaptchaStage class"
  - @ref image_captcha_stage.cpp "implementation of the ImageCaptchaStage class"
+ - @ref end_stage.cpp "implementation of the EndStage class"
 */
 
 #include <fstream>
@@ -29,7 +29,6 @@
 #include "utils.h"
 #include "main.h"
 #include "game_manager.h"
-#include "parse_args.h"
 
 std::string resourcesPath;
 
